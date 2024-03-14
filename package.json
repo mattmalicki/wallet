@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/server && node client/index",
-    "dev": "nodemon server/server && node client/index"
+    "start-server": "cd ./server && node server",
+    "start-client": "cd ./client && npm start",
+    "start": "npm run start-server && npm run start-client",
+    "dev-server": "cd ./server && nodemon server"
   },
   "keywords": [],
   "author": "",
