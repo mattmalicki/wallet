@@ -1,0 +1,14 @@
+{
+  "name": "wallet",
+  "version": "1.0.0",
+  "description": "Manage your finances",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server && node client/index",
+    "dev": "nodemon server/server && node client/index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
