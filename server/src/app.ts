@@ -4,6 +4,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import bodyParser from "body-parser";
 import { port } from "./config/secrets";
+import { authRouter } from "./api/routes/transactions";
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.disable("x-powered-by");
 app.disable("etag");
+app.use("/auth", authRouter);
+
 app.use((error: Error, _req: Request, res: Response, next: NextFunction) => {
   if (error) {
     res.status(500).json({

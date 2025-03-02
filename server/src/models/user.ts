@@ -1,16 +1,27 @@
-import { Schema, model } from "mongoose";
+import { Model, Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
-interface User {
+export interface IUser {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
   token: string;
-  verify: boolean;
+  verified: boolean;
 }
 
-const userSchema = new Schema<User>({
+interface IUserMethods {
+  setPassword(password: string): void;
+  validatePassword(password: string): boolean;
+  setToken(token: string): void;
+  clearToken(): void;
+  getToken(): [boolean, string];
+  isVerified(): boolean;
+}
+
+type UserModel = Model<IUser, {}, IUserMethods>;
+
+const userSchema = new Schema<IUser, IUserMethods, UserModel>({
   email: {
     type: String,
     required: true,
@@ -28,6 +39,17 @@ const userSchema = new Schema<User>({
   lastName: {
     type: String,
     required: true,
+  },
+  token: {
+    type: String,
+    default: null,
+    select: false,
+  },
+
+  verified: {
+    type: Boolean,
+    default: false,
+    select: false,
   },
 });
 
@@ -47,4 +69,12 @@ userSchema.methods.clearToken = function () {
   this.token = null;
 };
 
-export const User = model("user", userSchema);
+userSchema.methods.getToken = function () {
+  return this.token;
+};
+
+userSchema.methods.isVerified = function () {
+  return this.verified;
+};
+
+export const User = model<IUser, UserModel>("user", userSchema);
