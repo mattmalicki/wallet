@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
@@ -14,6 +14,15 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.disable("x-powered-by");
 app.disable("etag");
+app.use((error: Error, _req: Request, res: Response, next: NextFunction) => {
+  if (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  } else {
+    return next();
+  }
+});
 
 app.listen(port, (err) => {
   if (err) {
