@@ -4,7 +4,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import bodyParser from "body-parser";
 import { port } from "./config/secrets";
-import { authRouter } from "./api/routes/transactions";
+import { authRouter } from "./api/routes/auth";
 
 const app = express();
 

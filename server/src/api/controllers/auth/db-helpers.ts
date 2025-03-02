@@ -43,7 +43,8 @@ async function updateUser(
   email?: string,
   password?: string,
   firstName?: string,
-  lastName?: string
+  lastName?: string,
+  ...rest: any[]
 ) {
   const user = await User.findById(id);
   if (!user) {
@@ -61,6 +62,7 @@ async function updateUser(
   if (lastName) {
     user.lastName = lastName;
   }
+  return user;
 }
 
 export { registerUser, loginUser, logoutUser, getUser, updateUser };
