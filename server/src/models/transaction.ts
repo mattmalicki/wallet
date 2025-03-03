@@ -1,9 +1,9 @@
 import { Schema, Types, model } from "mongoose";
 
 enum TransactionStatus {
-  pending,
-  approved,
-  completed,
+  pending = "PENDING",
+  approved = "APPROVED",
+  completed = "COMPLETED",
 }
 
 interface ITransaction {
@@ -37,9 +37,11 @@ const transactionSchema = new Schema<ITransaction>({
     required: true,
   },
   status: {
-    type: Number,
+    type: String,
     default: TransactionStatus.completed,
   },
 });
 
-export const Transaction = model("transaction", transactionSchema);
+const Transaction = model("transaction", transactionSchema);
+
+export { Transaction, ITransaction, TransactionStatus };
