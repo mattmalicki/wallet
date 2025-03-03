@@ -1,7 +1,7 @@
 import { Model, Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
-export interface IUser {
+interface IUser {
   email: string;
   password: string;
   firstName: string;
@@ -77,4 +77,6 @@ userSchema.methods.isVerified = function () {
   return this.verified;
 };
 
-export const User = model<IUser, UserModel>("user", userSchema);
+const User = model<IUser, UserModel>("user", userSchema);
+
+export { User, IUser };
