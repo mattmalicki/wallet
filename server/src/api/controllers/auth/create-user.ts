@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { IUser } from "../../../models/user";
-import { AuthReq } from "../../../config/global";
+import { AuthReq } from "../../../config/interfaces";
 import {
   registerUser,
   loginUser,
