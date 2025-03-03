@@ -43,8 +43,7 @@ async function updateUser(
   email?: string,
   password?: string,
   firstName?: string,
-  lastName?: string,
-  ...rest: any[]
+  lastName?: string
 ) {
   const user = await User.findById(id);
   if (!user) {
@@ -62,7 +61,12 @@ async function updateUser(
   if (lastName) {
     user.lastName = lastName;
   }
+  user.save();
   return user;
 }
 
-export { registerUser, loginUser, logoutUser, getUser, updateUser };
+async function deleteUser(id: string) {
+  await User.findByIdAndDelete(id);
+}
+
+export { registerUser, loginUser, logoutUser, getUser, updateUser, deleteUser };

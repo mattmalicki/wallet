@@ -1,16 +1,14 @@
-import { RequestHandler, Request } from "express";
+import { RequestHandler } from "express";
 import { IUser } from "../../../models/user";
+import { AuthReq } from "../../../config/global";
 import {
   registerUser,
   loginUser,
   logoutUser,
   updateUser,
   getUser,
+  deleteUser,
 } from "./db-helpers";
-
-interface AuthReq extends Request {
-  user: { id: string };
-}
 
 const createUser: RequestHandler = async (req, res, next) => {
   try {
@@ -79,9 +77,18 @@ const update: RequestHandler = async (req, res) => {
   }
 };
 
+const remove: RequestHandler = async (req, res) => {
+  try {
+    await deleteUser((req as AuthReq).user.id);
+    res.status(200).json({ message: "Account has been deleted." });
+  } catch (error) {
+    throw Error((error as Error).message);
+  }
+};
+
 const middleware: RequestHandler = async (req, res, next) => {
   (req as AuthReq).user = { id: "67c4ac3d6047bd61c4584490" };
   next();
 };
 
-export { createUser, fetchUser, login, middleware, update, logout };
+export { createUser, fetchUser, login, middleware, update, logout, remove };
