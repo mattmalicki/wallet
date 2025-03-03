@@ -17,13 +17,22 @@ async function getTransactions(userId: string) {
   return transactions;
 }
 
+async function getOneTransaction(userId: string, id: string) {
+  const transactions = await Transaction.find({
+    _id: new Types.ObjectId(id),
+    userId: new Types.ObjectId(userId),
+  });
+  return transactions;
+}
+
 async function updateTransaction(
   userId: string,
   id: string,
   to?: string,
   value?: number,
   currency?: string,
-  status?: string
+  status?: string,
+  createdAt?: Date
 ) {
   const transaction = await Transaction.findOne({
     _id: new Types.ObjectId(id),
@@ -49,6 +58,9 @@ async function updateTransaction(
     if (status.toLowerCase() === "completed")
       transaction.status = TransactionStatus.completed;
   }
+  if (createdAt) {
+    transaction.createdAt = createdAt;
+  }
   transaction.save();
   return transaction;
 }
@@ -63,6 +75,7 @@ async function deleteTransaction(userId: string, id: string) {
 export {
   addTransaction,
   getTransactions,
+  getOneTransaction,
   updateTransaction,
   deleteTransaction,
 };

@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { IUser } from "../../../models/user";
 import { AuthReq } from "../../../config/interfaces";
+import { BadRequestError } from "../../../config/classes";
 import {
   registerUser,
   loginUser,
@@ -14,7 +15,7 @@ const createUser: RequestHandler = async (req, res, next) => {
   try {
     const createdUser = await registerUser(req.body as IUser);
     if (!createdUser) {
-      throw Error("Database error");
+      throw new BadRequestError({ code: 400, message: "Database error" });
     }
     res.json({ message: "Action succesfull", user: createdUser });
   } catch (error) {
@@ -27,11 +28,14 @@ const fetchUser: RequestHandler = async (req, res) => {
   res.status(200).json({ message: "Action succesfull", user });
 };
 
-const login: RequestHandler = async (req, res) => {
+const signinUser: RequestHandler = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      throw Error("Missing email or password");
+      throw new BadRequestError({
+        code: 400,
+        message: "Missing email or password",
+      });
     }
     const user = await loginUser(email, password);
     // const payload = {
@@ -49,7 +53,7 @@ const login: RequestHandler = async (req, res) => {
   }
 };
 
-const logout: RequestHandler = async (req, res) => {
+const signoutUser: RequestHandler = async (req, res) => {
   try {
     await logoutUser((req as AuthReq).user.id);
     res.json({ message: "Logged out without problems." });
@@ -58,7 +62,7 @@ const logout: RequestHandler = async (req, res) => {
   }
 };
 
-const update: RequestHandler = async (req, res) => {
+const editUser: RequestHandler = async (req, res) => {
   try {
     const id = (req as AuthReq).user.id;
     const user = await updateUser(
@@ -77,7 +81,7 @@ const update: RequestHandler = async (req, res) => {
   }
 };
 
-const remove: RequestHandler = async (req, res) => {
+const removeUser: RequestHandler = async (req, res) => {
   try {
     await deleteUser((req as AuthReq).user.id);
     res.status(200).json({ message: "Account has been deleted." });
@@ -86,9 +90,4 @@ const remove: RequestHandler = async (req, res) => {
   }
 };
 
-const middleware: RequestHandler = async (req, res, next) => {
-  (req as AuthReq).user = { id: "67c4ac3d6047bd61c4584490" };
-  next();
-};
-
-export { createUser, fetchUser, login, middleware, update, logout, remove };
+export { createUser, fetchUser, signinUser, editUser, signoutUser, removeUser };

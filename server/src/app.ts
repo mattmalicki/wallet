@@ -9,6 +9,7 @@ import { port } from "./config/secrets";
 import { errorMiddleware } from "./api/middlewares/error-handler";
 
 import { authRouter } from "./api/routes/auth";
+import { transactionRouter } from "./api/routes/transactions";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.disable("x-powered-by");
 app.disable("etag");
 
 app.use("/auth", authRouter);
+app.use("/transactions", transactionRouter);
 
 app.use(errorMiddleware);
 

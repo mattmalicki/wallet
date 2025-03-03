@@ -1,19 +1,19 @@
 import { Router } from "express";
+import { authMiddleware } from "../middlewares/auth";
 import {
   createUser,
   fetchUser,
-  login,
-  logout,
-  update,
-  remove,
-  middleware,
+  signinUser,
+  signoutUser,
+  editUser,
+  removeUser,
 } from "../controllers/auth/create-user";
 
 export const authRouter = Router();
 
 authRouter.post("/", createUser);
-authRouter.get("/", middleware, fetchUser);
-authRouter.post("/login", login);
-authRouter.post("/logout", middleware, logout);
-authRouter.patch("/update", middleware, update);
-authRouter.delete("/delete", middleware, remove);
+authRouter.get("/", authMiddleware, fetchUser);
+authRouter.post("/login", signinUser);
+authRouter.post("/logout", authMiddleware, signoutUser);
+authRouter.patch("/update", authMiddleware, editUser);
+authRouter.delete("/delete", authMiddleware, removeUser);
