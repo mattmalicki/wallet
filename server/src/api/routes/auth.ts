@@ -5,6 +5,7 @@ import {
   login,
   logout,
   update,
+  remove,
   middleware,
 } from "../controllers/auth/create-user";
 
@@ -15,3 +16,4 @@ authRouter.get("/", middleware, fetchUser);
 authRouter.post("/login", login);
 authRouter.post("/logout", middleware, logout);
 authRouter.patch("/update", middleware, update);
+authRouter.delete("/delete", middleware, remove);
