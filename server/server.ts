@@ -1,4 +1,3 @@
+import "./src/config/auth.strategy";
+import "./src/config/mongoose";
 import "./src/app";
-import dbConnection from "./src/config/mongoose";
-
-dbConnection();
