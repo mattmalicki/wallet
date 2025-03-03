@@ -1,8 +1,6 @@
-import jwt from "jsonwebtoken";
 import { RequestHandler } from "express";
 import { IUser } from "../../../models/user";
 import { AuthReq } from "../../../config/interfaces";
-import { jwtSecretKey } from "../../../config/secrets";
 import { BadRequestError } from "../../../config/classes";
 import {
   registerUser,
@@ -12,6 +10,8 @@ import {
   getUser,
   deleteUser,
 } from "./db-helpers";
+import { Token } from "../../../models/token";
+import { signAccessToken, signRefreshToken } from "../../helpers/token-helper";
 
 const createUser: RequestHandler = async (req, res, next) => {
   try {
@@ -19,7 +19,23 @@ const createUser: RequestHandler = async (req, res, next) => {
     if (!createdUser) {
       throw new BadRequestError({ code: 400, message: "Database error" });
     }
-    res.json({ message: "Action succesfull", user: createdUser });
+    const accesToken = signAccessToken(createdUser.id);
+    const refreshToken = signRefreshToken(createdUser.id);
+    const token = new Token({
+      userId: createdUser,
+      refreshToken: refreshToken,
+      status: true,
+      createdAt: Date.now(),
+      expiresIn: Date.now() + 604800000,
+    });
+    token.save();
+
+    res.json({
+      message: "Action succesfull",
+      accesToken,
+      refreshToken,
+      user: createdUser,
+    });
   } catch (error) {
     throw Error((error as Error).message);
   }
@@ -40,14 +56,25 @@ const signinUser: RequestHandler = async (req, res) => {
       });
     }
     const user = await loginUser(email, password);
-    const payload = {
-      id: user.id,
-    };
-    const token = jwt.sign(payload, jwtSecretKey, { expiresIn: "1h" });
-    user.setToken(token);
-    await user.save();
+    const accesToken = signAccessToken(user.id);
+    const refreshToken = signRefreshToken(user.id);
+    Token.findOneAndUpdate(
+      {
+        userId: user.id,
+      },
+      {
+        $set: {
+          refreshToken: refreshToken,
+          createdAt: Date.now(),
+          expiresIn: Date.now() + 604800000,
+        },
+      }
+    );
+
     res.status(200).json({
-      token,
+      message: "Login successfull",
+      accesToken,
+      refreshToken,
       user,
     });
   } catch (error) {
