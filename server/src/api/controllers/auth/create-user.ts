@@ -1,6 +1,8 @@
+import jwt from "jsonwebtoken";
 import { RequestHandler } from "express";
 import { IUser } from "../../../models/user";
 import { AuthReq } from "../../../config/interfaces";
+import { jwtSecretKey } from "../../../config/secrets";
 import { BadRequestError } from "../../../config/classes";
 import {
   registerUser,
@@ -38,10 +40,10 @@ const signinUser: RequestHandler = async (req, res) => {
       });
     }
     const user = await loginUser(email, password);
-    // const payload = {
-    //   id: user.id,
-    // };
-    const token = "asdsafsa"; //Need to implement token
+    const payload = {
+      id: user.id,
+    };
+    const token = jwt.sign(payload, jwtSecretKey, { expiresIn: "1h" });
     user.setToken(token);
     await user.save();
     res.status(200).json({
