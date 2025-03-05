@@ -75,7 +75,11 @@ const signinUser: RequestHandler = async (req, res, next) => {
       message: "Login successfull",
       accesToken,
       refreshToken,
-      user,
+      user: {
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
     });
   } catch (error) {
     next(error);

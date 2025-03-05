@@ -15,9 +15,7 @@ async function registerUser(user: IUser) {
 }
 
 async function loginUser(email: string, password: string) {
-  const user = await User.findOne({ email }).select(["email", "password"]);
-  console.log(user?.password);
-  console.log(user?.validatePassword(password));
+  const user = await User.findOne({ email }).select(["+password", "+verified"]);
   if (!user || !user.validatePassword(password)) {
     throw new BadRequestError({ message: "Invalid email or password" });
   }
