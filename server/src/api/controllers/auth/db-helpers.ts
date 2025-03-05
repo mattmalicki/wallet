@@ -1,9 +1,12 @@
+import { BadRequestError } from "../../../config/classes";
 import { User, IUser } from "../../../models/user";
 
 async function registerUser(user: IUser) {
   const { email, password, firstName, lastName } = user;
   if (await User.findOne({ email })) {
-    throw Error("Unable to create user, try different email.");
+    throw new BadRequestError({
+      message: "Unable to create user, try different email.",
+    });
   }
   const createdUser = new User({ email, firstName, lastName });
   createdUser.setPassword(password);
@@ -12,12 +15,14 @@ async function registerUser(user: IUser) {
 }
 
 async function loginUser(email: string, password: string) {
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select(["email", "password"]);
+  console.log(user?.password);
+  console.log(user?.validatePassword(password));
   if (!user || !user.validatePassword(password)) {
-    throw Error("Invalid email or password");
+    throw new BadRequestError({ message: "Invalid email or password" });
   }
   if (!user.verified) {
-    throw Error("User not verified.");
+    throw new BadRequestError({ message: "User not verified." });
   }
   return user;
 }
@@ -25,7 +30,7 @@ async function loginUser(email: string, password: string) {
 async function logoutUser(id: string) {
   const user = await User.findById(id);
   if (!user || !user.getToken()) {
-    throw Error("Unauthorized.");
+    throw new BadRequestError({ message: "Unauthorized." });
   }
   user.clearToken();
 }
@@ -33,7 +38,7 @@ async function logoutUser(id: string) {
 async function getUser(id: string) {
   const user = await User.findById(id);
   if (!user) {
-    throw Error("Unauthorized.");
+    throw new BadRequestError({ message: "Unauthorized." });
   }
   return user;
 }
@@ -47,7 +52,7 @@ async function updateUser(
 ) {
   const user = await User.findById(id);
   if (!user) {
-    throw Error("Unauthorized");
+    throw new BadRequestError({ message: "Unauthorized" });
   }
   if (email) {
     user.email = email;

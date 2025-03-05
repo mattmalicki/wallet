@@ -46,7 +46,7 @@ const fetchUser: RequestHandler = async (req, res) => {
   res.status(200).json({ message: "Action succesfull", user });
 };
 
-const signinUser: RequestHandler = async (req, res) => {
+const signinUser: RequestHandler = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -78,7 +78,7 @@ const signinUser: RequestHandler = async (req, res) => {
       user,
     });
   } catch (error) {
-    throw Error((error as Error).message);
+    next(error);
   }
 };
 

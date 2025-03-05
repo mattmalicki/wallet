@@ -58,7 +58,7 @@ userSchema.methods.setPassword = function (password: string) {
 };
 
 userSchema.methods.validatePassword = function (password: string) {
-  return bcrypt.compareSync(password, this.password);
+  return bcrypt.compareSync(password, this.get("password"));
 };
 
 userSchema.methods.setToken = function (token: string) {

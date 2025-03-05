@@ -19,6 +19,7 @@ const errorMiddleware: ErrorRequestHandler = (error, _req, res, next) => {
     }
     res.status(statusCode).send({ errors });
   }
+  console.log(error);
   console.error(JSON.stringify(error, null, 2));
   res.status(500).send({ errors: [{ message: "Something went wrong" }] });
 };
