@@ -95,7 +95,7 @@ const signoutUser: RequestHandler = async (req, res) => {
   }
 };
 
-const editUser: RequestHandler = async (req, res) => {
+const editUser: RequestHandler = async (req, res, next) => {
   try {
     const id = (req as AuthReq).user.id;
     const user = await updateUser(
@@ -110,7 +110,7 @@ const editUser: RequestHandler = async (req, res) => {
       user,
     });
   } catch (error) {
-    throw Error((error as Error).message);
+    next(error);
   }
 };
 

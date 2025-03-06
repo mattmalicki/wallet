@@ -10,8 +10,7 @@ const authMiddleware: RequestHandler = (req, res, next) => {
     { session: false },
     (error: Error, user: IUser) => {
       if (error || !user) {
-        // throw new Error("Token is invalid");
-        console.log(error);
+        throw new Error("Token is invalid");
       }
       req.user = user;
       next();

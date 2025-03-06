@@ -4,6 +4,7 @@ import { User } from "../models/user";
 import { Request } from "express";
 import { Types } from "mongoose";
 import passport from "passport";
+import { BadRequestError } from "./classes";
 
 passport.use(
   new passportJWT.Strategy(
@@ -12,21 +13,19 @@ passport.use(
       jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
       passReqToCallback: true,
     },
-    (req: Request, payload: { id: string }, done) => {
-      User.find({
-        _id: new Types.ObjectId(payload.id),
-        token: req.headers.authorization?.split(" ")[1],
-        verified: true,
-      })
-        .then((user) => {
-          if (user) {
-            return done(null, user);
-          }
-          return done(new Error("Token is invalid"), null);
-        })
-        .catch((error) => {
-          return done(error, null);
+    async (req: Request, payload: { id: string }, done) => {
+      try {
+        const user = await User.findOne({
+          _id: new Types.ObjectId(payload.id),
+          verified: true,
         });
+        if (user) {
+          return done(null, user);
+        }
+        return done(new BadRequestError({ message: "Token is invalid" }), null);
+      } catch (error) {
+        done(error, null);
+      }
     }
   )
 );
