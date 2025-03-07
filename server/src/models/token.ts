@@ -3,8 +3,8 @@ import { Schema, Types, model } from "mongoose";
 interface IToken {
   userId: Types.ObjectId;
   refreshToken: string;
-  expiresIn: Date;
-  createdAt: Date;
+  expiresIn: number;
+  createdAt: number;
   status: boolean;
 }
 
@@ -18,11 +18,11 @@ const tokenSchema = new Schema<IToken>({
     required: true,
   },
   expiresIn: {
-    type: Date,
+    type: Number,
     required: true,
   },
   createdAt: {
-    type: Date,
+    type: Number,
     required: true,
   },
   status: {

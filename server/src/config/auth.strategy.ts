@@ -13,7 +13,7 @@ passport.use(
       jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
       passReqToCallback: true,
     },
-    async (req: Request, payload: { id: string }, done) => {
+    async (_req: Request, payload: { id: string }, done) => {
       try {
         const user = await User.findOne({
           _id: new Types.ObjectId(payload.id),

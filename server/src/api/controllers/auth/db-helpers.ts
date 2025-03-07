@@ -25,14 +25,6 @@ async function loginUser(email: string, password: string) {
   return user;
 }
 
-async function logoutUser(id: string) {
-  const user = await User.findById(id);
-  if (!user || !user.getToken()) {
-    throw new BadRequestError({ message: "Unauthorized." });
-  }
-  user.clearToken();
-}
-
 async function getUser(id: string) {
   const user = await User.findById(id);
   if (!user) {
@@ -72,4 +64,4 @@ async function deleteUser(id: string) {
   await User.findByIdAndDelete(id);
 }
 
-export { registerUser, loginUser, logoutUser, getUser, updateUser, deleteUser };
+export { registerUser, loginUser, getUser, updateUser, deleteUser };

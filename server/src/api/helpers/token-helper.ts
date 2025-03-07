@@ -10,9 +10,17 @@ function signAccessToken(userId: string) {
 
 function signRefreshToken(userId: string) {
   const refreshToken = jwt.sign({ id: userId }, jwtRefreshSecretKey, {
-    expiresIn: "7d",
+    expiresIn: "30d",
   });
   return refreshToken;
 }
 
-export { signAccessToken, signRefreshToken };
+function checkRefreshToken(token: string): any {
+  try {
+    return jwt.verify(token, jwtRefreshSecretKey);
+  } catch (error) {
+    return error;
+  }
+}
+
+export { signAccessToken, signRefreshToken, checkRefreshToken };

@@ -6,7 +6,6 @@ interface IUser {
   password: string;
   firstName: string;
   lastName: string;
-  token: string;
   verified: boolean;
 }
 
@@ -15,7 +14,6 @@ interface IUserMethods {
   validatePassword(password: string): boolean;
   setToken(token: string): void;
   clearToken(): void;
-  getToken(): [boolean, string];
   isVerified(): boolean;
 }
 
@@ -40,11 +38,6 @@ const userSchema = new Schema<IUser, IUserMethods, UserModel>({
     type: String,
     required: true,
   },
-  token: {
-    type: String,
-    default: null,
-    select: false,
-  },
 
   verified: {
     type: Boolean,
@@ -67,10 +60,6 @@ userSchema.methods.setToken = function (token: string) {
 
 userSchema.methods.clearToken = function () {
   this.token = null;
-};
-
-userSchema.methods.getToken = function () {
-  return this.token;
 };
 
 userSchema.methods.isVerified = function () {

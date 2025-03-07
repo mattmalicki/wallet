@@ -5,13 +5,16 @@ import { BadRequestError } from "../../../config/classes";
 import {
   registerUser,
   loginUser,
-  logoutUser,
   updateUser,
   getUser,
   deleteUser,
 } from "./db-helpers";
 import { Token } from "../../../models/token";
-import { signAccessToken, signRefreshToken } from "../../helpers/token-helper";
+import {
+  checkRefreshToken,
+  signAccessToken,
+  signRefreshToken,
+} from "../../helpers/token-helper";
 
 const createUser: RequestHandler = async (req, res, next) => {
   try {
@@ -22,28 +25,36 @@ const createUser: RequestHandler = async (req, res, next) => {
     const accesToken = signAccessToken(createdUser.id);
     const refreshToken = signRefreshToken(createdUser.id);
     const token = new Token({
-      userId: createdUser,
+      userId: createdUser.id,
       refreshToken: refreshToken,
       status: true,
       createdAt: Date.now(),
-      expiresIn: Date.now() + 604800000,
+      expiresIn: Date.now() + 100 * 60 * 60 * 24 * 30,
     });
     token.save();
 
     res.json({
-      message: "Action succesfull",
+      message: "User created.",
       accesToken,
       refreshToken,
-      user: createdUser,
+      user: {
+        email: createdUser.email,
+        firstName: createdUser.firstName,
+        lastName: createdUser.lastName,
+      },
     });
   } catch (error) {
-    throw Error((error as Error).message);
+    next(error);
   }
 };
 
-const fetchUser: RequestHandler = async (req, res) => {
-  const user = await getUser((req as AuthReq).user.id);
-  res.status(200).json({ message: "Action succesfull", user });
+const fetchUser: RequestHandler = async (req, res, next) => {
+  try {
+    const user = await getUser((req as AuthReq).user.id);
+    res.status(200).json({ message: "Action succesfull", user });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const signinUser: RequestHandler = async (req, res, next) => {
@@ -66,7 +77,7 @@ const signinUser: RequestHandler = async (req, res, next) => {
         $set: {
           refreshToken: refreshToken,
           createdAt: Date.now(),
-          expiresIn: Date.now() + 604800000,
+          expiresIn: Date.now() + 100 * 60 * 60 * 24 * 30,
         },
       }
     );
@@ -86,12 +97,16 @@ const signinUser: RequestHandler = async (req, res, next) => {
   }
 };
 
-const signoutUser: RequestHandler = async (req, res) => {
+const signoutUser: RequestHandler = async (req, res, next) => {
   try {
-    await logoutUser((req as AuthReq).user.id);
+    await getUser((req as AuthReq).user.id);
+    await Token.findOneAndUpdate(
+      { userId: (req as AuthReq).user.id },
+      { $set: { status: false } }
+    );
     res.json({ message: "Logged out without problems." });
   } catch (error) {
-    throw Error((error as Error).message);
+    next(error);
   }
 };
 
@@ -114,13 +129,49 @@ const editUser: RequestHandler = async (req, res, next) => {
   }
 };
 
-const removeUser: RequestHandler = async (req, res) => {
+const removeUser: RequestHandler = async (req, res, next) => {
   try {
     await deleteUser((req as AuthReq).user.id);
+    await Token.findOneAndDelete({ userId: (req as AuthReq).user.id });
     res.status(200).json({ message: "Account has been deleted." });
   } catch (error) {
-    throw Error((error as Error).message);
+    next(error);
   }
 };
 
-export { createUser, fetchUser, signinUser, editUser, signoutUser, removeUser };
+const refreshToken: RequestHandler = async (req, res, next) => {
+  try {
+    const reqToken = req.body.refreshToken;
+    if (!reqToken) throw new BadRequestError({ message: "Missing token" });
+
+    const payload = checkRefreshToken(reqToken);
+    if (payload.message)
+      throw new BadRequestError({ message: "Token is invalid" });
+
+    const userId = (payload as { id: string }).id;
+    const userToken = await Token.findOne({
+      userId: userId,
+    });
+    if (!userToken || userToken.refreshToken !== reqToken)
+      throw new BadRequestError({ message: "Token is invalid" });
+
+    if (userToken.expiresIn <= Date.now() || !userToken.status)
+      throw new BadRequestError({ message: "Token is expired" });
+
+    const accessToken = signAccessToken(userId);
+
+    res.status(200).json({ message: "New access token signed", accessToken });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  createUser,
+  fetchUser,
+  signinUser,
+  editUser,
+  signoutUser,
+  removeUser,
+  refreshToken,
+};
