@@ -13,8 +13,8 @@ type NameOpts =
 
 interface IconProp {
   name: NameOpts;
-  width: string;
-  height: string;
+  width?: string;
+  height?: string;
   color?: string;
 }
 
@@ -23,8 +23,8 @@ const IconSvg: React.FC<IconProp> = (props) => {
     <svg
       className="svg-letter"
       fill={props.color ?? "currenctColor"}
-      width={props.width}
-      height={props.height}
+      width={props.width ?? "100%"}
+      height={props.height ?? "100%"}
     >
       <use href={`${Icon}#icon-${props.name}`} />
     </svg>
