@@ -14,6 +14,7 @@ const createTransaction: RequestHandler = async (req, res, next) => {
       to: req.body?.to,
       value: req.body?.value,
       currency: req.body?.currency,
+      category: req.body?.category,
       status: req.body?.status,
       createdAt: req.body?.createdAt,
     });

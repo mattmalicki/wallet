@@ -10,6 +10,7 @@ interface ITransaction {
   userId: Types.ObjectId;
   to: string;
   value: number;
+  category: string;
   currency: string;
   createdAt: Date;
   status: TransactionStatus;
@@ -26,6 +27,10 @@ const transactionSchema = new Schema<ITransaction>({
   },
   value: {
     type: Number,
+    required: true,
+  },
+  category: {
+    type: String,
     required: true,
   },
   currency: {
