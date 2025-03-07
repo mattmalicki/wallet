@@ -6,6 +6,8 @@ interface IUser {
   password: string;
   firstName: string;
   lastName: string;
+  balance: number;
+  balanceCurrency: string;
   verified: boolean;
 }
 
@@ -38,7 +40,14 @@ const userSchema = new Schema<IUser, IUserMethods, UserModel>({
     type: String,
     required: true,
   },
-
+  balance: {
+    type: Number,
+    required: true,
+  },
+  balanceCurrency: {
+    type: String,
+    required: true,
+  },
   verified: {
     type: Boolean,
     default: false,
@@ -54,12 +63,8 @@ userSchema.methods.validatePassword = function (password: string) {
   return bcrypt.compareSync(password, this.password);
 };
 
-userSchema.methods.setToken = function (token: string) {
-  this.token = token;
-};
-
-userSchema.methods.clearToken = function () {
-  this.token = null;
+userSchema.methods.getBalance = function () {
+  return this.balance.toString() + "" + this.balanceCurrency;
 };
 
 userSchema.methods.isVerified = function () {

@@ -23,6 +23,7 @@ const signinUser: RequestHandler = async (req, res, next) => {
       {
         $set: {
           refreshToken: refreshToken,
+          status: true,
           createdAt: Date.now(),
           expiresIn: Date.now() + 100 * 60 * 60 * 24 * 30,
         },

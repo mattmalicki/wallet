@@ -38,7 +38,9 @@ async function updateUser(
   email?: string,
   password?: string,
   firstName?: string,
-  lastName?: string
+  lastName?: string,
+  balance?: number,
+  balanceCurrency?: string
 ) {
   const user = await User.findById(id);
   if (!user) {
@@ -55,6 +57,12 @@ async function updateUser(
   }
   if (lastName) {
     user.lastName = lastName;
+  }
+  if (balance) {
+    user.balance = balance;
+  }
+  if (balanceCurrency) {
+    user.balanceCurrency = balanceCurrency;
   }
   user.save();
   return user;
