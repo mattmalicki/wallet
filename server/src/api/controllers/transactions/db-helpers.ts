@@ -4,6 +4,7 @@ import {
   ITransaction,
   TransactionStatus,
 } from "../../../models/transaction";
+import { BadRequestError } from "../../../config/classes";
 
 async function addTransaction(transaction: ITransaction) {
   const newTransaction = new Transaction(transaction);
@@ -39,7 +40,7 @@ async function updateTransaction(
     userId: new Types.ObjectId(userId),
   });
   if (!transaction) {
-    throw Error("Unauthorized.");
+    throw new BadRequestError({ message: "Unauthorized." });
   }
   if (to) {
     transaction.to = to;
