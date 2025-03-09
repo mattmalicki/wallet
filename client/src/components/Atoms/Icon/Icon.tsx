@@ -1,5 +1,6 @@
 import Icon from "../../../images/icons-sprite.svg";
 import React from "react";
+import styles from "./Icon.module.css";
 
 type NameOpts =
   | "lock"
@@ -21,7 +22,7 @@ interface IconProp {
 const IconSvg: React.FC<IconProp> = (props) => {
   return (
     <svg
-      className="svg-letter"
+      className={styles.icon}
       fill={props.color ?? "currenctColor"}
       width={props.width ?? "100%"}
       height={props.height ?? "100%"}
