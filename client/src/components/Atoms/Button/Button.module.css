@@ -1,0 +1,22 @@
+.button {
+  padding: 13px 0;
+
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+
+  border: 1px solid transparent;
+  border-radius: 20px;
+}
+
+.colored {
+  color: white;
+  background-color: var(--buttonBackground);
+}
+
+.transparent {
+  color: var(--buttonBorderColor);
+  border-color: var(--buttonBorderColor);
+}
