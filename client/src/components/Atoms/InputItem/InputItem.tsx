@@ -6,6 +6,7 @@ type InputIdOpts = "email" | "password" | "firstName" | "lastName";
 
 interface InputProps {
   name: InputIdOpts;
+  placeholder?: string;
 }
 
 const InputItem: React.FC<InputProps> = (props) => {
@@ -27,6 +28,9 @@ const InputItem: React.FC<InputProps> = (props) => {
         id={props.name}
         type="text"
         className={styles.input}
+        placeholder={
+          props.placeholder ?? props.name[0].toUpperCase() + props.name.slice(1)
+        }
       />
     </label>
   );
