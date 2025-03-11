@@ -1,5 +1,7 @@
 :root {
-  --main-backgroud: #e7eaf2;
   --font-family: "Circe", sans-serif;
   --second-family: "Poppins", sans-serif;
+
+  --main-backgroud: #e7eaf2;
+  --inputColor: #bdbdbd;
 }

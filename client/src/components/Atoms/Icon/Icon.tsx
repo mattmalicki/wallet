@@ -2,7 +2,7 @@ import Icon from "../../../images/icons-sprite.svg";
 import React from "react";
 import styles from "./Icon.module.css";
 
-type NameOpts =
+export type NameOpts =
   | "lock"
   | "logo"
   | "date"
@@ -10,7 +10,8 @@ type NameOpts =
   | "statistics"
   | "home"
   | "logout"
-  | "email";
+  | "email"
+  | "name";
 
 interface IconProp {
   name: NameOpts;
@@ -23,7 +24,8 @@ const IconSvg: React.FC<IconProp> = (props) => {
   return (
     <svg
       className={styles.icon}
-      fill={props.color ?? "currenctColor"}
+      stroke={props.color ?? "currentColor"}
+      fill={props.color ?? "currentColor"}
       width={props.width ?? "100%"}
       height={props.height ?? "100%"}
     >
