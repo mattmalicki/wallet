@@ -1,15 +1,12 @@
 import React from "react";
 
 import "./App.css";
-import { InputItem } from "./components/Atoms/InputItem/InputItem";
+import { TransactionSwitch } from "./components/Atoms/TransactionSwitch/TransactionSwitch";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <InputItem name="email" />
-      <InputItem name="password" />
-      <InputItem name="firstName" />
-      <InputItem name="lastName" />
+      <TransactionSwitch actionType="add" />
     </div>
   );
 };

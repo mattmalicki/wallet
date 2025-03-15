@@ -11,6 +11,7 @@ interface InputProps {
 
 const InputItem: React.FC<InputProps> = (props) => {
   const [hidden, setHidden] = useState(false);
+  const type = props.name === "email" ? "email" : "text";
 
   useEffect(() => {
     if (props.name === "password") setHidden(true);
@@ -35,7 +36,7 @@ const InputItem: React.FC<InputProps> = (props) => {
       <input
         name={props.name}
         id={props.name}
-        type={hidden ? "password" : "text"}
+        type={hidden ? "password" : type}
         className={styles.input}
         placeholder={
           props.placeholder ?? props.name[0].toUpperCase() + props.name.slice(1)

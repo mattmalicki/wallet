@@ -1,0 +1,34 @@
+.transactionSwitch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+.switch {
+  position: relative;
+  width: 80px;
+  height: 40px;
+  border: 1px solid var(--textColor);
+  border-radius: 30px;
+}
+
+.switchIcon {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  font-size: 32px;
+  color: white;
+  border-radius: 50%;
+}
+
+.income {
+  left: 0px;
+  background-color: var(--buttonBackground);
+}
+
+.expense {
+  right: 0px;
+  background-color: var(--expenseColor);
+}
