@@ -17,6 +17,6 @@
 }
 
 .transparent {
-  color: var(--buttonBorderColor);
-  border-color: var(--buttonBorderColor);
+  color: var(--buttonColor);
+  border-color: var(--buttonColor);
 }

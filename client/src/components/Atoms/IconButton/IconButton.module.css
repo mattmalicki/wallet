@@ -1,0 +1,9 @@
+.iconButton {
+  width: 44px;
+  height: 44px;
+  color: var(--secondButtonColor);
+}
+.current {
+  box-shadow: 0 3px 10px 0 rgba(74, 86, 226, 0.5);
+  color: var(--buttonColor);
+}
