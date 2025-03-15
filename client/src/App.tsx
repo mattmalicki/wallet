@@ -1,12 +1,15 @@
 import React from "react";
 
 import "./App.css";
-import { IconButton } from "./components/Atoms/IconButton/IconButton";
+import { InputItem } from "./components/Atoms/InputItem/InputItem";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <IconButton />
+      <InputItem name="email" />
+      <InputItem name="password" />
+      <InputItem name="firstName" />
+      <InputItem name="lastName" />
     </div>
   );
 };

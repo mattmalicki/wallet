@@ -11,7 +11,9 @@ export type NameOpts =
   | "home"
   | "logout"
   | "email"
-  | "name";
+  | "name"
+  | "eye"
+  | "eye-blocked";
 
 interface IconProp {
   name: NameOpts;
