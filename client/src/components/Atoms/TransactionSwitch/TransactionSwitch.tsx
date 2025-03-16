@@ -15,7 +15,7 @@ const TransactionSwitch: React.FC<TSwitchProp> = (props) => {
     props.transactionType && setCurrentText(props.transactionType);
   }, [props]);
 
-  function clickTextHandler(event: MouseEvent<HTMLButtonElement>) {
+  function clickTextHandler(event: MouseEvent<HTMLInputElement>) {
     if (event.currentTarget?.id === "income") setCurrentText("income");
     if (event.currentTarget?.id === "expense") setCurrentText("expense");
   }
@@ -29,13 +29,13 @@ const TransactionSwitch: React.FC<TSwitchProp> = (props) => {
   }
   return (
     <div className={styles.transactionSwitch}>
-      <button
+      <input
         className={currentText === "income" ? styles[`${currentText}Text`] : ""}
         id="income"
+        type="button"
         onClick={clickTextHandler}
-      >
-        Income
-      </button>
+        value="Income"
+      />
       {props.actionType === "add" && (
         <button
           type="button"
@@ -48,15 +48,15 @@ const TransactionSwitch: React.FC<TSwitchProp> = (props) => {
         </button>
       )}
       {props.actionType === "edit" && <div>/</div>}
-      <button
+      <input
         className={
           currentText === "expense" ? styles[`${currentText}Text`] : ""
         }
         id="expense"
+        type="button"
         onClick={clickTextHandler}
-      >
-        Expense
-      </button>
+        value="Expense"
+      />
     </div>
   );
 };

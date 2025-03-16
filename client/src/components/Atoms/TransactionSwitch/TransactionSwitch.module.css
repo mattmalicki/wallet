@@ -27,9 +27,11 @@
 
 .incomeText {
   color: var(--buttonBackground);
+  transition: color 500ms 500ms;
 }
 .expenseText {
   color: var(--expenseColor);
+  transition: color 500ms 500ms;
 }
 
 .income {
