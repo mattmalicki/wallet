@@ -12,6 +12,8 @@
   height: 40px;
   border: 1px solid var(--textColor);
   border-radius: 30px;
+  display: flex;
+  align-items: center;
 }
 
 .switchIcon {
@@ -23,12 +25,23 @@
   border-radius: 50%;
 }
 
+.incomeText {
+  color: var(--buttonBackground);
+}
+.expenseText {
+  color: var(--expenseColor);
+}
+
 .income {
   left: 0px;
+  box-shadow: 0 6px 15px 0 var(--buttonBackground);
   background-color: var(--buttonBackground);
+  transition: left 1s, background-color 1s, box-shadow 1s;
 }
 
 .expense {
-  right: 0px;
+  left: calc(100% - 40px);
+  box-shadow: 0 6px 15px 0 var(--expenseColor);
   background-color: var(--expenseColor);
+  transition: left 1s, background-color 1s, box-shadow 1s;
 }

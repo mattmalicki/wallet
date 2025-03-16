@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import styles from "./TransactionSwitch.module.css";
 
 type ActionT = "add" | "edit";
@@ -14,7 +14,13 @@ const TransactionSwitch: React.FC<TSwitchProp> = (props) => {
   useEffect(() => {
     props.transactionType && setCurrentText(props.transactionType);
   }, [props]);
-  function toggleAction() {
+
+  function clickTextHandler(event: MouseEvent<HTMLButtonElement>) {
+    if (event.currentTarget?.id === "income") setCurrentText("income");
+    if (event.currentTarget?.id === "expense") setCurrentText("expense");
+  }
+
+  function clickSwitchHandler() {
     setCurrentText((currentState) => {
       if (currentState === "income") return "expense";
       if (currentState === "expense") return "income";
@@ -23,20 +29,34 @@ const TransactionSwitch: React.FC<TSwitchProp> = (props) => {
   }
   return (
     <div className={styles.transactionSwitch}>
-      <span className={currentText === "income" ? styles.currentText : ""}>
+      <button
+        className={currentText === "income" ? styles[`${currentText}Text`] : ""}
+        id="income"
+        onClick={clickTextHandler}
+      >
         Income
-      </span>
+      </button>
       {props.actionType === "add" && (
-        <button type="button" className={styles.switch} onClick={toggleAction}>
+        <button
+          type="button"
+          className={styles.switch}
+          onClick={clickSwitchHandler}
+        >
           <div className={[styles.switchIcon, styles[currentText]].join(" ")}>
             {currentText === "income" ? "+" : "-"}
           </div>
         </button>
       )}
       {props.actionType === "edit" && <div>/</div>}
-      <span className={currentText === "expense" ? styles.currentText : ""}>
+      <button
+        className={
+          currentText === "expense" ? styles[`${currentText}Text`] : ""
+        }
+        id="expense"
+        onClick={clickTextHandler}
+      >
         Expense
-      </span>
+      </button>
     </div>
   );
 };
