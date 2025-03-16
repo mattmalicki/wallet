@@ -1,15 +1,15 @@
 import { IconSvg, NameOpts } from "../Icon/Icon";
-import styles from "./InputItem.module.css";
+import styles from "./AuthInputItem.module.css";
 import React, { useEffect, useState } from "react";
 
-type InputIdOpts = "email" | "password" | "firstName" | "lastName";
+type AuthInputIdOpts = "email" | "password" | "firstName" | "lastName";
 
-interface InputProps {
-  name: InputIdOpts;
+interface AuthInputProps {
+  name: AuthInputIdOpts;
   placeholder?: string;
 }
 
-const InputItem: React.FC<InputProps> = (props) => {
+const AuthInputItem: React.FC<AuthInputProps> = (props) => {
   const [hidden, setHidden] = useState(false);
   const type = props.name === "email" ? "email" : "text";
 
@@ -51,4 +51,4 @@ const InputItem: React.FC<InputProps> = (props) => {
   );
 };
 
-export { InputItem };
+export { AuthInputItem };
