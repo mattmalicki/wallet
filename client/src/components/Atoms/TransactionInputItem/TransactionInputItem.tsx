@@ -9,18 +9,36 @@ interface TIIProp {
 }
 
 const TransactionInputItem: FC<TIIProp> = (props) => {
-  function inputType(): string {
-    if (props.name === "date") return "date";
-    if (props.name === "amount") return "number";
-    return "text";
+  function clickHandler() {
+    const dateInput = document.getElementById("date") as HTMLInputElement;
+    dateInput.showPicker();
   }
   return (
-    <div className={styles.TransactionInputItem}>
-      <input id={props.name} type={inputType()} className={styles.input} />
+    <div className={styles.transactionInputItem}>
       {props.name === "date" && (
-        <button className={styles.icon}>
-          <IconSvg name={props.name} />
-        </button>
+        <>
+          <input type="date" id="date" />
+          <button className={styles.icon} onClick={clickHandler}>
+            <IconSvg name={props.name} />
+          </button>
+        </>
+      )}
+      {props.name === "amount" && (
+        <input
+          id={props.name}
+          type="number"
+          step={"0.01"}
+          className={styles.input}
+          placeholder="0.00"
+        />
+      )}
+      {props.name === "comment" && (
+        <input
+          id={props.name}
+          type="text"
+          className={styles.input}
+          placeholder="Add comment"
+        />
       )}
     </div>
   );
