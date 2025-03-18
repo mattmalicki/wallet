@@ -11,31 +11,46 @@ const categoryArray: string[] = [
   "Household products",
   "Child care",
   "Car",
+  "Car",
+  "Car",
+  "Car",
+  "Car",
+  "Car",
+  "Car",
+  "Car",
+  "Car",
+  "Car",
+  "Car",
+  "Car",
+  "Car",
+  "Car",
 ];
 
 interface CPProp {
   className?: string;
-  clickHandler: MouseEventHandler<HTMLButtonElement>;
+  clickHandler: MouseEventHandler<HTMLInputElement>;
 }
 
 const CategoryPicker: FC<CPProp> = (props) => {
   return (
-    <ul className={[styles.categoryPicker, props.className].join(" ")}>
-      {categoryArray.map((category) => {
-        const id = Math.random().toString();
-        return (
-          <li key={id}>
-            <button
-              id={category}
-              className={styles.item}
-              onClick={props.clickHandler}
-            >
-              {category}
-            </button>
-          </li>
-        );
-      })}
-    </ul>
+    <div className={styles.categoryContainer}>
+      <ul className={[styles.categoryPicker, props.className].join(" ")}>
+        {categoryArray.map((category) => {
+          const id = Math.random().toString();
+          return (
+            <li key={id} className={styles.listItem}>
+              <input
+                type="button"
+                id={id}
+                className={styles.item}
+                onClick={props.clickHandler}
+                value={category}
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 
