@@ -1,0 +1,30 @@
+.datePicker {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.dateInput {
+  padding: 0;
+  margin: 0;
+  visibility: hidden;
+}
+
+.dayInput {
+  size: 2;
+  width: fit-content;
+}
+.monthInput {
+  size: 2;
+  width: fit-content;
+}
+.yearInput {
+  size: 4;
+  width: fit-content;
+}
+
+.icon {
+  position: absolute;
+  right: 0;
+}

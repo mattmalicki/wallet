@@ -1,0 +1,28 @@
+.categoryPicker {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+
+  border-radius: 20px;
+
+  backdrop-filter: blur(50px);
+  box-shadow: 0 6px 15px 0 rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.7);
+
+  overflow: hidden;
+}
+
+.item {
+  padding: 10px 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+.item:hover {
+  background-color: white;
+  color: var(--expenseColor);
+}

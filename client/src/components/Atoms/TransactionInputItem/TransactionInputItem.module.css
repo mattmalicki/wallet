@@ -21,3 +21,14 @@
   margin: 0;
   opacity: 1;
 }
+
+.categoryContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.categoryItem {
+  position: absolute;
+  top: 100%;
+  visibility: visible;
+}
