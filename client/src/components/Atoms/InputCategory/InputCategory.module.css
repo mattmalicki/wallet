@@ -1,0 +1,9 @@
+.inputCategory {
+  position: relative;
+}
+
+.categoryItem {
+  position: absolute;
+  top: 100%;
+  visibility: visible;
+}
