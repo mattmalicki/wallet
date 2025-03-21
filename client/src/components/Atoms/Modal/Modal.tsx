@@ -6,7 +6,11 @@ interface ModalProp {
 }
 
 const Modal: FC<ModalProp> = (props) => {
-  return <div className={styles.modalBackdrop}>{props.children}</div>;
+  return (
+    <div className={styles.modalBackdrop}>
+      <div className={styles.modal}>{props.children}</div>
+    </div>
+  );
 };
 
 export { Modal };

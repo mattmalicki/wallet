@@ -13,7 +13,8 @@ export type NameOpts =
   | "email"
   | "name"
   | "eye"
-  | "eye-blocked";
+  | "eye-blocked"
+  | "arrow-down";
 
 interface IconProp {
   name: NameOpts;
