@@ -1,0 +1,17 @@
+.dropdownStatItem {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+  cursor: pointer;
+
+  width: 100%;
+  padding: 12px 20px;
+  border: 1px solid #000;
+  border-radius: 30px;
+}
+
+.icon {
+  width: 18px;
+  height: 9px;
+}

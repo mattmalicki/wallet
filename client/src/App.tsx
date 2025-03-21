@@ -1,15 +1,15 @@
 import React from "react";
 
 import "./App.css";
-import { TransactionInputItem } from "./components/Atoms/TransactionInputItem/TransactionInputItem";
+import { ButtonStatistics } from "./components/Atoms/ButtonStatistics/ButtonStatistics";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <TransactionInputItem name="category" />
-      <TransactionInputItem name="date" />
-      <TransactionInputItem name="amount" />
-      <TransactionInputItem name="comment" />
+      <ButtonStatistics
+        type="month"
+        clickHandler={() => console.log("Testing")}
+      />
     </div>
   );
 };

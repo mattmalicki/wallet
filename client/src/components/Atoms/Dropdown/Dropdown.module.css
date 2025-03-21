@@ -1,0 +1,40 @@
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  position: absolute;
+  top: 100%;
+  left: 0;
+
+  width: 100%;
+  overflow: hidden;
+  height: 200px;
+
+  clip-path: rect(auto, auto, 0, auto);
+
+  backdrop-filter: blur(50px);
+  box-shadow: 0 6px 15px 0 rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  transition: clip 1s;
+  transform-origin: top;
+}
+
+.isVisible {
+  clip-path: rect(auto, auto, 100%, auto);
+
+  overflow-y: scroll;
+  transition: clip-path 1s;
+}
+
+.dropdownItem {
+  width: 100%;
+  padding: 2px 20px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background-color: white;
+}

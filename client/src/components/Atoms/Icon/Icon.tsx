@@ -20,15 +20,16 @@ interface IconProp {
   name: NameOpts;
   width?: string;
   height?: string;
-  color?: string;
+  stroke?: string;
+  fill?: string;
 }
 
 const IconSvg: React.FC<IconProp> = (props) => {
   return (
     <svg
       className={styles.icon}
-      stroke={props.color ?? "currentColor"}
-      fill={props.color ?? "currentColor"}
+      stroke={props.stroke ?? "currentColor"}
+      fill={props.fill ?? "currentColor"}
       width={props.width ?? "100%"}
       height={props.height ?? "100%"}
     >
