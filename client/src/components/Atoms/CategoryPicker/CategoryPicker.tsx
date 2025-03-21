@@ -11,19 +11,6 @@ const categoryArray: string[] = [
   "Household products",
   "Child care",
   "Car",
-  "Car",
-  "Car",
-  "Car",
-  "Car",
-  "Car",
-  "Car",
-  "Car",
-  "Car",
-  "Car",
-  "Car",
-  "Car",
-  "Car",
-  "Car",
 ];
 
 interface CPProp {

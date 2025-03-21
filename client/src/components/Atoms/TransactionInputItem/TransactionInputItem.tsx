@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useState } from "react";
+import { FC } from "react";
 import styles from "./TransactionInputItem.module.css";
 import { IconSvg } from "../Icon/Icon";
 import { InputCategory } from "../InputCategory/InputCategory";

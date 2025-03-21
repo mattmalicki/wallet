@@ -7,6 +7,9 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <TransactionInputItem name="category" />
+      <TransactionInputItem name="date" />
+      <TransactionInputItem name="amount" />
+      <TransactionInputItem name="comment" />
     </div>
   );
 };
