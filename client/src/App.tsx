@@ -1,15 +1,18 @@
 import React from "react";
 
 import "./App.css";
-import { ButtonStatistics } from "./components/Atoms/ButtonStatistics/ButtonStatistics";
+import { StatisticsListItem } from "./components/Atoms/StatisticsListItem/StatisticsListItem";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <ButtonStatistics
-        type="month"
-        clickHandler={() => console.log("Testing")}
-      />
+      <ul style={{ width: "100%" }}>
+        <StatisticsListItem
+          categoryName="Main Expenses"
+          sum={20000}
+          color="blue"
+        />
+      </ul>
     </div>
   );
 };
