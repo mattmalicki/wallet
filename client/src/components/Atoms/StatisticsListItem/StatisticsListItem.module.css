@@ -7,10 +7,27 @@
   padding: 14px 20px;
 
   font-size: 16px;
+
+  border-bottom: 2px solid var(--statisticsUnderline);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  transition: transform 0.5s;
+}
+
+.statisticsListItem:hover {
+  background-color: white;
+  transform: scale(1.1);
+
+  transition: transform 0.5s;
 }
 
 .colorIcon {
   border-radius: 2px;
   width: 24px;
   height: 24px;
+  transition: transform 1s;
+}
+
+.statisticsListItem:hover .colorIcon {
+  transform: rotate(360deg);
+  transition: transform 1s;
 }
