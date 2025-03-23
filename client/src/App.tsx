@@ -1,12 +1,12 @@
 import React from "react";
 
 import "./App.css";
-import { CurrencyListItem } from "./components/Atoms/CurrencyListItem/CurrencyListItem";
+import { Balance } from "./components/Atoms/Balance/Balance";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <CurrencyListItem purchase={200} currency="abs" sale={212} />
+      <Balance balance={122323411} />
     </div>
   );
 };

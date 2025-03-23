@@ -1,0 +1,16 @@
+.balanceContainer {
+  background-color: white;
+  border-radius: 30px;
+  padding: 8px 32px 11px;
+  text-align: left;
+}
+
+.tekst {
+  color: var(--balanceHeaderColor);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.balance {
+  font-size: 30px;
+}
