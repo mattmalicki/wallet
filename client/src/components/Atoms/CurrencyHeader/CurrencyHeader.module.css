@@ -1,0 +1,9 @@
+.currencyHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 20px;
+
+  color: white;
+  background-color: var(--currencyBackground);
+  opacity: 0.8;
+}

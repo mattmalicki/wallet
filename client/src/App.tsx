@@ -1,12 +1,12 @@
 import React from "react";
 
 import "./App.css";
-import { StatisticsListHeader } from "./components/Atoms/StatisticsListHeader/StatisticsListHeader";
+import { CurrencyHeader } from "./components/Atoms/CurrencyHeader/CurrencyHeader";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <StatisticsListHeader />
+      <CurrencyHeader />
     </div>
   );
 };
