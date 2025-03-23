@@ -1,0 +1,11 @@
+.statisticsListHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+
+  font-weight: 700;
+  font-size: 18px;
+
+  border-radius: 30px;
+  background-color: white;
+}

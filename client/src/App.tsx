@@ -1,12 +1,12 @@
 import React from "react";
 
 import "./App.css";
-import { StatisticsSummary } from "./components/Atoms/StatisticsSummary/StatisticsSummary";
+import { StatisticsListHeader } from "./components/Atoms/StatisticsListHeader/StatisticsListHeader";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <StatisticsSummary incomeAmount={20000} expensesAmount={"12000"} />
+      <StatisticsListHeader />
     </div>
   );
 };
