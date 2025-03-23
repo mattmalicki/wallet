@@ -1,0 +1,21 @@
+.statisticSummary {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.expenses {
+  color: var(--expenseColor);
+}
+.income {
+  color: var(--buttonBackground);
+}

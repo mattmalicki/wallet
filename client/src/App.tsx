@@ -1,18 +1,12 @@
 import React from "react";
 
 import "./App.css";
-import { StatisticsListItem } from "./components/Atoms/StatisticsListItem/StatisticsListItem";
+import { StatisticsSummary } from "./components/Atoms/StatisticsSummary/StatisticsSummary";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <ul style={{ width: "100%" }}>
-        <StatisticsListItem
-          categoryName="Main Expenses"
-          sum={20000}
-          color="blue"
-        />
-      </ul>
+      <StatisticsSummary incomeAmount={20000} expensesAmount={"12000"} />
     </div>
   );
 };
