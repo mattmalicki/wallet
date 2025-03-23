@@ -1,12 +1,12 @@
 import React from "react";
 
 import "./App.css";
-import { CurrencyHeader } from "./components/Atoms/CurrencyHeader/CurrencyHeader";
+import { CurrencyListItem } from "./components/Atoms/CurrencyListItem/CurrencyListItem";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <CurrencyHeader />
+      <CurrencyListItem purchase={200} currency="abs" sale={212} />
     </div>
   );
 };

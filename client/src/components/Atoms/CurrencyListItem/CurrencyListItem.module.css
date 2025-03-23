@@ -1,0 +1,4 @@
+.currencyListItem {
+  display: flex;
+  justify-content: space-between;
+}
