@@ -1,18 +1,12 @@
-import React, { MouseEvent } from "react";
+import React from "react";
 
 import "./App.css";
-import { TransactionListItem } from "./components/Molecules/TransactionListItem/TransactionListItem";
+import { AuthForm } from "./components/Organisms/AuthForm/AuthForm";
 
 const App: React.FC = () => {
-  function something(event: MouseEvent<HTMLButtonElement>) {
-    console.log("fwvjrnn");
-  }
   return (
     <div className="App">
-      <TransactionListItem
-        deleteButtonHandler={something}
-        editButtonHandler={something}
-      />
+      <AuthForm isRegister={true} />
     </div>
   );
 };
