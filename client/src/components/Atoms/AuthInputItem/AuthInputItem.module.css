@@ -11,7 +11,8 @@
   color: var(--inputColor);
 }
 
-.inputItem:hover .icon {
+.inputItem:hover .icon,
+.inputItem:focus .icon {
   transform: scale(1.2);
   transition: transform 0.5s;
 }
@@ -41,7 +42,8 @@
   cursor: pointer;
 }
 
-.eye:hover {
+.eye:hover,
+.eye:focus {
   transform: scale(1.2);
   transition: transform 0.5s;
 }
