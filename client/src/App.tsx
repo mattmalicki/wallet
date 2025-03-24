@@ -1,12 +1,18 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 
 import "./App.css";
-import { Balance } from "./components/Atoms/Balance/Balance";
+import { TransactionListItem } from "./components/Molecules/TransactionListItem/TransactionListItem";
 
 const App: React.FC = () => {
+  function something(event: MouseEvent<HTMLButtonElement>) {
+    console.log("fwvjrnn");
+  }
   return (
     <div className="App">
-      <Balance balance={122323411} />
+      <TransactionListItem
+        deleteButtonHandler={something}
+        editButtonHandler={something}
+      />
     </div>
   );
 };

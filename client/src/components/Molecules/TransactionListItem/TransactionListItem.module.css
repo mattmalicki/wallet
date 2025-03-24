@@ -1,0 +1,39 @@
+.transactionListItem {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 12px 20px;
+
+  border-left: 5px solid var(--expenseColor);
+}
+
+.deleteButton {
+  font-size: 14px;
+  border-radius: 18px;
+  padding: 4px 12px;
+  background-color: var(--buttonBackground);
+  color: white;
+  transition: transform 0.5s;
+}
+
+.deleteButton:hover {
+  transform: scale(1.2);
+  transition: transform 0.5s;
+}
+
+.editButton {
+  display: flex;
+  font-size: 14px;
+}
+
+.editButtonIcon {
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  transition: transform 0.5s;
+}
+
+.editButton:hover .editButtonIcon {
+  transform: scale(1.2);
+  transition: transform 0.5s;
+}
