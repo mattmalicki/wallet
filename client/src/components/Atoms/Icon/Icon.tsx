@@ -6,7 +6,7 @@ export type NameOpts =
   | "lock"
   | "logo"
   | "date"
-  | "transaction"
+  | "currency"
   | "statistics"
   | "home"
   | "logout"

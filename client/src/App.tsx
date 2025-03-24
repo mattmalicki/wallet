@@ -1,19 +1,12 @@
 import React from "react";
 
 import "./App.css";
-import { Transaction } from "./components/Organisms/Transaction/Transaction";
+import { PageButtons } from "./components/Molecules/PageButtons/PageButtons";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Transaction
-        id="dsffs"
-        date="12.12.12"
-        type="+"
-        category="dasd"
-        comment="sdadas"
-        sum={24323}
-      />
+      <PageButtons />
     </div>
   );
 };
