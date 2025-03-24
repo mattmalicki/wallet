@@ -1,6 +1,6 @@
 import { FC, MouseEventHandler, useState } from "react";
 import styles from "./ButtonStatistics.module.css";
-import { IconSvg } from "../Icon/Icon";
+import { IconSvg } from "../../Atoms/Icon/Icon";
 import { Dropdown } from "../Dropdown/Dropdown";
 
 interface BSProp {

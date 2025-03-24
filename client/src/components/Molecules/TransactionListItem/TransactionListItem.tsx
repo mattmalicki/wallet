@@ -33,7 +33,7 @@ const TransactionListItem: FC<OnlyValues | OnlyButtons> = (props) => {
         <button onClick={props.editButtonHandler} className={styles.editButton}>
           <div className={styles.editButtonIcon}>
             <IconSvg name="edit" fill="none" />
-          </div>{" "}
+          </div>
           <span>Edit</span>
         </button>
       )}

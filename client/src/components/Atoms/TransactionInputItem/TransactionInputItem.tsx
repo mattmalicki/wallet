@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styles from "./TransactionInputItem.module.css";
 import { IconSvg } from "../Icon/Icon";
-import { InputCategory } from "../InputCategory/InputCategory";
+import { InputCategory } from "../../Molecules/InputCategory/InputCategory";
 
 type TIINameOpt = "date" | "amount" | "comment" | "category";
 
