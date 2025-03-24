@@ -19,7 +19,9 @@ type OnlyButtons = ButtonProp & Never<ValuesProp>;
 const TransactionListItem: FC<OnlyValues | OnlyButtons> = (props) => {
   return (
     <li className={styles.transactionListItem}>
-      {props.header && <span>{props.header}</span>}
+      {props.header && (
+        <span>{props.header[0].toUpperCase() + props.header.slice(1)}</span>
+      )}
       {props.value && <span>{props.value}</span>}
       {props.deleteButtonHandler && (
         <button
