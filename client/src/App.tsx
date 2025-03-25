@@ -1,12 +1,18 @@
-import React from "react";
+import { FC, lazy } from "react";
+import { Route, Routes } from "react-router-dom";
+import { Helmet } from "react-helmet";
+
+import { SharedLayout } from "./components/Templates/SharedLayout/SharedLayout";
 
 import "./App.css";
-import { Header } from "./components/Templates/Header/Header";
 
-const App: React.FC = () => {
+const App: FC = () => {
   return (
     <div className="App">
-      <Header />
+      <Helmet>Wallet</Helmet>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}></Route>
+      </Routes>
     </div>
   );
 };
