@@ -1,0 +1,22 @@
+.currencies {
+  width: 500px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  background-color: var(--currencyBackground);
+  color: white;
+  text-align: center;
+  border-radius: 30px;
+  padding: 11px 20px 52px 20px;
+  overflow: hidden;
+}
+
+.iconBg {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+  color: #ffffff42;
+}

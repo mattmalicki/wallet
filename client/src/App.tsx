@@ -1,12 +1,12 @@
 import React from "react";
 
 import "./App.css";
-import { PageButtons } from "./components/Molecules/PageButtons/PageButtons";
+import { Currencies } from "./components/Organisms/Currencies/Currencies";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <PageButtons />
+      <Currencies />
     </div>
   );
 };

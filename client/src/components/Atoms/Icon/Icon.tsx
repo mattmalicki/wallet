@@ -7,6 +7,7 @@ export type NameOpts =
   | "logo"
   | "date"
   | "currency"
+  | "currency-background"
   | "statistics"
   | "home"
   | "logout"
