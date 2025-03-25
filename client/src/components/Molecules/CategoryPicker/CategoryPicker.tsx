@@ -14,14 +14,19 @@ const categoryArray: string[] = [
 ];
 
 interface CPProp {
-  className?: string;
+  shouldRoll: boolean;
   clickHandler: MouseEventHandler<HTMLInputElement>;
 }
 
 const CategoryPicker: FC<CPProp> = (props) => {
   return (
-    <div className={styles.categoryContainer}>
-      <ul className={[styles.categoryPicker, props.className].join(" ")}>
+    <div
+      className={[
+        styles.categoryContainer,
+        props.shouldRoll ? styles.isVisible : "",
+      ].join(" ")}
+    >
+      <ul className={styles.categoryPicker}>
         {categoryArray.map((category) => {
           const id = Math.random().toString();
           return (

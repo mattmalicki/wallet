@@ -19,7 +19,7 @@ const InputCategory: FC = () => {
   return (
     <div className={styles.inputCategory}>
       <input id={"category"} value={categoryValue} onFocus={focusHandler} />
-      {rollPicker && <CategoryPicker clickHandler={categoryHandler} />}
+      <CategoryPicker clickHandler={categoryHandler} shouldRoll={rollPicker} />
     </div>
   );
 };

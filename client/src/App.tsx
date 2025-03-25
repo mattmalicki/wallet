@@ -6,7 +6,7 @@ import { TransactionFrom } from "./components/Organisms/TransactionFrom/Transact
 const App: React.FC = () => {
   return (
     <div className="App">
-      <TransactionFrom />
+      <TransactionFrom isEdit />
     </div>
   );
 };
