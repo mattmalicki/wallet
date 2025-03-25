@@ -1,0 +1,12 @@
+.transactionFrom {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 40px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

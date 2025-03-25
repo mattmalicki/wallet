@@ -1,12 +1,12 @@
 import React from "react";
 
 import "./App.css";
-import { Currencies } from "./components/Organisms/Currencies/Currencies";
+import { TransactionFrom } from "./components/Organisms/TransactionFrom/TransactionFrom";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Currencies />
+      <TransactionFrom />
     </div>
   );
 };
