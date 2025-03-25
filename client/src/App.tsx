@@ -1,12 +1,12 @@
 import React from "react";
 
 import "./App.css";
-import { TransactionFrom } from "./components/Organisms/TransactionFrom/TransactionFrom";
+import { Header } from "./components/Templates/Header/Header";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <TransactionFrom isEdit />
+      <Header />
     </div>
   );
 };

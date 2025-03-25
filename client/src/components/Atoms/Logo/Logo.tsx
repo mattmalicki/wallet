@@ -1,17 +1,11 @@
-import React from "react";
+import { FC } from "react";
 import { IconSvg } from "../Icon/Icon";
 import styles from "./Logo.module.css";
 
-type sizeOpt = "small" | "medium" | "large";
-
-interface LogoProps {
-  size: sizeOpt;
-}
-
-const Logo: React.FC<LogoProps> = (props) => {
+const Logo: FC = () => {
   return (
     <div className={styles.logo}>
-      <div className={styles[props.size]}>
+      <div className={styles.icon}>
         <IconSvg name="logo" />
       </div>
       <span className={styles.logoName}>Wallet</span>

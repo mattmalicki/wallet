@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 15px 20px;
+}
+
+.user {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  text-align: right;
+  color: var(--inputColor);
+}
+
+.icon {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  color: inherit;
+}
