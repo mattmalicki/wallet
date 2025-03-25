@@ -1,5 +1,5 @@
 import { FC } from "react";
-import styles from "./TransactionFrom.module.css";
+import styles from "./TransactionForm.module.css";
 import { TransactionSwitch } from "../../Atoms/TransactionSwitch/TransactionSwitch";
 import { TransactionInputItem } from "../../Atoms/TransactionInputItem/TransactionInputItem";
 import { Button } from "../../Atoms/Button/Button";

@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import styles from "./Transaction.module.css";
+import styles from "./TransactionList.module.css";
 import { TransactionListItem } from "../../Molecules/TransactionListItem/TransactionListItem";
 
 interface TransactionProp {
@@ -11,7 +11,7 @@ interface TransactionProp {
   sum: string | number;
 }
 
-const Transaction: FC<TransactionProp> = (props) => {
+const TransactionList: FC<TransactionProp> = (props) => {
   function createItems(object: any): ReactNode {
     const listArray: ReactNode[] = [];
     for (const key in object) {
@@ -44,10 +44,10 @@ const Transaction: FC<TransactionProp> = (props) => {
   }
 
   return (
-    <ul className={styles.transaction} data-id={props.id}>
+    <ul className={styles.transactionList} data-id={props.id}>
       {createItems(props)}
     </ul>
   );
 };
 
-export { Transaction };
+export { TransactionList };
