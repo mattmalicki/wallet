@@ -1,4 +1,4 @@
-import { Model, Schema, model } from "mongoose";
+import { Model, Schema, Types, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
 interface IUser {
@@ -8,6 +8,7 @@ interface IUser {
   lastName: string;
   balance: number;
   verified: boolean;
+  transactions: { id: Types.ObjectId }[];
 }
 
 interface IUserMethods {
@@ -49,6 +50,12 @@ const userSchema = new Schema<IUser, IUserMethods, UserModel>({
     default: false,
     select: false,
   },
+  transactions: [
+    {
+      type: Types.ObjectId,
+      ref: "transaction",
+    },
+  ],
 });
 
 userSchema.methods.setPassword = function (password: string) {

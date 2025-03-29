@@ -2,8 +2,9 @@ import { Types } from "mongoose";
 import {
   Transaction,
   ITransaction,
-  TransactionStatus,
+  TransactionType,
 } from "../../../models/transaction";
+import { getUser } from "../auth/db-helpers";
 import { BadRequestError } from "../../../config/classes";
 
 async function addTransaction(transaction: ITransaction) {
@@ -29,10 +30,8 @@ async function getOneTransaction(userId: string, id: string) {
 async function updateTransaction(
   userId: string,
   id: string,
-  to?: string,
-  value?: number,
-  currency?: string,
-  status?: string,
+  type?: string,
+  amount?: number,
   createdAt?: Date
 ) {
   const transaction = await Transaction.findOne({
@@ -42,23 +41,14 @@ async function updateTransaction(
   if (!transaction) {
     throw new BadRequestError({ message: "Unauthorized." });
   }
-  if (to) {
-    transaction.to = to;
+  if (type) {
+    if (type.toLowerCase() === "-") transaction.type = TransactionType.expense;
+    if (type.toLowerCase() === "+") transaction.type = TransactionType.income;
   }
-  if (value) {
-    transaction.value = value;
+  if (amount) {
+    transaction.amount = amount;
   }
-  if (currency) {
-    transaction.currency = currency;
-  }
-  if (status) {
-    if (status.toLowerCase() === "pending")
-      transaction.status = TransactionStatus.pending;
-    if (status.toLowerCase() === "approved")
-      transaction.status = TransactionStatus.approved;
-    if (status.toLowerCase() === "completed")
-      transaction.status = TransactionStatus.completed;
-  }
+
   if (createdAt) {
     transaction.createdAt = createdAt;
   }

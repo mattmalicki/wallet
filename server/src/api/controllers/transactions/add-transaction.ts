@@ -11,11 +11,9 @@ const createTransaction: RequestHandler = async (req, res, next) => {
       throw new BadRequestError({ code: 401, message: "Unauthorized" });
     const newTransaction = await addTransaction({
       userId: new Types.ObjectId(userId),
-      to: req.body?.to,
-      value: req.body?.value,
-      currency: req.body?.currency,
+      type: req.body?.type,
+      amount: req.body?.amount,
       category: req.body?.category,
-      status: req.body?.status,
       createdAt: req.body?.createdAt,
     });
     res
