@@ -2,20 +2,25 @@ import { addTransaction } from "./db-helpers";
 import { BadRequestError } from "../../../config/classes";
 import { RequestHandler } from "express";
 import { AuthReq } from "../../../config/interfaces";
-import { Types } from "mongoose";
+import { getUser } from "../auth/db-helpers";
 
 const createTransaction: RequestHandler = async (req, res, next) => {
   try {
     const userId = (req as AuthReq).user.id;
     if (!userId)
       throw new BadRequestError({ code: 401, message: "Unauthorized" });
+    const user = await getUser(userId);
+    if (!user)
+      throw new BadRequestError({ code: 401, message: "Unauthorized" });
+
     const newTransaction = await addTransaction({
-      userId: new Types.ObjectId(userId),
+      userId: user.id,
       type: req.body?.type,
       amount: req.body?.amount,
       category: req.body?.category,
       createdAt: req.body?.createdAt,
     });
+    user.addTransaction(newTransaction.id);
     res
       .status(200)
       .json({ message: "Transaction created", transaction: newTransaction });

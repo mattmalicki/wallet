@@ -1,6 +1,12 @@
 import { BadRequestError } from "../../../config/classes";
 import { User, IUser } from "../../../models/user";
 
+async function updateBalance(id: string) {
+  const user = await getUser(id);
+  const transactions = await user.populate("transaction");
+  console.log(transactions);
+}
+
 async function registerUser(user: IUser) {
   const { email, password, firstName, lastName } = user;
   if (await User.findOne({ email })) {
@@ -38,9 +44,7 @@ async function updateUser(
   email?: string,
   password?: string,
   firstName?: string,
-  lastName?: string,
-  balance?: number,
-  balanceCurrency?: string
+  lastName?: string
 ) {
   const user = await User.findById(id);
   if (!user) {
@@ -57,12 +61,6 @@ async function updateUser(
   }
   if (lastName) {
     user.lastName = lastName;
-  }
-  if (balance) {
-    user.balance = balance;
-  }
-  if (balanceCurrency) {
-    user.balanceCurrency = balanceCurrency;
   }
   user.save();
   return user;

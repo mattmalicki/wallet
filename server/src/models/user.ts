@@ -18,6 +18,8 @@ interface IUserMethods {
   clearToken(): void;
   isVerified(): boolean;
   updateBalance(lastTransactionValue: number): number;
+  addTransaction(transactionId: string): void;
+  removeTransaction(transactionId: string): void;
 }
 
 type UserModel = Model<IUser, {}, IUserMethods>;
@@ -77,6 +79,20 @@ userSchema.methods.isVerified = function () {
 userSchema.methods.updateBalance = function (lastTransactionValue: number) {
   this.balance = this.balance - lastTransactionValue;
   return this.balance;
+};
+
+userSchema.methods.addTransaction = function (
+  transactionId: string | Types.ObjectId
+) {
+  this.transactions.push({ _id: transactionId });
+  this.save();
+};
+
+userSchema.methods.removeTransaction = function (
+  transactionId: string | Types.ObjectId
+) {
+  this.transactions.pull({ _id: transactionId });
+  this.save();
 };
 
 const User = model<IUser, UserModel>("user", userSchema);

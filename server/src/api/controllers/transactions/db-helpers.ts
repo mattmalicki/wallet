@@ -4,7 +4,6 @@ import {
   ITransaction,
   TransactionType,
 } from "../../../models/transaction";
-import { getUser } from "../auth/db-helpers";
 import { BadRequestError } from "../../../config/classes";
 
 async function addTransaction(transaction: ITransaction) {
