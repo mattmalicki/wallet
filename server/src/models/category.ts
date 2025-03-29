@@ -29,6 +29,6 @@ const categorySchema = new Schema<IParentCategory>({
   ],
 });
 
-const Token = model("token", categorySchema);
+const Category = model("category", categorySchema, "categories");
 
-export { Token, IParentCategory };
+export { Category, IParentCategory };
