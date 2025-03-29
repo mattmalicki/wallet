@@ -1,19 +1,23 @@
 import { Schema, Types, model } from "mongoose";
 
-enum TransactionStatus {
-  pending = "PENDING",
-  approved = "APPROVED",
-  completed = "COMPLETED",
+enum TransactionType {
+  income = "+",
+  expense = "-",
 }
 
 interface ITransaction {
   userId: Types.ObjectId;
-  to: string;
-  value: number;
-  category: string;
-  currency: string;
+  type: TransactionType;
+  amount: number;
+  category: {
+    id: Types.ObjectId;
+    title: string;
+    childCategory: {
+      id: Types.ObjectId;
+      title: string;
+    };
+  };
   createdAt: Date;
-  status: TransactionStatus;
 }
 
 const transactionSchema = new Schema<ITransaction>({
@@ -21,32 +25,31 @@ const transactionSchema = new Schema<ITransaction>({
     type: Schema.Types.ObjectId,
     ref: "user",
   },
-  to: {
+  type: {
     type: String,
     required: true,
   },
-  value: {
+  amount: {
     type: Number,
     required: true,
   },
   category: {
-    type: String,
+    type: {
+      id: Types.ObjectId,
+      title: String,
+      childCategory: {
+        id: Types.ObjectId,
+        title: String,
+      },
+    },
     required: true,
-  },
-  currency: {
-    type: String,
-    default: "USD",
   },
   createdAt: {
     type: Date,
     required: true,
   },
-  status: {
-    type: String,
-    default: TransactionStatus.completed,
-  },
 });
 
 const Transaction = model("transaction", transactionSchema);
 
-export { Transaction, ITransaction, TransactionStatus };
+export { Transaction, ITransaction, TransactionType };
