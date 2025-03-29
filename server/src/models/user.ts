@@ -7,7 +7,6 @@ interface IUser {
   firstName: string;
   lastName: string;
   balance: number;
-  balanceCurrency: string;
   verified: boolean;
 }
 
@@ -17,6 +16,7 @@ interface IUserMethods {
   setToken(token: string): void;
   clearToken(): void;
   isVerified(): boolean;
+  updateBalance(lastTransactionValue: number): number;
 }
 
 type UserModel = Model<IUser, {}, IUserMethods>;
@@ -44,10 +44,6 @@ const userSchema = new Schema<IUser, IUserMethods, UserModel>({
     type: Number,
     required: true,
   },
-  balanceCurrency: {
-    type: String,
-    required: true,
-  },
   verified: {
     type: Boolean,
     default: false,
@@ -69,6 +65,11 @@ userSchema.methods.getBalance = function () {
 
 userSchema.methods.isVerified = function () {
   return this.verified;
+};
+
+userSchema.methods.updateBalance = function (lastTransactionValue: number) {
+  this.balance = this.balance - lastTransactionValue;
+  return this.balance;
 };
 
 const User = model<IUser, UserModel>("user", userSchema);
