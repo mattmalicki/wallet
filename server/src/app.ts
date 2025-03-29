@@ -10,6 +10,7 @@ import { errorMiddleware } from "./api/middlewares/error-handler";
 
 import { authRouter } from "./api/routes/auth";
 import { transactionRouter } from "./api/routes/transactions";
+import { categoriesRouter } from "./api/routes/categories";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.disable("etag");
 
 app.use("/auth", authRouter);
 app.use("/transactions", transactionRouter);
+app.use("/categories", categoriesRouter);
 
 app.use(errorMiddleware);
 
