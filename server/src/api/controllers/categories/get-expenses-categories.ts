@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
-import { fetchOnlyIncomeCategories } from "./db-helpers";
+import { fetchOnlyExpensesCategories } from "./db-helpers";
 
 const getExpensesCategories: RequestHandler = async (_req, res, next) => {
   try {
-    const categories = await fetchOnlyIncomeCategories();
+    const categories = await fetchOnlyExpensesCategories();
     res.status(202).json({
       message: "Categories fetched successfuly.",
       categories,
