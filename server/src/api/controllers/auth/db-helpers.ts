@@ -3,7 +3,7 @@ import { User, IUser } from "../../../models/user";
 
 async function updateBalance(id: string) {
   const user = await getUser(id);
-  const transactions = await user.populate("transaction");
+  const transactions = await user.populate("transaction", "amount");
   console.log(transactions);
 }
 

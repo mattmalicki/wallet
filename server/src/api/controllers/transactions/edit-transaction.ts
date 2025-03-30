@@ -11,11 +11,8 @@ const editTransaction: RequestHandler = async (req, res, next) => {
     const transaction = await updateTransaction(
       userId,
       req.body.id,
-      req.body?.to,
-      req.body?.value,
-      req.body?.currenct,
-      req.body?.status,
-      req.body?.createdAt
+      req.body?.type,
+      req.body?.amount
     );
     res.status(200).json({ message: "Transaction updated.", transaction });
   } catch (error) {

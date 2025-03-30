@@ -10,9 +10,7 @@ const editUser: RequestHandler = async (req, res, next) => {
       req.body?.email,
       req.body?.password,
       req.body?.firstName,
-      req.body?.lastName,
-      req.body?.balance,
-      req.body?.balanceCurrency
+      req.body?.lastName
     );
     res.status(200).json({
       message: "User updated",
