@@ -11,7 +11,7 @@ const createUser: RequestHandler = async (req, res, next) => {
     if (!createdUser) {
       throw new BadRequestError({ code: 400, message: "Database error" });
     }
-    const accesToken = signAccessToken(createdUser.id);
+    const accessToken = signAccessToken(createdUser.id);
     const refreshToken = signRefreshToken(createdUser.id);
     const token = new Token({
       userId: createdUser.id,
@@ -24,7 +24,7 @@ const createUser: RequestHandler = async (req, res, next) => {
 
     res.json({
       message: "User created.",
-      accesToken,
+      accessToken,
       refreshToken,
       user: {
         email: createdUser.email,

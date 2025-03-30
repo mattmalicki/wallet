@@ -8,8 +8,8 @@ import { Router } from "express";
 const transactionRouter = Router();
 
 transactionRouter.get("/", authMiddleware, fetchTransactions);
-transactionRouter.put("/", authMiddleware, createTransaction);
-transactionRouter.patch("/update", authMiddleware, editTransaction);
-transactionRouter.delete("/delete", authMiddleware, removeTransaction);
+transactionRouter.post("/", authMiddleware, createTransaction);
+transactionRouter.patch("/update/:id", authMiddleware, editTransaction);
+transactionRouter.delete("/delete/:id", authMiddleware, removeTransaction);
 
 export { transactionRouter };

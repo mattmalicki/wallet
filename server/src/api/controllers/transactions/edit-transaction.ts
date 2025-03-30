@@ -10,7 +10,7 @@ const editTransaction: RequestHandler = async (req, res, next) => {
       throw new BadRequestError({ code: 401, message: "Unauthorized" });
     const transaction = await updateTransaction(
       userId,
-      req.body.id,
+      req.params.id,
       req.body?.type,
       req.body?.amount
     );

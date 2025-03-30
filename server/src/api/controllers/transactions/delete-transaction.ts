@@ -12,9 +12,9 @@ const removeTransaction: RequestHandler = async (req, res, next) => {
     const user = await getUser(userId);
     if (!user)
       throw new BadRequestError({ code: 401, message: "Unauthorized" });
-    await deleteTransaction(userId, req.body.id);
-    user.removeTransaction(req.body.id);
-    res.status(200).json({ message: "Transaction deleted" });
+    await deleteTransaction(userId, req.params.id);
+    user.removeTransaction(req.params.id);
+    res.status(200).json({ message: "Transaction deleted", id: req.params.id });
   } catch (error) {
     next(error);
   }
