@@ -19,7 +19,15 @@ const clearAuthAccessToken = () => {
 
 const register = createAsyncThunk(
   "auth/register",
-  async (credentials, thunkAPI) => {
+  async (
+    credentials: {
+      email: string;
+      password: string;
+      firstName: string;
+      lastName: string;
+    },
+    thunkAPI
+  ) => {
     try {
       const response = await axios.post(`${USER_ENDPOINT}`, credentials);
       setAuthAccessHeader(response.data.acessToken);
@@ -30,15 +38,18 @@ const register = createAsyncThunk(
   }
 );
 
-const login = createAsyncThunk("auth/login", async (credentials, thunkAPI) => {
-  try {
-    const response = await axios.post(`${USER_ENDPOINT}login`, credentials);
-    setAuthAccessHeader(response.data.acessToken);
-    return response.data.user;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
+const login = createAsyncThunk(
+  "auth/login",
+  async (credentials: { email: string; password: string }, thunkAPI) => {
+    try {
+      const response = await axios.post(`${USER_ENDPOINT}login`, credentials);
+      setAuthAccessHeader(response.data.acessToken);
+      return response.data.user;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
 const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {

@@ -2,7 +2,12 @@ import { IconSvg, NameOpts } from "../Icon/Icon";
 import styles from "./AuthInputItem.module.css";
 import React, { useEffect, useState } from "react";
 
-type AuthInputIdOpts = "email" | "password" | "firstName" | "lastName";
+type AuthInputIdOpts =
+  | "email"
+  | "password"
+  | "firstName"
+  | "lastName"
+  | "confirmPassword";
 
 interface AuthInputProps {
   name: AuthInputIdOpts;
@@ -21,6 +26,7 @@ const AuthInputItem: React.FC<AuthInputProps> = (props) => {
     let iconName = "";
     if (props.name === "email") iconName = "email";
     if (props.name === "password") iconName = "lock";
+    if (props.name === "confirmPassword") iconName = "lock";
     if (props.name === "firstName") iconName = "name";
     if (props.name === "lastName") iconName = "name";
     return iconName;

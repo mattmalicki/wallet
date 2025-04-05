@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../../../hooks/index";
+import { useAuth } from "../../../hooks/useAuth";
 import { FC, ReactNode } from "react";
 
 interface RRProp {
@@ -10,7 +10,11 @@ interface RRProp {
 const RestrictedRoute: FC<RRProp> = (props) => {
   const { isLoggedIn } = useAuth();
 
-  return isLoggedIn ? <Navigate to={props.redirectTo} /> : props.Component;
+  return isLoggedIn ? (
+    <Navigate to={props.redirectTo} />
+  ) : (
+    <>{props.Component}</>
+  );
 };
 
 export { RestrictedRoute };

@@ -45,7 +45,7 @@ const userSchema = new Schema<IUser, IUserMethods, UserModel>({
   },
   balance: {
     type: Number,
-    required: true,
+    default: 0,
   },
   verified: {
     type: Boolean,
@@ -76,9 +76,13 @@ userSchema.methods.isVerified = function () {
   return this.verified;
 };
 
-userSchema.methods.updateBalance = function (lastTransactionValue: number) {
-  this.balance = this.balance - lastTransactionValue;
-  return this.balance;
+userSchema.methods.updateBalance = async function (
+  lastTransactionValue?: number
+) {
+  const transactionList = await (this as UserModel).populate({}, "transaction");
+  return transactionList;
+  // this.balance = this.balance - lastTransactionValue;
+  // return this.balance;
 };
 
 userSchema.methods.addTransaction = function (
