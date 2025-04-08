@@ -1,0 +1,17 @@
+.addTransactionButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  width: 44px;
+  height: 44px;
+
+  background-color: var(--buttonBackground);
+  color: white;
+  font-size: x-large;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

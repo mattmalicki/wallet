@@ -2,8 +2,12 @@ import { FC } from "react";
 import { Page } from "../../components/Templates/Page/Page";
 import { Balance } from "../../components/Atoms/Balance/Balance";
 import { TransactionList } from "../../components/Organisms/TransactionList/TransactionList";
+import { AddTransactionButton } from "../../components/Atoms/AddTransactionButton/AddTransactionButton";
 
 const Home: FC = () => {
+  function handleAddButtonClick() {
+    console.log("He he");
+  }
   return (
     <Page>
       <Balance balance={20000} />
@@ -15,6 +19,7 @@ const Home: FC = () => {
         comment="Nothing to say"
         sum={203443}
       />
+      <AddTransactionButton handleClick={handleAddButtonClick} />
     </Page>
   );
 };
