@@ -9,7 +9,7 @@ const InputCategory: FC = () => {
     useState<string>("Select a category");
 
   function categoryHandler(event: MouseEvent<HTMLInputElement>) {
-    setCategoryValue(event.currentTarget.value);
+    setCategoryValue(event.currentTarget.id);
     setRollPicker(false);
   }
 

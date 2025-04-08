@@ -20,15 +20,15 @@ const CategoryPicker: FC<CPProp> = (props) => {
       <ul className={styles.categoryPicker}>
         {categories.map((category) => {
           return (
-            <li key={category.id} className={styles.listItem}>
+            <li key={category._id} className={styles.listItem}>
               <span className={styles.categoryTitle}>{category.title}</span>
               <ul>
                 {category.childCategories.map((childCategory) => {
                   return (
-                    <li key={childCategory.id}>
+                    <li key={childCategory._id}>
                       <input
                         type="button"
-                        id={category.id + ":" + childCategory.id}
+                        id={category._id + ":" + childCategory._id}
                         className={styles.item}
                         onClick={props.clickHandler}
                         value={childCategory.title}
