@@ -2,8 +2,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { isFulfilledAction, isPendingAction, isRejectAction } from "../helper";
 
+type ChildCategory = {
+  id: string;
+  title: string;
+};
+
+type Category = {
+  id: string;
+  type: string;
+  title: string;
+  childCategories: ChildCategory[];
+};
+
 interface CategoriesState {
-  categories: any[];
+  categories: Category[];
   isRefreshing: boolean;
   categoriesError: any;
 }

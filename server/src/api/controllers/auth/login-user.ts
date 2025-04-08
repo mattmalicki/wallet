@@ -14,7 +14,7 @@ const signinUser: RequestHandler = async (req, res, next) => {
       });
     }
     const user = await loginUser(email, password);
-    const accesToken = signAccessToken(user.id);
+    const accessToken = signAccessToken(user.id);
     const refreshToken = signRefreshToken(user.id);
     Token.findOneAndUpdate(
       {
@@ -32,7 +32,7 @@ const signinUser: RequestHandler = async (req, res, next) => {
 
     res.status(200).json({
       message: "Login successfull",
-      accesToken,
+      accessToken,
       refreshToken,
       user: {
         email: user.email,

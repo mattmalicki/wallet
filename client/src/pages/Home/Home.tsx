@@ -1,10 +1,12 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Page } from "../../components/Templates/Page/Page";
 import { Balance } from "../../components/Atoms/Balance/Balance";
 import { TransactionList } from "../../components/Organisms/TransactionList/TransactionList";
 import { AddTransactionButton } from "../../components/Atoms/AddTransactionButton/AddTransactionButton";
 import { TransactionFrom } from "../../components/Organisms/TransactionForm/TransactionForm";
 import { Modal } from "../../components/Templates/Modal/Modal";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { getCategories } from "../../redux/categories/operations";
 
 type ActionT = "add" | "edit";
 type ModalType = {
@@ -13,6 +15,7 @@ type ModalType = {
 };
 
 const Home: FC = () => {
+  const dispatch = useAppDispatch();
   const [modalState, setModalState] = useState<ModalType>({
     openModal: false,
     actionType: "add",
@@ -30,6 +33,10 @@ const Home: FC = () => {
   function handleAddButton() {
     setModalState({ openModal: true, actionType: "add" });
   }
+
+  useEffect(() => {
+    dispatch(getCategories());
+  });
   return (
     <Page>
       <Balance balance={20000} />

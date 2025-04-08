@@ -8,7 +8,7 @@ const getCategories = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(`${CATEGORIES_ENDPOINT}`);
-      return response.data;
+      return response.data.categories;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }
@@ -20,7 +20,7 @@ const getIncomeCategories = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(`${CATEGORIES_ENDPOINT}/income`);
-      return response.data;
+      return response.data.categories;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }
@@ -32,7 +32,7 @@ const getExpensesCategories = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(`${CATEGORIES_ENDPOINT}/expenses`);
-      return response.data;
+      return response.data.categories;
     } catch (error) {
       thunkAPI.rejectWithValue(error);
     }

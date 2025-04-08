@@ -1,17 +1,6 @@
 import { FC, MouseEventHandler } from "react";
 import styles from "./CategoryPicker.module.css";
-
-const categoryArray: string[] = [
-  "Main expenses",
-  "Products",
-  "Entertainment",
-  "Other expenses",
-  "Leisure",
-  "Education",
-  "Household products",
-  "Child care",
-  "Car",
-];
+import { useCategories } from "../../../hooks/useCategories";
 
 interface CPProp {
   shouldRoll: boolean;
@@ -19,6 +8,8 @@ interface CPProp {
 }
 
 const CategoryPicker: FC<CPProp> = (props) => {
+  const { categories } = useCategories();
+
   return (
     <div
       className={[
@@ -27,17 +18,25 @@ const CategoryPicker: FC<CPProp> = (props) => {
       ].join(" ")}
     >
       <ul className={styles.categoryPicker}>
-        {categoryArray.map((category) => {
-          const id = Math.random().toString();
+        {categories.map((category) => {
           return (
-            <li key={id} className={styles.listItem}>
-              <input
-                type="button"
-                id={id}
-                className={styles.item}
-                onClick={props.clickHandler}
-                value={category}
-              />
+            <li key={category.id} className={styles.listItem}>
+              <span className={styles.categoryTitle}>{category.title}</span>
+              <ul>
+                {category.childCategories.map((childCategory) => {
+                  return (
+                    <li key={childCategory.id}>
+                      <input
+                        type="button"
+                        id={category.id + ":" + childCategory.id}
+                        className={styles.item}
+                        onClick={props.clickHandler}
+                        value={childCategory.title}
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
             </li>
           );
         })}

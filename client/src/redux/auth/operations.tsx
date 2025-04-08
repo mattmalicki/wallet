@@ -30,7 +30,7 @@ const register = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(`${USER_ENDPOINT}`, credentials);
-      setAuthAccessHeader(response.data.acessToken);
+      setAuthAccessHeader(response.data.accessToken);
       return response.data.user;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -43,7 +43,7 @@ const login = createAsyncThunk(
   async (credentials: { email: string; password: string }, thunkAPI) => {
     try {
       const response = await axios.post(`${USER_ENDPOINT}login`, credentials);
-      setAuthAccessHeader(response.data.acessToken);
+      setAuthAccessHeader(response.data.accessToken);
       return response.data.user;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
