@@ -1,7 +1,7 @@
 import React, { MouseEvent, useEffect, useState } from "react";
 import styles from "./TransactionSwitch.module.css";
+import { ActionT, useActionContext } from "../../../hooks/useActionTypeContext";
 
-type ActionT = "add" | "edit";
 type TransactionT = "income" | "expense";
 
 interface TSwitchProp {
@@ -11,6 +11,8 @@ interface TSwitchProp {
 
 const TransactionSwitch: React.FC<TSwitchProp> = (props) => {
   const [currentText, setCurrentText] = useState<TransactionT>("income");
+  const { actionType, setActionType } = useActionContext();
+
   useEffect(() => {
     props.transactionType && setCurrentText(props.transactionType);
   }, [props]);
