@@ -3,7 +3,6 @@ import styles from "./TransactionForm.module.css";
 import { TransactionSwitch } from "../../Atoms/TransactionSwitch/TransactionSwitch";
 import { TransactionInputItem } from "../../Atoms/TransactionInputItem/TransactionInputItem";
 import { Button } from "../../Atoms/Button/Button";
-import { useActionContext } from "../../../hooks/useActionTypeContext";
 
 interface TFProp {
   isEdit?: boolean;
@@ -11,18 +10,16 @@ interface TFProp {
 }
 
 const TransactionFrom: FC<TFProp> = (props) => {
-  const { actionType } = useActionContext();
-
   return (
     <form className={styles.transactionFrom}>
       <h2>{!props.isEdit ? "Add transaction" : "Edit transaction"}</h2>
-      <TransactionSwitch actionType={actionType} />
-      {props.isEdit && <TransactionInputItem name="category" />}
+      <TransactionSwitch actionType={!props.isEdit ? "add" : "edit"} />
+      <TransactionInputItem name="category" />
       <TransactionInputItem name="amount" />
       <TransactionInputItem name="date" />
       <TransactionInputItem name="comment" />
       <div className={styles.buttons}>
-        <Button title="add" colored />
+        <Button title={!props.isEdit ? "add" : "edit"} colored />
         <Button
           title="cancel"
           colored={false}

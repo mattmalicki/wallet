@@ -47,3 +47,7 @@
   background-color: var(--expenseColor);
   transition: left 1s, background-color 1s, box-shadow 1s;
 }
+
+.test {
+  transition: color 1s;
+}

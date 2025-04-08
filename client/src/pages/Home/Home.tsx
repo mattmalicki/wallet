@@ -5,53 +5,60 @@ import { TransactionList } from "../../components/Organisms/TransactionList/Tran
 import { AddTransactionButton } from "../../components/Atoms/AddTransactionButton/AddTransactionButton";
 import { TransactionFrom } from "../../components/Organisms/TransactionForm/TransactionForm";
 import { Modal } from "../../components/Templates/Modal/Modal";
-import { ActionT, ActionContent } from "../../hooks/useActionTypeContext";
+
+type ActionT = "add" | "edit";
+type ModalType = {
+  openModal: boolean;
+  actionType: ActionT;
+};
 
 const Home: FC = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [actionType, setActionType] = useState<ActionT>("add");
-
-  function handleOpenModal() {
-    setOpenModal(true);
-  }
+  const [modalState, setModalState] = useState<ModalType>({
+    openModal: false,
+    actionType: "add",
+  });
 
   function handleCloseModal() {
-    setOpenModal(false);
+    setModalState((prevState) => {
+      return { openModal: false, actionType: prevState.actionType };
+    });
+  }
+
+  function handleEditButton() {
+    setModalState({ openModal: true, actionType: "edit" });
+  }
+  function handleAddButton() {
+    setModalState({ openModal: true, actionType: "add" });
   }
   return (
     <Page>
-      <ActionContent.Provider value={{ actionType, setActionType }}>
-        <Balance balance={20000} />
-        <TransactionList
-          id="56gf324gerew3r4w"
-          date="12.12.12"
-          type="+"
-          category="Income"
-          comment="Nothing to say"
-          sum={203443}
-          editHandler={handleOpenModal.bind(() => setActionType("edit"))}
-        />
-        <AddTransactionButton
-          handleClick={handleOpenModal.bind(() => {
-            setActionType("add");
-          })}
-        />
-        {openModal && (
-          <Modal>
-            {actionType === "add" && (
-              <TransactionFrom handleCloseModal={handleCloseModal} />
-            )}
-            {actionType === "edit" && (
-              <TransactionFrom
-                handleCloseModal={handleCloseModal}
-                isEdit={true}
-              />
-            )}
-          </Modal>
-        )}
-      </ActionContent.Provider>
+      <Balance balance={20000} />
+      <TransactionList
+        id="56gf324gerew3r4w"
+        date="12.12.12"
+        type="+"
+        category="Income"
+        comment="Nothing to say"
+        sum={203443}
+        editHandler={handleEditButton}
+      />
+      <AddTransactionButton handleClick={handleAddButton} />
+      {modalState.openModal && (
+        <Modal>
+          {modalState.actionType === "add" && (
+            <TransactionFrom handleCloseModal={handleCloseModal} />
+          )}
+          {modalState.actionType === "edit" && (
+            <TransactionFrom
+              handleCloseModal={handleCloseModal}
+              isEdit={true}
+            />
+          )}
+        </Modal>
+      )}
     </Page>
   );
 };
 
 export { Home };
+export type { ActionT };

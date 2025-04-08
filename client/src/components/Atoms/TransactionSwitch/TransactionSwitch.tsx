@@ -1,6 +1,6 @@
 import React, { MouseEvent, useEffect, useState } from "react";
 import styles from "./TransactionSwitch.module.css";
-import { ActionT, useActionContext } from "../../../hooks/useActionTypeContext";
+import { ActionT } from "../../../pages/Home/Home";
 
 type TransactionT = "income" | "expense";
 
@@ -11,7 +11,6 @@ interface TSwitchProp {
 
 const TransactionSwitch: React.FC<TSwitchProp> = (props) => {
   const [currentText, setCurrentText] = useState<TransactionT>("income");
-  const { actionType, setActionType } = useActionContext();
 
   useEffect(() => {
     props.transactionType && setCurrentText(props.transactionType);
@@ -32,7 +31,9 @@ const TransactionSwitch: React.FC<TSwitchProp> = (props) => {
   return (
     <div className={styles.transactionSwitch}>
       <input
-        className={currentText === "income" ? styles[`${currentText}Text`] : ""}
+        className={
+          currentText === "income" ? styles[`${currentText}Text`] : styles.test
+        }
         id="income"
         type="button"
         onClick={clickTextHandler}
@@ -49,10 +50,12 @@ const TransactionSwitch: React.FC<TSwitchProp> = (props) => {
           </div>
         </button>
       )}
-      {props.actionType === "edit" && <div>/</div>}
+      {props.actionType === "edit" && (
+        <div className={styles[currentText + "Text"]}>/</div>
+      )}
       <input
         className={
-          currentText === "expense" ? styles[`${currentText}Text`] : ""
+          currentText === "expense" ? styles[`${currentText}Text`] : styles.test
         }
         id="expense"
         type="button"
