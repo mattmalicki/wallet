@@ -32,6 +32,7 @@ const CategoryPicker: FC<CPProp> = (props) => {
                         className={styles.item}
                         onClick={props.clickHandler}
                         value={childCategory.title}
+                        data-titles={category.title + ":" + childCategory.title}
                       />
                     </li>
                   );

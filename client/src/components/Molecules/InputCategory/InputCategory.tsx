@@ -8,7 +8,8 @@ const InputCategory: FC = () => {
   const [categoryValue, setCategoryValue] = useState<string>("");
 
   function categoryHandler(event: MouseEvent<HTMLInputElement>) {
-    setCategoryValue(event.currentTarget.id);
+    console.log(event.currentTarget.dataset.titles);
+    setCategoryValue(event.currentTarget.value);
     setRollPicker(false);
   }
 
