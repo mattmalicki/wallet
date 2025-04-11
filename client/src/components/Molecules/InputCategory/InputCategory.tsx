@@ -1,9 +1,12 @@
-import { FC, MouseEvent, useState } from "react";
+import { FC, MouseEvent, useEffect, useState } from "react";
 import styles from "./InputCategory.module.css";
 import { CategoryPicker } from "../CategoryPicker/CategoryPicker";
+import { useCategories } from "../../../hooks/useCategories";
 
 const InputCategory: FC = () => {
   const [rollPicker, setRollPicker] = useState<boolean>(false);
+
+  const { categories } = useCategories();
 
   const [categoryValue, setCategoryValue] = useState<string>("");
 
@@ -16,6 +19,14 @@ const InputCategory: FC = () => {
   function focusHandler() {
     setRollPicker(true);
   }
+
+  useEffect(() => {
+    const categoryInput = document.getElementById(
+      "category"
+    ) as HTMLInputElement;
+    if (categoryInput) categoryInput.value = "";
+  }, [categories]);
+
   return (
     <div className={styles.inputCategory}>
       <input

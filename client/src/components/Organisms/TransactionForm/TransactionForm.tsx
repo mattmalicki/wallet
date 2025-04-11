@@ -1,9 +1,20 @@
-import { FC, FormEvent, MouseEvent, MouseEventHandler, useState } from "react";
+import {
+  FC,
+  FormEvent,
+  MouseEvent,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from "react";
 import styles from "./TransactionForm.module.css";
 import { TransactionSwitch } from "../../Atoms/TransactionSwitch/TransactionSwitch";
 import { TransactionInputItem } from "../../Atoms/TransactionInputItem/TransactionInputItem";
 import { Button } from "../../Atoms/Button/Button";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import {
+  getExpensesCategories,
+  getIncomeCategories,
+} from "../../../redux/categories/operations";
 
 interface TFProp {
   isEdit?: boolean;
@@ -40,6 +51,16 @@ const TransactionFrom: FC<TFProp> = (props) => {
     console.log(form.date.value);
     console.log(form.comment.value);
   }
+
+  useEffect(() => {
+    if (transaction === "income") {
+      dispatch(getIncomeCategories());
+    }
+    if (transaction === "expense") {
+      dispatch(getExpensesCategories());
+    }
+  }, [transaction, dispatch]);
+
   return (
     <form className={styles.transactionFrom} onSubmit={handleSubmit}>
       <h2>{!props.isEdit ? "Add transaction" : "Edit transaction"}</h2>
