@@ -19,7 +19,7 @@ const TransactionInputItem: FC<TIIProp> = (props) => {
       {props.name === "category" && <InputCategory />}
       {props.name === "date" && (
         <>
-          <input type="date" id="date" />
+          <input type="date" id="date" required />
           <button className={styles.icon} onClick={clickHandler}>
             <IconSvg name={props.name} />
           </button>
@@ -32,6 +32,7 @@ const TransactionInputItem: FC<TIIProp> = (props) => {
           step={"0.01"}
           className={styles.input}
           placeholder="0.00"
+          required
         />
       )}
       {props.name === "comment" && (
@@ -40,6 +41,7 @@ const TransactionInputItem: FC<TIIProp> = (props) => {
           type="text"
           className={styles.input}
           placeholder="Add comment"
+          required
         />
       )}
     </div>

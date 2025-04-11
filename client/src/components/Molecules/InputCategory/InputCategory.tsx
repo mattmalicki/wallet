@@ -5,8 +5,7 @@ import { CategoryPicker } from "../CategoryPicker/CategoryPicker";
 const InputCategory: FC = () => {
   const [rollPicker, setRollPicker] = useState<boolean>(false);
 
-  const [categoryValue, setCategoryValue] =
-    useState<string>("Select a category");
+  const [categoryValue, setCategoryValue] = useState<string>("");
 
   function categoryHandler(event: MouseEvent<HTMLInputElement>) {
     setCategoryValue(event.currentTarget.id);
@@ -23,6 +22,8 @@ const InputCategory: FC = () => {
         value={categoryValue}
         onFocus={focusHandler}
         readOnly
+        placeholder="Select a category"
+        required
       />
       <CategoryPicker clickHandler={categoryHandler} shouldRoll={rollPicker} />
     </div>
