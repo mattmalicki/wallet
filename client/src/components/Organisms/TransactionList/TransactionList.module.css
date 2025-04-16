@@ -1,0 +1,8 @@
+.transactionList {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 8px;
+
+  margin-bottom: 50px;
+}
