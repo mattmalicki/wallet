@@ -38,7 +38,8 @@ const Home: FC = () => {
   useEffect(() => {
     dispatch(getTransactions());
     dispatch(getCategories());
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Page>
       <Balance balance={20000} />

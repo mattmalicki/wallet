@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 interface ButtonProp {
   title: string;
   colored: boolean;
+  isSubmit?: boolean;
   isLinked?: boolean;
   link?: string;
   clickHandler?: MouseEventHandler<HTMLButtonElement>;
@@ -15,7 +16,11 @@ const Button: React.FC<ButtonProp> = (props) => {
     props.colored ? styles.colored : styles.transparent
   }`;
   return !props.isLinked ? (
-    <button className={classNames} onClick={props.clickHandler}>
+    <button
+      className={classNames}
+      type={props.isSubmit ? "submit" : "button"}
+      onClick={props.clickHandler}
+    >
       {props.title}
     </button>
   ) : (

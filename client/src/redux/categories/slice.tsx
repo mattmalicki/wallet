@@ -71,3 +71,5 @@ const categoriesSlice = createSlice({
 });
 
 export const categoriesReducer = categoriesSlice.reducer;
+
+export type { Category };

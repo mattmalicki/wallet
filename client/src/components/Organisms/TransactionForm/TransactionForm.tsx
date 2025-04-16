@@ -1,24 +1,15 @@
-import {
-  FC,
-  FormEvent,
-  MouseEvent,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { FC, FormEvent, MouseEvent, MouseEventHandler, useState } from "react";
 import styles from "./TransactionForm.module.css";
 import { TransactionSwitch } from "../../Atoms/TransactionSwitch/TransactionSwitch";
 import { TransactionInputItem } from "../../Atoms/TransactionInputItem/TransactionInputItem";
 import { Button } from "../../Atoms/Button/Button";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import {
-  getExpensesCategories,
-  getIncomeCategories,
-} from "../../../redux/categories/operations";
-import {
   addTransaction,
   TransactionType,
 } from "../../../redux/transactions/operations";
+
+import { TypeContext } from "../../../hooks/useTTypeContext";
 
 interface TFProp {
   isEdit?: boolean;
@@ -37,11 +28,13 @@ interface FormI extends HTMLFormElement {
 type TransactionT = "income" | "expense";
 
 const TransactionFrom: FC<TFProp> = (props) => {
-  const [transaction, setTransaction] = useState<TransactionT>("income");
+  const [transactionType, setTransactionType] =
+    useState<TransactionT>("income");
+
   const dispatch = useAppDispatch();
 
   function handleSwitchTransactionT() {
-    setTransaction((currentState) => {
+    setTransactionType((currentState) => {
       if (currentState === "income") return "expense";
       if (currentState === "expense") return "income";
       return "income";
@@ -49,9 +42,9 @@ const TransactionFrom: FC<TFProp> = (props) => {
   }
   function handleTextClickTransactionT(event: MouseEvent<HTMLInputElement>) {
     if (event.currentTarget?.value.toLocaleLowerCase() === "income")
-      setTransaction("income");
+      setTransactionType("income");
     if (event.currentTarget?.value.toLocaleLowerCase() === "expense")
-      setTransaction("expense");
+      setTransactionType("expense");
   }
 
   function handleSubmit(event: FormEvent<FormI>) {
@@ -80,43 +73,34 @@ const TransactionFrom: FC<TFProp> = (props) => {
       transaction.type = "-";
     }
     dispatch(addTransaction(transaction));
+    const closeMe = props.handleCloseModal as Function;
+    closeMe();
   }
 
-  useEffect(() => {
-    if (transaction === "income") {
-      dispatch(getIncomeCategories());
-    }
-    if (transaction === "expense") {
-      dispatch(getExpensesCategories());
-    }
-  }, [transaction, dispatch]);
-
   return (
-    <form className={styles.transactionFrom} onSubmit={handleSubmit}>
-      <h2>{!props.isEdit ? "Add transaction" : "Edit transaction"}</h2>
-      <TransactionSwitch
-        actionType={!props.isEdit ? "add" : "edit"}
-        transactionType={transaction}
-        switchHandler={handleSwitchTransactionT}
-        textHandler={handleTextClickTransactionT}
-      />
-      <TransactionInputItem name="category" />
-      <TransactionInputItem name="amount" />
-      <TransactionInputItem name="date" />
-      <TransactionInputItem name="comment" />
-      <div className={styles.buttons}>
-        <Button
-          title={!props.isEdit ? "add" : "edit"}
-          colored
-          clickHandler={props.handleCloseModal}
+    <TypeContext value={{ type: transactionType, setType: setTransactionType }}>
+      <form className={styles.transactionFrom} onSubmit={handleSubmit}>
+        <h2>{!props.isEdit ? "Add transaction" : "Edit transaction"}</h2>
+        <TransactionSwitch
+          actionType={!props.isEdit ? "add" : "edit"}
+          transactionType={transactionType}
+          switchHandler={handleSwitchTransactionT}
+          textHandler={handleTextClickTransactionT}
         />
-        <Button
-          title="cancel"
-          colored={false}
-          clickHandler={props.handleCloseModal}
-        />
-      </div>
-    </form>
+        <TransactionInputItem name="category" />
+        <TransactionInputItem name="amount" />
+        <TransactionInputItem name="date" />
+        <TransactionInputItem name="comment" />
+        <div className={styles.buttons}>
+          <Button title={!props.isEdit ? "add" : "edit"} colored isSubmit />
+          <Button
+            title="cancel"
+            colored={false}
+            clickHandler={props.handleCloseModal}
+          />
+        </div>
+      </form>
+    </TypeContext>
   );
 };
 

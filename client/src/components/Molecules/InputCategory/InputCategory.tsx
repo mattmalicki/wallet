@@ -1,12 +1,13 @@
 import { FC, MouseEvent, useEffect, useState } from "react";
 import styles from "./InputCategory.module.css";
 import { CategoryPicker } from "../CategoryPicker/CategoryPicker";
+import { useTypeContext } from "../../../hooks/useTTypeContext";
 import { useCategories } from "../../../hooks/useCategories";
 
 const InputCategory: FC = () => {
   const [rollPicker, setRollPicker] = useState<boolean>(false);
-
-  const { categories } = useCategories();
+  const { type } = useTypeContext();
+  const { categoriesExpense, categoriesIncome } = useCategories();
 
   const [categoryValue, setCategoryValue] = useState<string>("");
   const [categoriesIds, setCategoriesIds] = useState<string>("");
@@ -27,8 +28,8 @@ const InputCategory: FC = () => {
     const categoryInput = document.getElementById(
       "category"
     ) as HTMLInputElement;
-    if (categoryInput) categoryInput.value = "";
-  }, [categories]);
+    if (categoryInput) setCategoryValue("");
+  }, [type]);
 
   return (
     <div className={styles.inputCategory}>
@@ -41,7 +42,11 @@ const InputCategory: FC = () => {
         data-categories={categoriesIds}
         required
       />
-      <CategoryPicker clickHandler={categoryHandler} shouldRoll={rollPicker} />
+      <CategoryPicker
+        clickHandler={categoryHandler}
+        shouldRoll={rollPicker}
+        categories={type === "income" ? categoriesIncome : categoriesExpense}
+      />
     </div>
   );
 };

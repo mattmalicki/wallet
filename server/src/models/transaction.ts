@@ -11,7 +11,7 @@ interface ITransaction {
   amount: number;
   categoryId: Types.ObjectId;
   childCategoryId: Types.ObjectId;
-
+  comment: string;
   createdAt: Date;
 }
 
@@ -36,6 +36,10 @@ const transactionSchema = new Schema<ITransaction>({
   childCategoryId: {
     type: Schema.Types.ObjectId,
     required: true,
+  },
+  comment: {
+    type: String,
+    default: "",
   },
   createdAt: {
     type: Date,

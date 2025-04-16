@@ -48,6 +48,7 @@ const AuthForm: FC<AuthFormProp> = (props) => {
         <Button
           colored={true}
           title={props.isRegister ? "register" : "log in"}
+          isSubmit
         />
         <Button
           colored={false}
