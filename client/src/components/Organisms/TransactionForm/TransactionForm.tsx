@@ -1,7 +1,6 @@
 import {
   FC,
   FormEvent,
-  FormEventHandler,
   MouseEvent,
   MouseEventHandler,
   useEffect,

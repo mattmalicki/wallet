@@ -13,6 +13,7 @@ const fetchTransactions: RequestHandler = async (req, res, next) => {
     const transactionList = await User.findById(userId);
     res.status(202).json({
       message: "Transactions fetched",
+      transactions,
       test: transactionList?.populate("transactions"),
     });
   } catch (error) {

@@ -12,14 +12,8 @@ interface ITransaction {
   userId: string;
   type: "+" | "-";
   amount: number;
-  category: {
-    id: string;
-    title: string;
-    childCategory: {
-      id: string;
-      title: string;
-    };
-  };
+  categoryId: string;
+  childCategoryId: string;
   createdAt: Date;
 }
 

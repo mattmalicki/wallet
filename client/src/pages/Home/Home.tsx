@@ -7,6 +7,7 @@ import { TransactionFrom } from "../../components/Organisms/TransactionForm/Tran
 import { Modal } from "../../components/Templates/Modal/Modal";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { getCategories } from "../../redux/categories/operations";
+import { getTransactions } from "../../redux/transactions/operations";
 
 type ActionT = "add" | "edit";
 type ModalType = {
@@ -35,20 +36,13 @@ const Home: FC = () => {
   }
 
   useEffect(() => {
+    dispatch(getTransactions());
     dispatch(getCategories());
   });
   return (
     <Page>
       <Balance balance={20000} />
-      <TransactionList
-        id="56gf324gerew3r4w"
-        date="12.12.12"
-        type="+"
-        category="Income"
-        comment="Nothing to say"
-        sum={203443}
-        editHandler={handleEditButton}
-      />
+      <TransactionList editHandler={handleEditButton} />
       <AddTransactionButton handleClick={handleAddButton} />
       {modalState.openModal && (
         <Modal>

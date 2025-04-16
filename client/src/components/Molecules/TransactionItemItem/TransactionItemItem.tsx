@@ -1,5 +1,5 @@
 import { FC, MouseEventHandler } from "react";
-import styles from "./TransactionListItem.module.css";
+import styles from "./TransactionItemItem.module.css";
 import { IconSvg } from "../../Atoms/Icon/Icon";
 
 interface ValuesProp {
@@ -16,7 +16,7 @@ type Never<T> = { [P in keyof T]?: never };
 type OnlyValues = ValuesProp & Never<ButtonProp>;
 type OnlyButtons = ButtonProp & Never<ValuesProp>;
 
-const TransactionListItem: FC<OnlyValues | OnlyButtons> = (props) => {
+const TransactionItemItem: FC<OnlyValues | OnlyButtons> = (props) => {
   return (
     <li className={styles.transactionListItem}>
       {props.header && (
@@ -43,4 +43,4 @@ const TransactionListItem: FC<OnlyValues | OnlyButtons> = (props) => {
   );
 };
 
-export { TransactionListItem };
+export { TransactionItemItem };

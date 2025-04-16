@@ -62,6 +62,7 @@ const deleteTransaction = createAsyncThunk(
 export { addTransaction, getTransactions, editTransaction, deleteTransaction };
 
 type TransactionType = {
+  _id?: string;
   type?: "+" | "-";
   amount?: number;
   categoryId?: string;
