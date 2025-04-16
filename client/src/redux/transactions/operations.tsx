@@ -5,7 +5,7 @@ const TRANSACTIONS_ENDPOINT = process.env.REACT_APP_TRANSACTIONS_ENDPOINT; // tr
 
 const addTransaction = createAsyncThunk(
   "transactions/add",
-  async (transaction, thunkAPI) => {
+  async (transaction: TransactionType, thunkAPI) => {
     try {
       const response = await axios.post(
         `${TRANSACTIONS_ENDPOINT}`,
@@ -32,10 +32,10 @@ const getTransactions = createAsyncThunk(
 
 const editTransaction = createAsyncThunk(
   "transactions/edit",
-  async (data: { id: string; newTransaction: object }, thunkAPI) => {
+  async (data: { id: string; newTransaction: TransactionType }, thunkAPI) => {
     try {
       const response = await axios.patch(
-        `${TRANSACTIONS_ENDPOINT}/update${data.id}`,
+        `${TRANSACTIONS_ENDPOINT}/update/${data.id}`,
         data.newTransaction
       );
       return response.data.transaction;
@@ -47,7 +47,7 @@ const editTransaction = createAsyncThunk(
 
 const deleteTransaction = createAsyncThunk(
   "transactions/delete",
-  async (transactionId, thunkAPI) => {
+  async (transactionId: string, thunkAPI) => {
     try {
       const response = await axios.delete(
         `${TRANSACTIONS_ENDPOINT}/delete/${transactionId}`
@@ -60,3 +60,14 @@ const deleteTransaction = createAsyncThunk(
 );
 
 export { addTransaction, getTransactions, editTransaction, deleteTransaction };
+
+type TransactionType = {
+  type?: "+" | "-";
+  amount?: number;
+  categoryId?: string;
+  childCategoryId?: string;
+  createdAt?: Date;
+  comment?: string;
+};
+
+export type { TransactionType };

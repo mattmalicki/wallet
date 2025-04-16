@@ -31,6 +31,8 @@ async function updateTransaction(
   id: string,
   type?: string,
   amount?: number,
+  categoryId?: string,
+  childCategoryId?: string,
   createdAt?: Date
 ) {
   const transaction = await Transaction.findOne({
@@ -46,6 +48,13 @@ async function updateTransaction(
   }
   if (amount) {
     transaction.amount = amount;
+  }
+
+  if (categoryId) {
+    transaction.categoryId = new Types.ObjectId(categoryId);
+  }
+  if (childCategoryId) {
+    transaction.childCategoryId = new Types.ObjectId(childCategoryId);
   }
 
   if (createdAt) {

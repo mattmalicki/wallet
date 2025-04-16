@@ -7,8 +7,24 @@ import {
   deleteTransaction,
 } from "./operations";
 
+interface ITransaction {
+  _id: string;
+  userId: string;
+  type: "+" | "-";
+  amount: number;
+  category: {
+    id: string;
+    title: string;
+    childCategory: {
+      id: string;
+      title: string;
+    };
+  };
+  createdAt: Date;
+}
+
 interface TransactionState {
-  transactions: any[];
+  transactions: ITransaction[];
   isRefreshing: boolean;
   transactionError: any;
 }
@@ -51,7 +67,7 @@ const transactionsSlice = createSlice({
       })
       .addCase(deleteTransaction.fulfilled, (state, action) => {
         const index = state.transactions.findIndex(
-          (transaction) => transaction.id === action.payload
+          (transaction) => transaction._id === action.payload
         );
         state.transactions = state.transactions.splice(index, 1);
         state.isRefreshing = false;
@@ -59,7 +75,7 @@ const transactionsSlice = createSlice({
       })
       .addCase(editTransaction.fulfilled, (state, action) => {
         const index = state.transactions.findIndex(
-          (transaction) => transaction.id === action.payload.id
+          (transaction) => transaction._id === action.payload.id
         );
         state.transactions = state.transactions.splice(
           index,

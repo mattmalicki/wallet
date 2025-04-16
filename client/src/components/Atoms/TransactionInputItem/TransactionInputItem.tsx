@@ -14,6 +14,7 @@ const TransactionInputItem: FC<TIIProp> = (props) => {
     const dateInput = document.getElementById("date") as HTMLInputElement;
     dateInput.showPicker();
   }
+
   return (
     <div className={styles.transactionInputItem}>
       {props.name === "category" && <InputCategory />}
@@ -41,7 +42,6 @@ const TransactionInputItem: FC<TIIProp> = (props) => {
           type="text"
           className={styles.input}
           placeholder="Add comment"
-          required
         />
       )}
     </div>

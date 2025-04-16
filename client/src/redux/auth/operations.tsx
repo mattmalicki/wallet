@@ -19,15 +19,7 @@ const clearAuthAccessToken = () => {
 
 const register = createAsyncThunk(
   "auth/register",
-  async (
-    credentials: {
-      email: string;
-      password: string;
-      firstName: string;
-      lastName: string;
-    },
-    thunkAPI
-  ) => {
+  async (credentials: RegisterCredentials, thunkAPI) => {
     try {
       const response = await axios.post(`${USER_ENDPOINT}`, credentials);
       setAuthAccessHeader(response.data.accessToken);
@@ -40,7 +32,7 @@ const register = createAsyncThunk(
 
 const login = createAsyncThunk(
   "auth/login",
-  async (credentials: { email: string; password: string }, thunkAPI) => {
+  async (credentials: LoginCredentials, thunkAPI) => {
     try {
       const response = await axios.post(`${USER_ENDPOINT}login`, credentials);
       setAuthAccessHeader(response.data.accessToken);
@@ -86,3 +78,12 @@ const deleteUser = createAsyncThunk("auth/delete", async (_, thunkAPI) => {
 });
 
 export { register, login, logout, refresh, deleteUser };
+
+type RegisterCredentials = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+};
+
+type LoginCredentials = { email: string; password: string };

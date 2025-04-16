@@ -9,10 +9,13 @@ const InputCategory: FC = () => {
   const { categories } = useCategories();
 
   const [categoryValue, setCategoryValue] = useState<string>("");
+  const [categoriesIds, setCategoriesIds] = useState<string>("");
 
   function categoryHandler(event: MouseEvent<HTMLInputElement>) {
-    console.log(event.currentTarget.dataset.titles);
+    const ids = event.currentTarget.id.split(":");
+
     setCategoryValue(event.currentTarget.value);
+    setCategoriesIds(ids.join(":"));
     setRollPicker(false);
   }
 
@@ -35,6 +38,7 @@ const InputCategory: FC = () => {
         onFocus={focusHandler}
         readOnly
         placeholder="Select a category"
+        data-categories={categoriesIds}
         required
       />
       <CategoryPicker clickHandler={categoryHandler} shouldRoll={rollPicker} />

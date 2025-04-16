@@ -3,6 +3,7 @@ import { BadRequestError } from "../../../config/classes";
 import { RequestHandler } from "express";
 import { AuthReq } from "../../../config/interfaces";
 import { getUser } from "../auth/db-helpers";
+import { isValidObjectId } from "mongoose";
 
 const createTransaction: RequestHandler = async (req, res, next) => {
   try {
@@ -12,14 +13,19 @@ const createTransaction: RequestHandler = async (req, res, next) => {
     const user = await getUser(userId);
     if (!user)
       throw new BadRequestError({ code: 401, message: "Unauthorized" });
-
+    console.log(req.body.categoryId);
+    console.log(isValidObjectId(req.body.categoryId));
+    console.log(req.body.childCategoryId);
+    console.log(isValidObjectId(req.body.childCategoryId));
     const newTransaction = await addTransaction({
       userId: user.id,
       type: req.body?.type,
       amount: req.body?.amount,
-      category: req.body?.category,
+      categoryId: req.body?.categoryId,
+      childCategoryId: req.body?.childCategoryId,
       createdAt: req.body?.createdAt,
     });
+    newTransaction.save();
     user.addTransaction(newTransaction.id);
     res
       .status(200)

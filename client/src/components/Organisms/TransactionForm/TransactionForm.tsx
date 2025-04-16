@@ -1,6 +1,7 @@
 import {
   FC,
   FormEvent,
+  FormEventHandler,
   MouseEvent,
   MouseEventHandler,
   useEffect,
@@ -15,10 +16,23 @@ import {
   getExpensesCategories,
   getIncomeCategories,
 } from "../../../redux/categories/operations";
+import {
+  addTransaction,
+  TransactionType,
+} from "../../../redux/transactions/operations";
 
 interface TFProp {
   isEdit?: boolean;
-  handleCloseModal: MouseEventHandler<HTMLButtonElement>;
+  handleCloseModal: MouseEventHandler;
+}
+
+interface FormI extends HTMLFormElement {
+  income?: HTMLInputElement;
+  expense?: HTMLInputElement;
+  category: HTMLInputElement;
+  amount: HTMLInputElement;
+  date: HTMLInputElement;
+  comment?: HTMLInputElement;
 }
 
 type TransactionT = "income" | "expense";
@@ -41,15 +55,32 @@ const TransactionFrom: FC<TFProp> = (props) => {
       setTransaction("expense");
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<FormI>) {
     event.preventDefault();
     const form = event.currentTarget;
-    console.log(form.income?.value);
-    console.log(form.expense?.value);
-    console.log(form.category.value);
-    console.log(form.amount.value);
-    console.log(form.date.value);
-    console.log(form.comment.value);
+    const income = form.income;
+    const expense = form.expense;
+    const categoriesIds = form.category
+      .getAttribute("data-categories")!
+      .split(":");
+    const amount = Number(form.amount.value);
+    const date = new Date(form.date.value);
+    const comment = form.comment?.value;
+    const transaction: TransactionType = {
+      type: "+",
+      categoryId: categoriesIds[0],
+      childCategoryId: categoriesIds[1],
+      amount,
+      createdAt: date,
+      comment,
+    };
+    if (income?.id === "income") {
+      transaction.type = "+";
+    }
+    if (expense?.id === "expense") {
+      transaction.type = "-";
+    }
+    dispatch(addTransaction(transaction));
   }
 
   useEffect(() => {
@@ -75,7 +106,11 @@ const TransactionFrom: FC<TFProp> = (props) => {
       <TransactionInputItem name="date" />
       <TransactionInputItem name="comment" />
       <div className={styles.buttons}>
-        <Button title={!props.isEdit ? "add" : "edit"} colored />
+        <Button
+          title={!props.isEdit ? "add" : "edit"}
+          colored
+          clickHandler={props.handleCloseModal}
+        />
         <Button
           title="cancel"
           colored={false}

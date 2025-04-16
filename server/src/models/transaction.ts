@@ -9,14 +9,9 @@ interface ITransaction {
   userId: Types.ObjectId;
   type: TransactionType;
   amount: number;
-  category: {
-    id: Types.ObjectId;
-    title: string;
-    childCategory: {
-      id: Types.ObjectId;
-      title: string;
-    };
-  };
+  categoryId: Types.ObjectId;
+  childCategoryId: Types.ObjectId;
+
   createdAt: Date;
 }
 
@@ -33,15 +28,13 @@ const transactionSchema = new Schema<ITransaction>({
     type: Number,
     required: true,
   },
-  category: {
-    type: {
-      id: Types.ObjectId,
-      title: String,
-      childCategory: {
-        id: Types.ObjectId,
-        title: String,
-      },
-    },
+  categoryId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "categories",
+  },
+  childCategoryId: {
+    type: Schema.Types.ObjectId,
     required: true,
   },
   createdAt: {
