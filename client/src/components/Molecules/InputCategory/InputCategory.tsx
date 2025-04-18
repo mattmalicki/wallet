@@ -1,22 +1,35 @@
 import { FC, MouseEvent, useEffect, useState } from "react";
 import styles from "./InputCategory.module.css";
 import { CategoryPicker } from "../CategoryPicker/CategoryPicker";
-import { useTypeContext } from "../../../hooks/useTTypeContext";
+import {
+  useChildCattegoryContext,
+  useParentCattegoryContext,
+  useTypeContext,
+} from "../../../hooks/useTransactionsContexts";
 import { useCategories } from "../../../hooks/useCategories";
 
-const InputCategory: FC = () => {
+interface ICProp {
+  childId?: string;
+}
+
+const InputCategory: FC<ICProp> = (props) => {
   const [rollPicker, setRollPicker] = useState<boolean>(false);
-  const { type } = useTypeContext();
+  const { value: type } = useTypeContext();
+  const { value: categoryId, setValue: setCategoryId } =
+    useParentCattegoryContext();
+  const { value: childCategoryId, setValue: setChildCategoryId } =
+    useChildCattegoryContext();
+
   const { categoriesExpense, categoriesIncome } = useCategories();
 
   const [categoryValue, setCategoryValue] = useState<string>("");
-  const [categoriesIds, setCategoriesIds] = useState<string>("");
 
   function categoryHandler(event: MouseEvent<HTMLInputElement>) {
     const ids = event.currentTarget.id.split(":");
 
     setCategoryValue(event.currentTarget.value);
-    setCategoriesIds(ids.join(":"));
+    setCategoryId(ids[0]);
+    setChildCategoryId(ids[1]);
     setRollPicker(false);
   }
 
@@ -31,6 +44,23 @@ const InputCategory: FC = () => {
     if (categoryInput) setCategoryValue("");
   }, [type]);
 
+  useEffect(() => {
+    console.log(childCategoryId);
+    if (props.childId) {
+      if (type === "income") {
+        console.log(
+          categoriesIncome.find((item) =>
+            item.childCategories.find((item) => item._id === props.childId)
+          )?.title
+        );
+      }
+    }
+    return () => {
+      console.log(childCategoryId);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className={styles.inputCategory}>
       <input
@@ -39,7 +69,6 @@ const InputCategory: FC = () => {
         onFocus={focusHandler}
         readOnly
         placeholder="Select a category"
-        data-categories={categoriesIds}
         required
       />
       <CategoryPicker

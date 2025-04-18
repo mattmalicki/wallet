@@ -10,6 +10,7 @@ interface ValuesProp {
 interface ButtonProp {
   deleteButtonHandler: MouseEventHandler<HTMLButtonElement>;
   editButtonHandler: MouseEventHandler<HTMLButtonElement>;
+  id?: string;
 }
 
 type Never<T> = { [P in keyof T]?: never };
@@ -27,12 +28,17 @@ const TransactionItemItem: FC<OnlyValues | OnlyButtons> = (props) => {
         <button
           onClick={props.deleteButtonHandler}
           className={styles.deleteButton}
+          id={props.id}
         >
           Delete
         </button>
       )}
       {props.editButtonHandler && (
-        <button onClick={props.editButtonHandler} className={styles.editButton}>
+        <button
+          onClick={props.editButtonHandler}
+          className={styles.editButton}
+          id={props.id}
+        >
           <div className={styles.editButtonIcon}>
             <IconSvg name="edit" fill="none" />
           </div>

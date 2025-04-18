@@ -4,7 +4,8 @@ import { useTransactions } from "../../../hooks/useTransactions";
 import styles from "./TransactionList.module.css";
 
 interface TransactionListProp {
-  editHandler: MouseEventHandler<HTMLButtonElement>;
+  editHandler: MouseEventHandler;
+  deleteHandler: MouseEventHandler;
 }
 
 const TransactionList: FC<TransactionListProp> = (props) => {
@@ -17,6 +18,7 @@ const TransactionList: FC<TransactionListProp> = (props) => {
           key={transaction._id}
           transaction={transaction}
           editHandler={props.editHandler}
+          deleteHandler={props.deleteHandler}
         />
       ))}
     </ul>

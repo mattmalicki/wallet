@@ -1,4 +1,11 @@
-import { FC, FormEvent, MouseEvent, MouseEventHandler, useState } from "react";
+import {
+  FC,
+  FormEvent,
+  MouseEvent,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from "react";
 import styles from "./TransactionForm.module.css";
 import { TransactionSwitch } from "../../Atoms/TransactionSwitch/TransactionSwitch";
 import { TransactionInputItem } from "../../Atoms/TransactionInputItem/TransactionInputItem";
@@ -6,13 +13,23 @@ import { Button } from "../../Atoms/Button/Button";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import {
   addTransaction,
+  editTransaction,
   TransactionType,
 } from "../../../redux/transactions/operations";
 
-import { TypeContext } from "../../../hooks/useTTypeContext";
+import {
+  TypeContext,
+  CommentContext,
+  ParentCattegoryContext,
+  ChildCattegoryContext,
+  AmountContext,
+  DateContext,
+} from "../../../hooks/useTransactionsContexts";
+import { useTransactions } from "../../../hooks/useTransactions";
 
 interface TFProp {
   isEdit?: boolean;
+  id?: string;
   handleCloseModal: MouseEventHandler;
 }
 
@@ -27,9 +44,81 @@ interface FormI extends HTMLFormElement {
 
 type TransactionT = "income" | "expense";
 
+class TransactionFormClass {
+  type: "+" | "-";
+  amount: number;
+  parentCategory: { id: string; title: string };
+  childCategory: { id: string; title: string };
+  date: Date;
+  comment: string;
+
+  constructor(values: TransactionType) {
+    this.type = values.type ?? "+";
+    this.amount = values.amount ?? 0;
+    this.parentCategory = { id: values.categoryId ?? "", title: "Testing" };
+    this.childCategory = { id: values.childCategoryId ?? "", title: "Testing" };
+    this.date = values.createdAt ?? new Date();
+    this.comment = values.comment ?? "";
+  }
+  getType() {
+    return this.type;
+  }
+  setType(v: typeof this.type) {
+    this.type = v;
+  }
+
+  getAmount() {
+    return this.amount;
+  }
+  setAmount(v: number) {
+    this.amount = v;
+  }
+
+  getParentCategory() {
+    return this.parentCategory;
+  }
+  setParentCategory(v: typeof this.parentCategory) {
+    this.parentCategory = v;
+  }
+  setParentCategoryId(v: string) {
+    this.parentCategory.id = v;
+  }
+  setParentCategoryTitle(v: string) {
+    this.parentCategory.title = v;
+  }
+
+  getChildCategory() {
+    return this.childCategory;
+  }
+  setChildCategory(v: typeof this.childCategory) {
+    this.childCategory = v;
+  }
+
+  getDate() {
+    return this.date;
+  }
+  setDate(v: Date) {
+    this.date = v;
+  }
+
+  getComment() {
+    return this.comment;
+  }
+  setComment(v: string) {
+    this.comment = v;
+  }
+}
+
 const TransactionFrom: FC<TFProp> = (props) => {
+  const { transactions } = useTransactions();
+
   const [transactionType, setTransactionType] =
     useState<TransactionT>("income");
+  const [transactionComment, setTransactionComment] = useState<string>("");
+  const [categoryId, setCategoryId] = useState<string>("");
+  const [childCategoryId, setChildCategoryId] = useState<string>("");
+  const [amount, setAmount] = useState<number>(0);
+  const [transactionDate, setTransactionDate] = useState<Date>(new Date());
 
   const dispatch = useAppDispatch();
 
@@ -47,59 +136,128 @@ const TransactionFrom: FC<TFProp> = (props) => {
       setTransactionType("expense");
   }
 
+  function getDdMmYyyy(date: Date) {
+    return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+  }
+
+  function setValuesToElements(values: {
+    comment: string;
+    amount: number;
+    date: Date;
+    categoriesValues: { parentId: string; childId: string; childValue: string };
+  }) {
+    const form = document.getElementById("transaction-form") as HTMLFormElement;
+    form.comment.value = values.comment;
+    form.amount.value = values.amount.toString();
+    form.date.value = getDdMmYyyy(values.date);
+    form.category.value = values.categoriesValues.childValue;
+    form.category.id =
+      values.categoriesValues.parentId + ":" + values.categoriesValues.childId;
+  }
+
   function handleSubmit(event: FormEvent<FormI>) {
     event.preventDefault();
-    const form = event.currentTarget;
-    const income = form.income;
-    const expense = form.expense;
-    const categoriesIds = form.category
-      .getAttribute("data-categories")!
-      .split(":");
-    const amount = Number(form.amount.value);
-    const date = new Date(form.date.value);
-    const comment = form.comment?.value;
     const transaction: TransactionType = {
-      type: "+",
-      categoryId: categoriesIds[0],
-      childCategoryId: categoriesIds[1],
+      type: transactionType === "income" ? "+" : "-",
+      categoryId,
+      childCategoryId,
       amount,
-      createdAt: date,
-      comment,
+      createdAt: transactionDate,
+      comment: transactionComment,
     };
-    if (income?.id === "income") {
-      transaction.type = "+";
-    }
-    if (expense?.id === "expense") {
-      transaction.type = "-";
-    }
-    dispatch(addTransaction(transaction));
+    !props.isEdit && dispatch(addTransaction(transaction));
+    props.isEdit &&
+      dispatch(
+        editTransaction({
+          id: transactions.find((item) => item._id === props.id)!._id,
+          newTransaction: transaction,
+        })
+      );
     const closeMe = props.handleCloseModal as Function;
     closeMe();
   }
 
+  function setValues() {
+    if (!props.id) {
+      return;
+    }
+    const transaction = transactions.find((item) => item._id === props.id)!;
+    setTransactionType(transaction.type === "+" ? "income" : "expense");
+    setTransactionComment(transaction.comment ?? "");
+    setCategoryId(transaction.categoryId ?? "");
+    setChildCategoryId(transaction.childCategoryId ?? "");
+    setAmount(transaction.amount ?? 0);
+    setTransactionDate(new Date(transaction.createdAt));
+    setValuesToElements({
+      comment: transaction.comment,
+      amount: transaction.amount,
+      date: new Date(transaction.createdAt),
+      categoriesValues: {
+        parentId: transaction.categoryId,
+        childId: transaction.childCategoryId,
+        childValue: transaction.childCategoryId,
+      },
+    });
+  }
+
+  useEffect(() => {
+    if (props.isEdit) setValues();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <TypeContext value={{ type: transactionType, setType: setTransactionType }}>
-      <form className={styles.transactionFrom} onSubmit={handleSubmit}>
-        <h2>{!props.isEdit ? "Add transaction" : "Edit transaction"}</h2>
-        <TransactionSwitch
-          actionType={!props.isEdit ? "add" : "edit"}
-          transactionType={transactionType}
-          switchHandler={handleSwitchTransactionT}
-          textHandler={handleTextClickTransactionT}
-        />
-        <TransactionInputItem name="category" />
-        <TransactionInputItem name="amount" />
-        <TransactionInputItem name="date" />
-        <TransactionInputItem name="comment" />
-        <div className={styles.buttons}>
-          <Button title={!props.isEdit ? "add" : "edit"} colored isSubmit />
-          <Button
-            title="cancel"
-            colored={false}
-            clickHandler={props.handleCloseModal}
-          />
-        </div>
-      </form>
+    <TypeContext
+      value={{ value: transactionType, setValue: setTransactionType }}
+    >
+      <DateContext
+        value={{ value: transactionDate, setValue: setTransactionDate }}
+      >
+        <CommentContext
+          value={{ value: transactionComment, setValue: setTransactionComment }}
+        >
+          <AmountContext value={{ value: amount, setValue: setAmount }}>
+            <ParentCattegoryContext
+              value={{ value: categoryId, setValue: setCategoryId }}
+            >
+              <ChildCattegoryContext
+                value={{ value: childCategoryId, setValue: setChildCategoryId }}
+              >
+                <form
+                  id="transaction-form"
+                  className={styles.transactionFrom}
+                  onSubmit={handleSubmit}
+                >
+                  <h2>
+                    {!props.isEdit ? "Add transaction" : "Edit transaction"}
+                  </h2>
+                  <TransactionSwitch
+                    actionType={!props.isEdit ? "add" : "edit"}
+                    transactionType={transactionType}
+                    switchHandler={handleSwitchTransactionT}
+                    textHandler={handleTextClickTransactionT}
+                  />
+                  <TransactionInputItem name="category" />
+                  <TransactionInputItem name="amount" />
+                  <TransactionInputItem name="date" />
+                  <TransactionInputItem name="comment" />
+                  <div className={styles.buttons}>
+                    <Button
+                      title={!props.isEdit ? "add" : "edit"}
+                      colored
+                      isSubmit
+                    />
+                    <Button
+                      title="cancel"
+                      colored={false}
+                      clickHandler={props.handleCloseModal}
+                    />
+                  </div>
+                </form>
+              </ChildCattegoryContext>
+            </ParentCattegoryContext>
+          </AmountContext>
+        </CommentContext>
+      </DateContext>
     </TypeContext>
   );
 };

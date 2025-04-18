@@ -7,6 +7,7 @@ import { useCategories } from "../../../hooks/useCategories";
 interface TransactionItemProp {
   transaction: TransactionType;
   editHandler: MouseEventHandler<HTMLButtonElement>;
+  deleteHandler: MouseEventHandler<HTMLButtonElement>;
 }
 
 const TransactionItem: FC<TransactionItemProp> = (props) => {
@@ -55,15 +56,12 @@ const TransactionItem: FC<TransactionItemProp> = (props) => {
     );
     listArray.push(
       <TransactionItemItem
-        deleteButtonHandler={onDeleteHandler}
+        id={object._id}
+        deleteButtonHandler={props.deleteHandler}
         editButtonHandler={props.editHandler}
       />
     );
     return listArray;
-  }
-
-  function onDeleteHandler() {
-    console.log("Delete");
   }
   return (
     <ul className={styles.transactionList} id={props.transaction._id}>

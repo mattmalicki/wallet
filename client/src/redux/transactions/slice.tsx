@@ -12,6 +12,7 @@ interface ITransaction {
   userId: string;
   type: "+" | "-";
   amount: number;
+  comment: string;
   categoryId: string;
   childCategoryId: string;
   createdAt: Date;

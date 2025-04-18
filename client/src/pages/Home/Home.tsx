@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, MouseEvent } from "react";
 import { Page } from "../../components/Templates/Page/Page";
 import { Balance } from "../../components/Atoms/Balance/Balance";
 import { TransactionList } from "../../components/Organisms/TransactionList/TransactionList";
@@ -7,15 +7,21 @@ import { TransactionFrom } from "../../components/Organisms/TransactionForm/Tran
 import { Modal } from "../../components/Templates/Modal/Modal";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { getCategories } from "../../redux/categories/operations";
-import { getTransactions } from "../../redux/transactions/operations";
+import {
+  deleteTransaction,
+  getTransactions,
+} from "../../redux/transactions/operations";
+import { Confirmation } from "../../components/Molecules/Confirmation/Confirmation";
 
-type ActionT = "add" | "edit";
+type ActionT = "add" | "edit" | "delete";
 type ModalType = {
   openModal: boolean;
   actionType: ActionT;
 };
 
 const Home: FC = () => {
+  const [id, setId] = useState<string>("");
+
   const dispatch = useAppDispatch();
   const [modalState, setModalState] = useState<ModalType>({
     openModal: false,
@@ -28,9 +34,20 @@ const Home: FC = () => {
     });
   }
 
-  function handleEditButton() {
+  function handleEditButton(event: MouseEvent<HTMLButtonElement>) {
     setModalState({ openModal: true, actionType: "edit" });
+    setId(event.currentTarget.id);
   }
+
+  function handleDeleteButton(event: MouseEvent<HTMLButtonElement>) {
+    setModalState({ openModal: true, actionType: "delete" });
+    setId(event.currentTarget.id);
+  }
+
+  function handleDelete() {
+    dispatch(deleteTransaction(id));
+  }
+
   function handleAddButton() {
     setModalState({ openModal: true, actionType: "add" });
   }
@@ -43,7 +60,10 @@ const Home: FC = () => {
   return (
     <Page>
       <Balance balance={20000} />
-      <TransactionList editHandler={handleEditButton} />
+      <TransactionList
+        editHandler={handleEditButton}
+        deleteHandler={handleDeleteButton}
+      />
       <AddTransactionButton handleClick={handleAddButton} />
       {modalState.openModal && (
         <Modal>
@@ -54,6 +74,14 @@ const Home: FC = () => {
             <TransactionFrom
               handleCloseModal={handleCloseModal}
               isEdit={true}
+              id={id}
+            />
+          )}
+          {modalState.actionType === "delete" && (
+            <Confirmation
+              statement="Do you really want to delete this transaction?"
+              handleConfirm={handleDelete}
+              handleDiscard={handleCloseModal}
             />
           )}
         </Modal>
