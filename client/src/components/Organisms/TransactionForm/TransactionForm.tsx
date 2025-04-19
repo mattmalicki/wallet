@@ -1,8 +1,10 @@
 import {
+  createContext,
   FC,
   FormEvent,
   MouseEvent,
   MouseEventHandler,
+  useContext,
   useEffect,
   useState,
 } from "react";
@@ -43,71 +45,6 @@ interface FormI extends HTMLFormElement {
 }
 
 type TransactionT = "income" | "expense";
-
-class TransactionFormClass {
-  type: "+" | "-";
-  amount: number;
-  parentCategory: { id: string; title: string };
-  childCategory: { id: string; title: string };
-  date: Date;
-  comment: string;
-
-  constructor(values: TransactionType) {
-    this.type = values.type ?? "+";
-    this.amount = values.amount ?? 0;
-    this.parentCategory = { id: values.categoryId ?? "", title: "Testing" };
-    this.childCategory = { id: values.childCategoryId ?? "", title: "Testing" };
-    this.date = values.createdAt ?? new Date();
-    this.comment = values.comment ?? "";
-  }
-  getType() {
-    return this.type;
-  }
-  setType(v: typeof this.type) {
-    this.type = v;
-  }
-
-  getAmount() {
-    return this.amount;
-  }
-  setAmount(v: number) {
-    this.amount = v;
-  }
-
-  getParentCategory() {
-    return this.parentCategory;
-  }
-  setParentCategory(v: typeof this.parentCategory) {
-    this.parentCategory = v;
-  }
-  setParentCategoryId(v: string) {
-    this.parentCategory.id = v;
-  }
-  setParentCategoryTitle(v: string) {
-    this.parentCategory.title = v;
-  }
-
-  getChildCategory() {
-    return this.childCategory;
-  }
-  setChildCategory(v: typeof this.childCategory) {
-    this.childCategory = v;
-  }
-
-  getDate() {
-    return this.date;
-  }
-  setDate(v: Date) {
-    this.date = v;
-  }
-
-  getComment() {
-    return this.comment;
-  }
-  setComment(v: string) {
-    this.comment = v;
-  }
-}
 
 const TransactionFrom: FC<TFProp> = (props) => {
   const { transactions } = useTransactions();
@@ -236,7 +173,10 @@ const TransactionFrom: FC<TFProp> = (props) => {
                     switchHandler={handleSwitchTransactionT}
                     textHandler={handleTextClickTransactionT}
                   />
-                  <TransactionInputItem name="category" />
+                  <TransactionInputItem
+                    name="category"
+                    childId={props.isEdit ? childCategoryId : undefined}
+                  />
                   <TransactionInputItem name="amount" />
                   <TransactionInputItem name="date" />
                   <TransactionInputItem name="comment" />

@@ -7,6 +7,7 @@ type TIINameOpt = "date" | "amount" | "comment" | "category";
 
 interface TIIProp {
   name: TIINameOpt;
+  childId?: string;
 }
 
 const TransactionInputItem: FC<TIIProp> = (props) => {
@@ -17,7 +18,7 @@ const TransactionInputItem: FC<TIIProp> = (props) => {
 
   return (
     <div className={styles.transactionInputItem}>
-      {props.name === "category" && <InputCategory />}
+      {props.name === "category" && <InputCategory childId={props.childId} />}
       {props.name === "date" && (
         <>
           <input type="date" id="date" required />

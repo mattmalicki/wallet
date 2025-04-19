@@ -45,21 +45,27 @@ const InputCategory: FC<ICProp> = (props) => {
   }, [type]);
 
   useEffect(() => {
-    console.log(childCategoryId);
     if (props.childId) {
       if (type === "income") {
-        console.log(
-          categoriesIncome.find((item) =>
-            item.childCategories.find((item) => item._id === props.childId)
-          )?.title
+        const parent = categoriesIncome.find((item) =>
+          item.childCategories.find((item) => item._id === props.childId)
         );
+        const childTitle = parent?.childCategories.find(
+          (item) => item._id === props.childId
+        )?.title;
+        setCategoryValue(childTitle ?? "");
+      } else {
+        const parent = categoriesExpense.find((item) =>
+          item.childCategories.find((item) => item._id === props.childId)
+        );
+        const childTitle = parent?.childCategories.find(
+          (item) => item._id === props.childId
+        )?.title;
+        setCategoryValue(childTitle ?? "");
       }
     }
-    return () => {
-      console.log(childCategoryId);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.childId]);
 
   return (
     <div className={styles.inputCategory}>
