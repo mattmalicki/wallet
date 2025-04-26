@@ -46,6 +46,7 @@ const Home: FC = () => {
 
   function handleDelete() {
     dispatch(deleteTransaction(id));
+    handleCloseModal();
   }
 
   function handleAddButton() {

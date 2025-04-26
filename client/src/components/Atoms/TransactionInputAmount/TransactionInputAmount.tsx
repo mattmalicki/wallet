@@ -1,11 +1,11 @@
-import { FC, useState, ChangeEvent } from "react";
-import styles from "./TransactionInputComment.module.css";
+import { ChangeEvent, FC, useState } from "react";
+import styles from "./TransactionInputAmount.module.css";
 
-interface TICProp {
+interface TIAProp {
   value?: string;
 }
 
-const TransactionInputComment: FC<TICProp> = (props) => {
+const TransactionInputAmount: FC<TIAProp> = (props) => {
   const [value, setValue] = useState<string>(props.value ?? "");
 
   function changeHandler(event: ChangeEvent<HTMLInputElement>) {
@@ -14,14 +14,16 @@ const TransactionInputComment: FC<TICProp> = (props) => {
 
   return (
     <input
-      id="comment"
-      type="text"
+      id="amount"
+      type="number"
+      step={"0.01"}
       className={styles.input}
-      placeholder="Add comment"
+      placeholder="0.00"
+      required
       value={value}
       onChange={changeHandler}
     />
   );
 };
 
-export { TransactionInputComment };
+export { TransactionInputAmount };

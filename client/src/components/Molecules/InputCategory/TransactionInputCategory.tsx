@@ -1,25 +1,15 @@
 import { FC, MouseEvent, useEffect, useState } from "react";
-import styles from "./InputCategory.module.css";
+import styles from "./TransactionInputCategory.module.css";
 import { CategoryPicker } from "../CategoryPicker/CategoryPicker";
-import {
-  useChildCattegoryContext,
-  useParentCattegoryContext,
-  useTypeContext,
-} from "../../../hooks/useTransactionsContexts";
 import { useCategories } from "../../../hooks/useCategories";
 
-interface ICProp {
+interface TICProp {
+  type: string;
   childId?: string;
 }
 
-const InputCategory: FC<ICProp> = (props) => {
+const TransactionInputCategory: FC<TICProp> = (props) => {
   const [rollPicker, setRollPicker] = useState<boolean>(false);
-  const { value: type } = useTypeContext();
-  const { value: categoryId, setValue: setCategoryId } =
-    useParentCattegoryContext();
-  const { value: childCategoryId, setValue: setChildCategoryId } =
-    useChildCattegoryContext();
-
   const { categoriesExpense, categoriesIncome } = useCategories();
 
   const [categoryValue, setCategoryValue] = useState<string>("");
@@ -28,8 +18,7 @@ const InputCategory: FC<ICProp> = (props) => {
     const ids = event.currentTarget.id.split(":");
 
     setCategoryValue(event.currentTarget.value);
-    setCategoryId(ids[0]);
-    setChildCategoryId(ids[1]);
+    setIds(ids[0] ?? "", ids[1] ?? "");
     setRollPicker(false);
   }
 
@@ -37,23 +26,32 @@ const InputCategory: FC<ICProp> = (props) => {
     setRollPicker(true);
   }
 
+  function setIds(parentId: string, childId: string) {
+    if (!parentId || !childId) {
+      return;
+    }
+    const categoryElement = document.getElementById("category");
+    categoryElement?.setAttribute("categories-ids", `${parentId}:${childId}`);
+  }
+
   useEffect(() => {
     const categoryInput = document.getElementById(
       "category"
     ) as HTMLInputElement;
     if (categoryInput) setCategoryValue("");
-  }, [type]);
+  }, [props.type]);
 
   useEffect(() => {
     if (props.childId) {
-      if (type === "income") {
+      if (props.type === "income") {
         const parent = categoriesIncome.find((item) =>
           item.childCategories.find((item) => item._id === props.childId)
         );
-        const childTitle = parent?.childCategories.find(
+        const child = parent?.childCategories.find(
           (item) => item._id === props.childId
-        )?.title;
-        setCategoryValue(childTitle ?? "");
+        );
+        setCategoryValue(child?.title ?? "");
+        setIds(parent?._id ?? "", child?._id ?? "");
       } else {
         const parent = categoriesExpense.find((item) =>
           item.childCategories.find((item) => item._id === props.childId)
@@ -76,14 +74,17 @@ const InputCategory: FC<ICProp> = (props) => {
         readOnly
         placeholder="Select a category"
         required
+        data-categories-id
       />
       <CategoryPicker
         clickHandler={categoryHandler}
         shouldRoll={rollPicker}
-        categories={type === "income" ? categoriesIncome : categoriesExpense}
+        categories={
+          props.type === "income" ? categoriesIncome : categoriesExpense
+        }
       />
     </div>
   );
 };
 
-export { InputCategory };
+export { TransactionInputCategory };
