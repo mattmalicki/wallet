@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import styles from "./TransactionInputAmount.module.css";
 
 interface TIAProp {
@@ -6,12 +6,14 @@ interface TIAProp {
 }
 
 const TransactionInputAmount: FC<TIAProp> = (props) => {
-  const [value, setValue] = useState<string>(props.value ?? "");
+  const [value, setValue] = useState<string>();
 
   function changeHandler(event: ChangeEvent<HTMLInputElement>) {
     setValue(event.currentTarget.value);
   }
-
+  useEffect(() => {
+    setValue(props.value ?? "");
+  }, [props.value]);
   return (
     <input
       id="amount"

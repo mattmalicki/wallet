@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import styles from "./TransactionInputDate.module.css";
 import { IconSvg } from "../Icon/Icon";
@@ -15,28 +15,38 @@ const TransactionInputDate: FC<TIDProp> = (props) => {
     setValue(value);
   }
 
-  function getDdMmYyyy(date: Date) {
-    return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
+  function getYyyyMmDd(date: Date) {
+    return (
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+    );
   }
 
-  function test(test: any) {
-    console.log(test);
-    console.log(typeof test);
-    return true;
-  }
+  useEffect(() => {
+    if (props.value) {
+      setValue(new Date(props.value));
+    }
+  }, [props.value]);
 
   return (
     <div>
       <input
-        type="date"
+        type="text"
         id="date"
-        value={getDdMmYyyy(value)}
+        value={getYyyyMmDd(value)}
         className={styles.dateInput}
+        readOnly
+        required
       />
       <DatePicker
+        dateFormat={"yyyy/MM/dd"}
         showIcon
         selected={value}
         onChange={handleChange}
+        peekNextMonth
+        showMonthDropdown
+        showYearDropdown
+        todayButton={"Today"}
+        toggleCalendarOnIconClick
         icon={<IconSvg name="date" width="24px" height="24px" />}
       />
     </div>

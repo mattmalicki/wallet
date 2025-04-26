@@ -10,7 +10,7 @@ import styles from "./TransactionForm.module.css";
 
 import { TransactionInputAmount } from "../../Atoms/TransactionInputAmount/TransactionInputAmount";
 import { TransactionInputDate } from "../../Atoms/TransactionInputDate/TransactionInputDate";
-import { TransactionInputComment } from "../../Atoms/TransactionInputItem/TransactionInputItem";
+import { TransactionInputComment } from "../../Atoms/TransactionInputItem/TransactionInputComment";
 import { TransactionSwitch } from "../../Atoms/TransactionSwitch/TransactionSwitch";
 import { TransactionInputCategory } from "../../Molecules/InputCategory/TransactionInputCategory";
 import { Button } from "../../Atoms/Button/Button";
@@ -66,19 +66,20 @@ const TransactionFrom: FC<TFProp> = (props) => {
       setTransactionType("expense");
   }
 
-  function getDdMmYyyy(date: Date) {
-    return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-  }
-
   function handleSubmit(event: FormEvent<FormI>) {
     event.preventDefault();
+    const form = event.currentTarget;
+    console.log(form.category.getAttribute("data-categories-ids"));
+    const categoriesIds = form.category
+      .getAttribute("data-categories-ids")!
+      .split(":");
     const transaction: TransactionType = {
       type: transactionType === "income" ? "+" : "-",
-      categoryId,
-      childCategoryId,
-      amount,
-      createdAt: transactionDate,
-      comment: transactionComment,
+      categoryId: categoriesIds[0],
+      childCategoryId: categoriesIds[1],
+      amount: Number(form.amount.value),
+      createdAt: new Date(form.date.value),
+      comment: form.comment!.value,
     };
     !props.isEdit && dispatch(addTransaction(transaction));
     props.isEdit &&
@@ -88,6 +89,7 @@ const TransactionFrom: FC<TFProp> = (props) => {
           newTransaction: transaction,
         })
       );
+    console.log(transaction);
     const closeMe = props.handleCloseModal as Function;
     closeMe();
   }
@@ -108,7 +110,7 @@ const TransactionFrom: FC<TFProp> = (props) => {
   useEffect(() => {
     if (props.isEdit) setValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.isEdit]);
 
   return (
     <form
@@ -125,10 +127,11 @@ const TransactionFrom: FC<TFProp> = (props) => {
       />
       <TransactionInputCategory
         type={transactionType}
+        parentId={categoryId ?? undefined}
         childId={childCategoryId ?? undefined}
       />
       <TransactionInputAmount value={amount.toString()} />
-      <TransactionInputDate />
+      <TransactionInputDate value={transactionDate} />
       <TransactionInputComment value={transactionComment} />
       <div className={styles.buttons}>
         <Button title={!props.isEdit ? "add" : "edit"} colored isSubmit />

@@ -5,6 +5,7 @@ import { useCategories } from "../../../hooks/useCategories";
 
 interface TICProp {
   type: string;
+  parentId?: string;
   childId?: string;
 }
 
@@ -31,7 +32,10 @@ const TransactionInputCategory: FC<TICProp> = (props) => {
       return;
     }
     const categoryElement = document.getElementById("category");
-    categoryElement?.setAttribute("categories-ids", `${parentId}:${childId}`);
+    categoryElement?.setAttribute(
+      "data-categories-ids",
+      `${parentId}:${childId}`
+    );
   }
 
   useEffect(() => {
@@ -44,17 +48,16 @@ const TransactionInputCategory: FC<TICProp> = (props) => {
   useEffect(() => {
     if (props.childId) {
       if (props.type === "income") {
-        const parent = categoriesIncome.find((item) =>
-          item.childCategories.find((item) => item._id === props.childId)
+        const parent = categoriesIncome.find(
+          (item) => item._id === props.parentId
         );
         const child = parent?.childCategories.find(
           (item) => item._id === props.childId
         );
         setCategoryValue(child?.title ?? "");
-        setIds(parent?._id ?? "", child?._id ?? "");
       } else {
-        const parent = categoriesExpense.find((item) =>
-          item.childCategories.find((item) => item._id === props.childId)
+        const parent = categoriesExpense.find(
+          (item) => item._id === props.childId
         );
         const childTitle = parent?.childCategories.find(
           (item) => item._id === props.childId
@@ -74,7 +77,7 @@ const TransactionInputCategory: FC<TICProp> = (props) => {
         readOnly
         placeholder="Select a category"
         required
-        data-categories-id
+        data-categories-ids={`${props.parentId}:${props.childId}`}
       />
       <CategoryPicker
         clickHandler={categoryHandler}

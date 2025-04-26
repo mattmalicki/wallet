@@ -1,4 +1,4 @@
-import { FC, useState, ChangeEvent } from "react";
+import { FC, useState, ChangeEvent, useEffect } from "react";
 import styles from "./TransactionInputComment.module.css";
 
 interface TICProp {
@@ -6,11 +6,15 @@ interface TICProp {
 }
 
 const TransactionInputComment: FC<TICProp> = (props) => {
-  const [value, setValue] = useState<string>(props.value ?? "");
+  const [value, setValue] = useState<string>();
 
   function changeHandler(event: ChangeEvent<HTMLInputElement>) {
     setValue(event.currentTarget.value);
   }
+
+  useEffect(() => {
+    setValue(props.value ?? "");
+  }, [props.value]);
 
   return (
     <input
