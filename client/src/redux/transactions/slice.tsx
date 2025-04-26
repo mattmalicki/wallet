@@ -69,9 +69,9 @@ const transactionsSlice = createSlice({
       })
       .addCase(editTransaction.fulfilled, (state, action) => {
         const index = state.transactions.findIndex(
-          (transaction) => transaction._id === action.payload.id
+          (transaction) => transaction._id === action.payload._id
         );
-        state.transactions[index] = action.payload;
+        state.transactions.splice(index, 1, action.payload);
         state.isRefreshing = false;
         state.transactionError = null;
       })

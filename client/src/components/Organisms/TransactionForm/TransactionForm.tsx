@@ -69,7 +69,6 @@ const TransactionFrom: FC<TFProp> = (props) => {
   function handleSubmit(event: FormEvent<FormI>) {
     event.preventDefault();
     const form = event.currentTarget;
-    console.log(form.category.getAttribute("data-categories-ids"));
     const categoriesIds = form.category
       .getAttribute("data-categories-ids")!
       .split(":");
@@ -89,7 +88,6 @@ const TransactionFrom: FC<TFProp> = (props) => {
           newTransaction: transaction,
         })
       );
-    console.log(transaction);
     const closeMe = props.handleCloseModal as Function;
     closeMe();
   }

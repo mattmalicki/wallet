@@ -57,12 +57,13 @@ const TransactionInputCategory: FC<TICProp> = (props) => {
         setCategoryValue(child?.title ?? "");
       } else {
         const parent = categoriesExpense.find(
-          (item) => item._id === props.childId
+          (item) => item._id === props.parentId
         );
         const childTitle = parent?.childCategories.find(
           (item) => item._id === props.childId
         )?.title;
         setCategoryValue(childTitle ?? "");
+        console.log(parent);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

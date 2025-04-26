@@ -26,39 +26,48 @@ async function getOneTransaction(userId: string, id: string) {
   return transactions;
 }
 
-async function updateTransaction(
-  userId: string,
-  id: string,
-  type?: string,
-  amount?: number,
-  categoryId?: string,
-  childCategoryId?: string,
-  createdAt?: Date
-) {
+async function updateTransaction(reqTransaction: {
+  userId: string;
+  id: string;
+  type?: string;
+  amount?: number;
+  categoryId?: string;
+  childCategoryId?: string;
+  comment?: string;
+  createdAt?: Date;
+}) {
   const transaction = await Transaction.findOne({
-    _id: new Types.ObjectId(id),
-    userId: new Types.ObjectId(userId),
+    _id: new Types.ObjectId(reqTransaction.id),
+    userId: new Types.ObjectId(reqTransaction.userId),
   });
   if (!transaction) {
     throw new BadRequestError({ message: "Unauthorized." });
   }
-  if (type) {
-    if (type.toLowerCase() === "-") transaction.type = TransactionType.expense;
-    if (type.toLowerCase() === "+") transaction.type = TransactionType.income;
+  if (reqTransaction.type) {
+    if (reqTransaction.type.toLowerCase() === "-")
+      transaction.type = TransactionType.expense;
+    if (reqTransaction.type.toLowerCase() === "+")
+      transaction.type = TransactionType.income;
   }
-  if (amount) {
-    transaction.amount = amount;
-  }
-
-  if (categoryId) {
-    transaction.categoryId = new Types.ObjectId(categoryId);
-  }
-  if (childCategoryId) {
-    transaction.childCategoryId = new Types.ObjectId(childCategoryId);
+  if (reqTransaction.amount) {
+    transaction.amount = reqTransaction.amount;
   }
 
-  if (createdAt) {
-    transaction.createdAt = createdAt;
+  if (reqTransaction.categoryId) {
+    transaction.categoryId = new Types.ObjectId(reqTransaction.categoryId);
+  }
+  if (reqTransaction.childCategoryId) {
+    transaction.childCategoryId = new Types.ObjectId(
+      reqTransaction.childCategoryId
+    );
+  }
+
+  if (reqTransaction.comment) {
+    transaction.comment = reqTransaction.comment;
+  }
+
+  if (reqTransaction.createdAt) {
+    transaction.createdAt = reqTransaction.createdAt;
   }
   transaction.save();
   return transaction;
