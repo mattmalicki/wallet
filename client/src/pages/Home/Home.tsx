@@ -12,6 +12,8 @@ import {
   getTransactions,
 } from "../../redux/transactions/operations";
 import { Confirmation } from "../../components/Molecules/Confirmation/Confirmation";
+import { useTransactions } from "../../hooks/useTransactions";
+import { useCategories } from "../../hooks/useCategories";
 
 type ActionT = "add" | "edit" | "delete";
 type ModalType = {
@@ -21,6 +23,8 @@ type ModalType = {
 
 const Home: FC = () => {
   const [id, setId] = useState<string>("");
+  const { transactionsRefresh } = useTransactions();
+  const { categoriesRefresh } = useCategories();
 
   const dispatch = useAppDispatch();
   const [modalState, setModalState] = useState<ModalType>({
@@ -58,7 +62,9 @@ const Home: FC = () => {
     dispatch(getCategories());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return (
+  return categoriesRefresh || transactionsRefresh ? (
+    <div>loading...</div>
+  ) : (
     <Page>
       <Balance balance={20000} />
       <TransactionList

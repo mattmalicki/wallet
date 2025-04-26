@@ -35,7 +35,7 @@ const editTransaction = createAsyncThunk(
   async (data: { id: string; newTransaction: TransactionType }, thunkAPI) => {
     try {
       const response = await axios.patch(
-        `${TRANSACTIONS_ENDPOINT}/update/${data.id}`,
+        `${TRANSACTIONS_ENDPOINT}update/${data.id}`,
         data.newTransaction
       );
       return response.data.transaction;
@@ -50,7 +50,7 @@ const deleteTransaction = createAsyncThunk(
   async (transactionId: string, thunkAPI) => {
     try {
       const response = await axios.delete(
-        `${TRANSACTIONS_ENDPOINT}/delete/${transactionId}`
+        `${TRANSACTIONS_ENDPOINT}delete/${transactionId}`
       );
       return response.data.id;
     } catch (error) {

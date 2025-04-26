@@ -61,10 +61,9 @@ const transactionsSlice = createSlice({
         state.transactionError = null;
       })
       .addCase(deleteTransaction.fulfilled, (state, action) => {
-        const index = state.transactions.findIndex(
-          (transaction) => transaction._id === action.payload
+        state.transactions = state.transactions.filter(
+          (item) => item._id !== action.payload
         );
-        state.transactions = state.transactions.splice(index, 1);
         state.isRefreshing = false;
         state.transactionError = null;
       })
@@ -72,11 +71,7 @@ const transactionsSlice = createSlice({
         const index = state.transactions.findIndex(
           (transaction) => transaction._id === action.payload.id
         );
-        state.transactions = state.transactions.splice(
-          index,
-          1,
-          action.payload
-        );
+        state.transactions[index] = action.payload;
         state.isRefreshing = false;
         state.transactionError = null;
       })
