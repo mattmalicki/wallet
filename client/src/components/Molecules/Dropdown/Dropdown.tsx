@@ -16,17 +16,18 @@ const Dropdown: FC<DropdownProp> = (props) => {
         props.shouldRoll ? styles.isVisible : "",
       ].join(" ")}
     >
-      {props.array.map((item) => {
+      {props.array.map((item, index) => {
         const id = Math.random().toString();
         return (
           <button
             key={id}
             id={item.toString()}
+            data-index={index}
             type="button"
             onClick={props.clickHandler}
             className={[
               styles.dropdownItem,
-              props.currentValue === item ? styles.blink : "",
+              props.currentValue === item.toString() ? styles.blink : "",
             ].join(" ")}
           >
             {item}

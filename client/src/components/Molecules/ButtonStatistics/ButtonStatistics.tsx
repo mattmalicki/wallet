@@ -1,49 +1,22 @@
-import { FC, MouseEvent, useEffect, useState } from "react";
+import { FC, MouseEvent, MouseEventHandler, useEffect, useState } from "react";
 import styles from "./ButtonStatistics.module.css";
 import { IconSvg } from "../../Atoms/Icon/Icon";
 import { Dropdown } from "../Dropdown/Dropdown";
+import { MonthsAndYears } from "../../../hooks/useDate";
 
 interface BSProp {
   type: "month" | "year";
+  handleClick: MouseEventHandler<HTMLButtonElement>;
+  currentValue: string;
 }
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 const ButtonStatistics: FC<BSProp> = (props) => {
   const [shouldRoll, setShouldRoll] = useState<boolean>(false);
-  const [value, setValue] = useState<string>();
+  const dateClass = new MonthsAndYears();
 
   function rollDownHandler() {
     setShouldRoll((previouseState) => !previouseState);
   }
-
-  function clickHandler(event: MouseEvent<HTMLButtonElement>) {
-    setValue(event.currentTarget.id);
-  }
-
-  useEffect(() => {
-    const newDate = new Date();
-    if (props.type === "month") {
-      setValue(months[newDate.getMonth()]);
-    }
-    if (props.type === "year") {
-      setValue(newDate.getFullYear().toString());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <button
@@ -51,15 +24,15 @@ const ButtonStatistics: FC<BSProp> = (props) => {
       className={styles.dropdownStatItem}
       onClick={rollDownHandler}
     >
-      <span id={props.type}>{value}</span>
+      <span id={props.type}>{props.currentValue}</span>
       <div className={styles.icon}>
         <IconSvg name="arrow-down" fill="none" />
       </div>
       <Dropdown
-        currentValue={value}
+        currentValue={props.currentValue}
         shouldRoll={shouldRoll}
-        array={props.type === "month" ? months : [2000, 2001]}
-        clickHandler={clickHandler.bind(setShouldRoll)}
+        array={props.type === "month" ? dateClass.months : dateClass.years}
+        clickHandler={props.handleClick.bind(setShouldRoll)}
       />
     </button>
   );
