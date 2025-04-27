@@ -18,6 +18,21 @@ const addTransaction = createAsyncThunk(
   }
 );
 
+const fetchTransactionsWithQuery = createAsyncThunk(
+  "transactions/fetchWithQuery",
+  async (query: { month: number; year: number }, thunkAPI) => {
+    try {
+      const response = await axios.get(
+        `${TRANSACTIONS_ENDPOINT}?month=${query.month}&year=${query.year}`
+      );
+      console.log(response.data.transactions);
+      return response.data.transactions;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 const getTransactions = createAsyncThunk(
   "transactions/fetch",
   async (_, thunkAPI) => {
@@ -59,7 +74,13 @@ const deleteTransaction = createAsyncThunk(
   }
 );
 
-export { addTransaction, getTransactions, editTransaction, deleteTransaction };
+export {
+  addTransaction,
+  getTransactions,
+  editTransaction,
+  deleteTransaction,
+  fetchTransactionsWithQuery,
+};
 
 type TransactionType = {
   _id?: string;

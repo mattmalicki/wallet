@@ -19,6 +19,7 @@
   border-radius: 20px;
   transition: clip-path 1s;
   transform-origin: top;
+  z-index: 1;
 }
 
 .isVisible {
@@ -30,7 +31,7 @@
 
 .dropdownItem {
   width: 100%;
-  padding: 2px 20px;
+  padding: 6px 20px;
   text-align: left;
   cursor: pointer;
   font-size: 16px;
@@ -38,4 +39,19 @@
 
 .dropdownItem:hover {
   background-color: white;
+}
+
+.blink {
+  animation: blink 1s linear 3 alternate;
+}
+
+@keyframes blink {
+  0% {
+    background-color: black;
+    color: white;
+  }
+  100% {
+    background-color: white;
+    color: black;
+  }
 }
