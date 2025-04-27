@@ -18,6 +18,22 @@ async function getTransactions(userId: string) {
   return transactions;
 }
 
+async function getTransactionsWithQuery(
+  userId: string,
+  month: number,
+  year: number
+) {
+  function lastDay(d: Date) {
+    return new Date(d.getFullYear(), d.getMonth() + 1, 0);
+  }
+  const date = new Date(`${year}-${month}`);
+  const transactions = await Transaction.find({
+    userId: new Types.ObjectId(userId),
+    createdAt: { $gte: date, $lte: lastDay(date) },
+  });
+  return transactions;
+}
+
 async function getOneTransaction(userId: string, id: string) {
   const transactions = await Transaction.find({
     _id: new Types.ObjectId(id),
@@ -86,4 +102,5 @@ export {
   getOneTransaction,
   updateTransaction,
   deleteTransaction,
+  getTransactionsWithQuery,
 };
