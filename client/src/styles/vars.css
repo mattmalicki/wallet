@@ -14,5 +14,15 @@
   --currencyBackground: #4a56e2;
   --balanceHeaderColor: #a6a6a6;
 
+  --income-bg: #00ad84;
+  --self-care-bg: #ffd8d0;
+  --child-bg: #6e78e8;
+  --house-bg: #4a56e2;
+  --entertainment-bg: #ad0042;
+  --leisure-bg: #c5baff;
+  --main-expenses-bg: #fed057;
+  --car-bg: #fd9498;
+  --education-bg: #81e1ff;
+
   --not-for-use: #679aed;
 }

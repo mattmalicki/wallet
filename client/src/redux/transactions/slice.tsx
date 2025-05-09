@@ -3,6 +3,7 @@ import { isPendingAction, isRejectAction } from "../helper";
 import {
   addTransaction,
   getTransactions,
+  fetchTransactionsWithQuery,
   editTransaction,
   deleteTransaction,
 } from "./operations";
@@ -51,6 +52,11 @@ const transactionsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getTransactions.fulfilled, (state, action) => {
+        state.transactions = action.payload;
+        state.isRefreshing = false;
+        state.transactionError = null;
+      })
+      .addCase(fetchTransactionsWithQuery.fulfilled, (state, action) => {
         state.transactions = action.payload;
         state.isRefreshing = false;
         state.transactionError = null;

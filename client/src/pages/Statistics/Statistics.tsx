@@ -1,12 +1,11 @@
 import { FC, MouseEvent, useEffect, useState } from "react";
 import { Page } from "../../components/Templates/Page/Page";
 import { ButtonStatistics } from "../../components/Molecules/ButtonStatistics/ButtonStatistics";
-import { StatisticsListHeader } from "../../components/Atoms/StatisticsListHeader/StatisticsListHeader";
-import { StatisticsListItem } from "../../components/Atoms/StatisticsListItem/StatisticsListItem";
 import { useTransactions } from "../../hooks/useTransactions";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { fetchTransactionsWithQuery } from "../../redux/transactions/operations";
 import { MonthsAndYears } from "../../hooks/useDate";
+import { StatisticsList } from "../../components/Molecules/StatisticsList/StatisticsList";
 
 const Statistics: FC = () => {
   const dispatch = useAppDispatch();
@@ -49,22 +48,18 @@ const Statistics: FC = () => {
     <div>loading...</div>
   ) : (
     <Page>
-      <ButtonStatistics
-        type="month"
-        handleClick={handleMonth}
-        currentValue={month}
-      />
-      <ButtonStatistics
-        type="year"
-        handleClick={handleYear}
-        currentValue={year}
-      />
-      <StatisticsListHeader />
-      <StatisticsListItem
-        categoryName="main expenses"
-        sum={232453432}
-        color="yellow"
-      />
+      <StatisticsList>
+        <ButtonStatistics
+          type="month"
+          handleClick={handleMonth}
+          currentValue={month}
+        />
+        <ButtonStatistics
+          type="year"
+          handleClick={handleYear}
+          currentValue={year}
+        />
+      </StatisticsList>
     </Page>
   );
 };

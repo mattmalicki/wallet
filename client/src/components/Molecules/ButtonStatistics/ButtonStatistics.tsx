@@ -1,4 +1,4 @@
-import { FC, MouseEvent, MouseEventHandler, useEffect, useState } from "react";
+import { FC, MouseEventHandler, useState } from "react";
 import styles from "./ButtonStatistics.module.css";
 import { IconSvg } from "../../Atoms/Icon/Icon";
 import { Dropdown } from "../Dropdown/Dropdown";

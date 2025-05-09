@@ -25,7 +25,6 @@ const fetchTransactionsWithQuery = createAsyncThunk(
       const response = await axios.get(
         `${TRANSACTIONS_ENDPOINT}?month=${query.month}&year=${query.year}`
       );
-      console.log(response.data.transactions);
       return response.data.transactions;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
