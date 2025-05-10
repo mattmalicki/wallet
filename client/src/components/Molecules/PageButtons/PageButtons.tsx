@@ -17,7 +17,10 @@ const PageButtons: FC = () => {
         <IconButton name="home" isCurrent={current === "/home"} />
       </Link>
       <Link to="/statistics">
-        <IconButton name="statistics" isCurrent={current === "/statistics"} />
+        <IconButton
+          name="statistics"
+          isCurrent={current.startsWith("/statistics")}
+        />
       </Link>
       <Link to="/currency">
         <IconButton name="currency" isCurrent={current === "/currency"} />

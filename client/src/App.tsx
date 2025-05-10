@@ -30,6 +30,12 @@ const StatisticsPage = lazy(() =>
   }))
 );
 
+const DetailedStatisticsPage = lazy(() =>
+  import("./pages/DetailedStatistics/DetailedStatistics").then((module) => ({
+    default: module.DetailedStatistics,
+  }))
+);
+
 const App: FC = () => {
   return (
     <div className="App">
@@ -68,6 +74,15 @@ const App: FC = () => {
             path="/statistics"
             element={
               <PrivateRoute redirectTo="/" Component={<StatisticsPage />} />
+            }
+          />
+          <Route
+            path="/statistics/:id"
+            element={
+              <PrivateRoute
+                redirectTo="/"
+                Component={<DetailedStatisticsPage />}
+              />
             }
           />
         </Route>
