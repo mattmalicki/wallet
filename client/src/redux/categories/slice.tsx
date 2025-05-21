@@ -2,15 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { isFulfilledAction, isPendingAction, isRejectAction } from "../helper";
 
-type ChildCategory = {
-  _id: string;
-  title: string;
-};
+type ChildCategory = Omit<Category, "type" | "color" | "childCategories">;
 
 type Category = {
   _id: string;
   type: string;
   title: string;
+  color: string;
   childCategories: ChildCategory[];
 };
 

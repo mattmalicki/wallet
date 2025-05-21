@@ -1,7 +1,6 @@
 import { FC, MouseEvent, useEffect, useState } from "react";
 import { Page } from "../../components/Templates/Page/Page";
 import { ButtonStatistics } from "../../components/Molecules/ButtonStatistics/ButtonStatistics";
-import { useTransactions } from "../../hooks/useTransactions";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { fetchTransactionsWithQuery } from "../../redux/transactions/operations";
 import { MonthsAndYears } from "../../hooks/useDate";
@@ -13,8 +12,6 @@ const Statistics: FC = () => {
   const [month, setMonth] = useState<string>(new Date().getMonth().toString());
   const [year, setYear] = useState<string>(new Date().getFullYear().toString());
 
-  const { transactions } = useTransactions();
-
   function handleMonth(event: MouseEvent<HTMLButtonElement>) {
     setMonth(event.currentTarget.id);
     setMonthIndex(event.currentTarget.getAttribute("data-index")!);
@@ -22,16 +19,6 @@ const Statistics: FC = () => {
   function handleYear(event: MouseEvent<HTMLButtonElement>) {
     setYear(event.currentTarget.id);
   }
-
-  useEffect(() => {
-    dispatch(
-      fetchTransactionsWithQuery({
-        month: Number(monthIndex) + 1,
-        year: Number(year),
-      })
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [monthIndex, year]);
 
   useEffect(() => {
     const newDate = new Date();
@@ -44,9 +31,20 @@ const Statistics: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return !transactions ? (
-    <div>loading...</div>
-  ) : (
+  useEffect(() => {
+    if (!monthIndex || !year) {
+      return;
+    }
+    dispatch(
+      fetchTransactionsWithQuery({
+        month: Number(monthIndex) + 1,
+        year: Number(year),
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [monthIndex, year]);
+
+  return (
     <Page>
       <StatisticsList>
         <ButtonStatistics

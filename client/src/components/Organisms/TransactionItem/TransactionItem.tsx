@@ -20,45 +20,73 @@ const TransactionItem: FC<TransactionItemProp> = (props) => {
   function returnCategoriesTitles(
     parentId: string,
     childId: string
-  ): { parent: string; child: string } {
+  ): { parent: string; child: string; borderColor: string } {
     const category = categories.find((item) => item._id === parentId);
     const childCategory = category?.childCategories.find(
       (item) => item._id === childId
     );
 
-    return { parent: category!.title, child: childCategory!.title };
+    return {
+      parent: category!.title,
+      child: childCategory!.title,
+      borderColor: category!.color,
+    };
   }
 
   function createItems(object: TransactionType): ReactNode {
     const listArray: ReactNode[] = [];
+    const { parent, child, borderColor } = returnCategoriesTitles(
+      object.categoryId!,
+      object.childCategoryId!
+    );
     listArray.push(
       <TransactionItemItem
         header={"Date"}
         value={returnDdMmYy(new Date(object.createdAt!))}
+        borderColor={borderColor}
       />
     );
     listArray.push(
-      <TransactionItemItem header={"Type"} value={object.type!} />
-    );
-    const { parent, child } = returnCategoriesTitles(
-      object.categoryId!,
-      object.childCategoryId!
-    );
-    listArray.push(<TransactionItemItem header={"Category"} value={parent} />);
-    listArray.push(
-      <TransactionItemItem header={"Child category"} value={child} />
+      <TransactionItemItem
+        header={"Type"}
+        value={object.type!}
+        borderColor={borderColor}
+      />
     );
     listArray.push(
-      <TransactionItemItem header={"Comment"} value={object.comment!} />
+      <TransactionItemItem
+        header={"Category"}
+        value={parent}
+        borderColor={borderColor}
+      />
     );
     listArray.push(
-      <TransactionItemItem header={"Sum"} value={object.amount!} />
+      <TransactionItemItem
+        header={"Child category"}
+        value={child}
+        borderColor={borderColor}
+      />
+    );
+    listArray.push(
+      <TransactionItemItem
+        header={"Comment"}
+        value={object.comment!}
+        borderColor={borderColor}
+      />
+    );
+    listArray.push(
+      <TransactionItemItem
+        header={"Sum"}
+        value={object.amount!}
+        borderColor={borderColor}
+      />
     );
     listArray.push(
       <TransactionItemItem
         id={object._id}
         deleteButtonHandler={props.deleteHandler}
         editButtonHandler={props.editHandler}
+        borderColor={borderColor}
       />
     );
     return listArray;
