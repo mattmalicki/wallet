@@ -1,4 +1,4 @@
-import { FC, lazy } from "react";
+import { FC, lazy, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
@@ -7,6 +7,10 @@ import "./App.css";
 import { SharedLayout } from "./components/Templates/SharedLayout/SharedLayout";
 import { RestrictedRoute } from "./components/Templates/RestrictedRoute/RestrictedRoute";
 import { PrivateRoute } from "./components/Templates/PrivateRoute/PrivateRoute";
+import { useAuth } from "./hooks/useAuth";
+import { useCategories } from "./hooks/useCategories";
+import { useTransactions } from "./hooks/useTransactions";
+import { INotifyOptions, Notify } from "notiflix";
 
 const AuthPage = lazy(() =>
   import("./pages/Auth/Auth").then((module) => ({
@@ -37,6 +41,22 @@ const DetailedStatisticsPage = lazy(() =>
 );
 
 const App: FC = () => {
+  const { authError } = useAuth();
+  const { categoriesError } = useCategories();
+  const { transactionsError } = useTransactions();
+
+  useEffect(() => {
+    const notifyOpt: INotifyOptions = {
+      position: "right-top",
+      opacity: 0.7,
+      timeout: 3000,
+      clickToClose: true,
+      pauseOnHover: true,
+    };
+    authError && Notify.failure(authError.message, notifyOpt);
+    categoriesError && Notify.failure(categoriesError.message, notifyOpt);
+    transactionsError && Notify.failure(transactionsError.message, notifyOpt);
+  }, [authError, categoriesError, transactionsError]);
   return (
     <div className="App">
       <Helmet>Wallet</Helmet>

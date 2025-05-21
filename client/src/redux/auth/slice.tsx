@@ -27,13 +27,13 @@ const handlePendingAction = (state: AuthState, action: PayloadAction) => {
   state.authError = null;
 };
 
-const handleRejectedAction = (state: AuthState, action: PayloadAction) => {
+const handleRejectedAction = (state: AuthState, action: any) => {
   state.user = { firstName: "", lastName: "", email: "" };
   state.authError = null;
   state.token = "";
   state.isLoggedIn = false;
   state.isRefreshing = false;
-  state.authError = action.payload;
+  state.authError = action.payload.response.data.errors[0];
 };
 
 const authSlice = createSlice({

@@ -36,13 +36,10 @@ const handlePendingAction = (state: TransactionState) => {
   state.transactionError = null;
 };
 
-const handleRejectedAction = (
-  state: TransactionState,
-  action: PayloadAction
-) => {
+const handleRejectedAction = (state: TransactionState, action: any) => {
   state.transactions = [];
   state.isRefreshing = false;
-  state.transactionError = action.payload;
+  state.transactionError = action.payload.response.data.errors[0];
 };
 
 const transactionsSlice = createSlice({

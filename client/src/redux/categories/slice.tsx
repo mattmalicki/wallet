@@ -31,13 +31,10 @@ const handlePendingAction = (state: CategoriesState) => {
   state.categoriesError = null;
 };
 
-const handleRejectedAction = (
-  state: CategoriesState,
-  action: PayloadAction
-) => {
+const handleRejectedAction = (state: CategoriesState, action: any) => {
   state.categories = [];
   state.isRefreshing = false;
-  state.categoriesError = action.payload;
+  state.categoriesError = action.payload.response.data.errors[0];
 };
 
 const handleFullfiledAction = (
