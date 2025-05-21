@@ -7,6 +7,7 @@ interface AuthState {
     firstName: string;
     lastName: string;
     email: string;
+    balance: number;
   };
   token: string;
   isLoggedIn: boolean;
@@ -15,7 +16,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: { firstName: "", lastName: "", email: "" },
+  user: { firstName: "", lastName: "", email: "", balance: 0 },
   token: "",
   isLoggedIn: false,
   isRefreshing: false,
@@ -28,7 +29,7 @@ const handlePendingAction = (state: AuthState, action: PayloadAction) => {
 };
 
 const handleRejectedAction = (state: AuthState, action: any) => {
-  state.user = { firstName: "", lastName: "", email: "" };
+  state.user = { firstName: "", lastName: "", email: "", balance: 0 };
   state.authError = null;
   state.token = "";
   state.isLoggedIn = false;
