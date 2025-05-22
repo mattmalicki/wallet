@@ -9,6 +9,7 @@ interface IChildCategory {
 interface IParentCategory {
   title: string;
   type: TransactionType;
+  color: string;
   childCategories: IChildCategory[];
 }
 
@@ -18,6 +19,10 @@ const categorySchema = new Schema<IParentCategory>({
     required: true,
   },
   type: {
+    type: String,
+    required: true,
+  },
+  color: {
     type: String,
     required: true,
   },

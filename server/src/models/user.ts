@@ -1,30 +1,43 @@
-import { Model, Schema, Types, model } from "mongoose";
+import { Document, Model, Schema, Types, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
-interface IUser {
+interface IUser extends Document {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
   balance: number;
   verified: boolean;
-  transactions: { id: Types.ObjectId }[];
-}
-
-interface IUserMethods {
+  transactions: {
+    [x: string]: any;
+    id: Types.ObjectId;
+  }[];
   setPassword(password: string): void;
   validatePassword(password: string): boolean;
   setToken(token: string): void;
   clearToken(): void;
   isVerified(): boolean;
-  updateBalance(lastTransactionValue: number): number;
   addTransaction(transactionId: string): void;
   removeTransaction(transactionId: string): void;
+  getWithTransactions(): IUser;
+  getBalance(): number;
+}
+
+interface IUserMethods extends Document {
+  setPassword(password: string): void;
+  validatePassword(password: string): boolean;
+  setToken(token: string): void;
+  clearToken(): void;
+  isVerified(): boolean;
+  addTransaction(transactionId: string): void;
+  removeTransaction(transactionId: string): void;
+  getWithTransactions(): IUser;
+  getBalance(): Promise<number>;
 }
 
 type UserModel = Model<IUser, {}, IUserMethods>;
 
-const userSchema = new Schema<IUser, IUserMethods, UserModel>({
+const userSchema = new Schema<IUser>({
   email: {
     type: String,
     required: true,
@@ -54,7 +67,7 @@ const userSchema = new Schema<IUser, IUserMethods, UserModel>({
   },
   transactions: [
     {
-      type: Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "transaction",
     },
   ],
@@ -68,21 +81,8 @@ userSchema.methods.validatePassword = function (password: string) {
   return bcrypt.compareSync(password, this.password);
 };
 
-userSchema.methods.getBalance = function () {
-  return this.balance.toString() + "" + this.balanceCurrency;
-};
-
 userSchema.methods.isVerified = function () {
   return this.verified;
-};
-
-userSchema.methods.updateBalance = async function (
-  lastTransactionValue?: number
-) {
-  const transactionList = await (this as UserModel).populate({}, "transaction");
-  return transactionList;
-  // this.balance = this.balance - lastTransactionValue;
-  // return this.balance;
 };
 
 userSchema.methods.addTransaction = function (
@@ -90,6 +90,19 @@ userSchema.methods.addTransaction = function (
 ) {
   this.transactions.push({ _id: transactionId });
   this.save();
+};
+
+userSchema.methods.getBalance = async function () {
+  try {
+    const test = await this.populate("transactions");
+    return test.transactions.reduce(
+      (preV: any, curV: any) => preV + Number(`${curV.type}${curV.amount}`),
+      0
+    );
+  } catch (error) {
+    console.log("????????? ", error);
+    return error;
+  }
 };
 
 userSchema.methods.removeTransaction = function (

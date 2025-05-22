@@ -30,6 +30,9 @@ const signinUser: RequestHandler = async (req, res, next) => {
       }
     );
 
+    const test = await user.getBalance();
+    console.log(test);
+
     res.status(200).json({
       message: "Login successfull",
       accessToken,
@@ -38,6 +41,7 @@ const signinUser: RequestHandler = async (req, res, next) => {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
+        test: test,
       },
     });
   } catch (error) {

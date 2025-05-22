@@ -7,7 +7,7 @@ interface AuthState {
     firstName: string;
     lastName: string;
     email: string;
-    balance: number;
+    test: any;
   };
   token: string;
   isLoggedIn: boolean;
@@ -16,7 +16,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: { firstName: "", lastName: "", email: "", balance: 0 },
+  user: { firstName: "", lastName: "", email: "", test: {} },
   token: "",
   isLoggedIn: false,
   isRefreshing: false,
@@ -29,7 +29,7 @@ const handlePendingAction = (state: AuthState, action: PayloadAction) => {
 };
 
 const handleRejectedAction = (state: AuthState, action: any) => {
-  state.user = { firstName: "", lastName: "", email: "", balance: 0 };
+  state.user = { firstName: "", lastName: "", email: "", test: {} };
   state.authError = null;
   state.token = "";
   state.isLoggedIn = false;
@@ -44,6 +44,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
+        console.log(action.payload.user);
         state.user = action.payload.user;
         state.token = action.payload.accessToken;
         state.isLoggedIn = true;
