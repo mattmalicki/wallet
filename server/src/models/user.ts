@@ -19,7 +19,6 @@ interface IUser extends Document {
   isVerified(): boolean;
   addTransaction(transactionId: string): void;
   removeTransaction(transactionId: string): void;
-  getWithTransactions(): IUser;
   getBalance(): number;
 }
 
@@ -85,13 +84,6 @@ userSchema.methods.isVerified = function () {
   return this.verified;
 };
 
-userSchema.methods.addTransaction = function (
-  transactionId: string | Types.ObjectId
-) {
-  this.transactions.push({ _id: transactionId });
-  this.save();
-};
-
 userSchema.methods.getBalance = async function () {
   try {
     const test = await this.populate("transactions");
@@ -100,9 +92,15 @@ userSchema.methods.getBalance = async function () {
       0
     );
   } catch (error) {
-    console.log("????????? ", error);
     return error;
   }
+};
+
+userSchema.methods.addTransaction = function (
+  transactionId: string | Types.ObjectId
+) {
+  this.transactions.push({ _id: transactionId });
+  this.save();
 };
 
 userSchema.methods.removeTransaction = function (

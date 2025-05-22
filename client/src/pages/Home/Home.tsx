@@ -12,6 +12,7 @@ import {
   getTransactions,
 } from "../../redux/transactions/operations";
 import { Confirmation } from "../../components/Molecules/Confirmation/Confirmation";
+import { useAuth } from "../../hooks/useAuth";
 
 type ActionT = "add" | "edit" | "delete";
 type ModalType = {
@@ -21,6 +22,7 @@ type ModalType = {
 
 const Home: FC = () => {
   const [id, setId] = useState<string>("");
+  const { user } = useAuth();
 
   const dispatch = useAppDispatch();
   const [modalState, setModalState] = useState<ModalType>({
@@ -60,7 +62,7 @@ const Home: FC = () => {
   }, []);
   return (
     <Page>
-      <Balance balance={20000} />
+      <Balance balance={user.balance} />
       <TransactionList
         editHandler={handleEditButton}
         deleteHandler={handleDeleteButton}
