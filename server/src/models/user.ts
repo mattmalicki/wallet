@@ -20,6 +20,7 @@ interface IUser extends Document {
   addTransaction(transactionId: string): void;
   removeTransaction(transactionId: string): void;
   getBalance(): number;
+  updateBalance(value: string): void;
 }
 
 interface IUserMethods extends Document {
@@ -31,7 +32,8 @@ interface IUserMethods extends Document {
   addTransaction(transactionId: string): void;
   removeTransaction(transactionId: string): void;
   getWithTransactions(): IUser;
-  getBalance(): Promise<number>;
+  getBalance(): number;
+  updateBalance(value: string): void;
 }
 
 type UserModel = Model<IUser, {}, IUserMethods>;
@@ -84,13 +86,21 @@ userSchema.methods.isVerified = function () {
   return this.verified;
 };
 
+userSchema.methods.updateBalance = function (value: string) {
+  this.balance = this.balance + Number(value);
+  this.save();
+};
+
 userSchema.methods.getBalance = async function () {
   try {
-    const test = await this.populate("transactions");
-    return test.transactions.reduce(
+    const user = await this.populate("transactions");
+    const balance = user.transactions.reduce(
       (preV: any, curV: any) => preV + Number(`${curV.type}${curV.amount}`),
       0
     );
+    user.balance = balance;
+    user.save();
+    return balance;
   } catch (error) {
     return error;
   }

@@ -30,7 +30,7 @@ const signinUser: RequestHandler = async (req, res, next) => {
       }
     );
 
-    const balance = await user.getBalance();
+    await user.getBalance();
 
     res.status(200).json({
       message: "Login successfull",
@@ -40,7 +40,7 @@ const signinUser: RequestHandler = async (req, res, next) => {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        balance,
+        balance: user.balance,
       },
     });
   } catch (error) {

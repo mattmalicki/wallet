@@ -14,7 +14,7 @@ async function addTransaction(transaction: ITransaction) {
 async function getTransactions(userId: string) {
   const transactions = await Transaction.find({
     userId: new Types.ObjectId(userId),
-  });
+  }).sort({ createdAt: "desc" });
   return transactions;
 }
 
@@ -35,11 +35,11 @@ async function getTransactionsWithQuery(
 }
 
 async function getOneTransaction(userId: string, id: string) {
-  const transactions = await Transaction.find({
+  const transaction = await Transaction.findOne({
     _id: new Types.ObjectId(id),
     userId: new Types.ObjectId(userId),
   });
-  return transactions;
+  return transaction;
 }
 
 async function updateTransaction(reqTransaction: {
@@ -56,8 +56,20 @@ async function updateTransaction(reqTransaction: {
     _id: new Types.ObjectId(reqTransaction.id),
     userId: new Types.ObjectId(reqTransaction.userId),
   });
+  let amountDifferance: number = 0;
   if (!transaction) {
     throw new BadRequestError({ message: "Unauthorized." });
+  }
+  if (reqTransaction.type || reqTransaction.amount) {
+    amountDifferance = countDiff(
+      Number(`${transaction.type}${transaction.amount}`),
+      Number(`${reqTransaction.type}${reqTransaction.amount}`)
+    );
+    console.log(
+      `${transaction.type}${transaction.amount}` +
+        `${reqTransaction.type}${reqTransaction.amount}`
+    );
+    console.log(`${reqTransaction.type}${amountDifferance}`);
   }
   if (reqTransaction.type) {
     if (reqTransaction.type.toLowerCase() === "-")
@@ -86,7 +98,11 @@ async function updateTransaction(reqTransaction: {
     transaction.createdAt = reqTransaction.createdAt;
   }
   transaction.save();
-  return transaction;
+  return { amountDifferance, transaction };
+}
+
+function countDiff(a: number, b: number) {
+  return a > b ? a - b : b - a;
 }
 
 async function deleteTransaction(userId: string, id: string) {

@@ -3,6 +3,7 @@ import styles from "./TransactionItem.module.css";
 import { TransactionItemItem } from "../../Molecules/TransactionItemItem/TransactionItemItem";
 import { TransactionType } from "../../../redux/transactions/operations";
 import { useCategories } from "../../../hooks/useCategories";
+import { getNumberFormat } from "../../../util/numberFormat";
 
 interface TransactionItemProp {
   transaction: TransactionType;
@@ -77,7 +78,7 @@ const TransactionItem: FC<TransactionItemProp> = (props) => {
     listArray.push(
       <TransactionItemItem
         header={"Sum"}
-        value={object.amount!}
+        value={getNumberFormat(object.amount!)}
         borderColor={borderColor}
       />
     );

@@ -34,6 +34,10 @@ const categorySchema = new Schema<IParentCategory>({
   ],
 });
 
-const Category = model("category", categorySchema, "categories");
+const Category = model<IParentCategory>(
+  "category",
+  categorySchema,
+  "categories"
+);
 
 export { Category, IParentCategory };

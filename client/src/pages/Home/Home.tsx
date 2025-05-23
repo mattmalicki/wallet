@@ -13,6 +13,7 @@ import {
 } from "../../redux/transactions/operations";
 import { Confirmation } from "../../components/Molecules/Confirmation/Confirmation";
 import { useAuth } from "../../hooks/useAuth";
+import { getNumberFormat } from "../../util/numberFormat";
 
 type ActionT = "add" | "edit" | "delete";
 type ModalType = {
@@ -62,7 +63,7 @@ const Home: FC = () => {
   }, []);
   return (
     <Page>
-      <Balance balance={user.balance} />
+      <Balance balance={getNumberFormat(user.balance)} />
       <TransactionList
         editHandler={handleEditButton}
         deleteHandler={handleDeleteButton}

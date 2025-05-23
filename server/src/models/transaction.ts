@@ -47,6 +47,6 @@ const transactionSchema = new Schema<ITransaction>({
   },
 });
 
-const Transaction = model("transaction", transactionSchema);
+const Transaction = model<ITransaction>("transaction", transactionSchema);
 
 export { Transaction, ITransaction, TransactionType };

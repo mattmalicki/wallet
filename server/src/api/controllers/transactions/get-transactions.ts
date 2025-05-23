@@ -10,7 +10,6 @@ const fetchTransactions: RequestHandler = async (req, res, next) => {
       throw new BadRequestError({ code: 401, message: "Unauthorized" });
     const { month, year } = req.query;
     if (month && year) {
-      console.log("TESTESTESTESTESTESTESTESTESTEST");
       const transactions = await getTransactionsWithQuery(
         userId,
         Number(month),

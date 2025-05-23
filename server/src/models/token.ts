@@ -31,6 +31,6 @@ const tokenSchema = new Schema<IToken>({
   },
 });
 
-const Token = model("token", tokenSchema);
+const Token = model<IToken>("token", tokenSchema);
 
 export { Token, IToken };

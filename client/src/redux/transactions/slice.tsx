@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { isPendingAction, isRejectAction } from "../helper";
 import {
   addTransaction,
@@ -59,7 +59,7 @@ const transactionsSlice = createSlice({
         state.transactionError = null;
       })
       .addCase(addTransaction.fulfilled, (state, action) => {
-        state.transactions.push(action.payload);
+        state.transactions.unshift(action.payload);
         state.isRefreshing = false;
         state.transactionError = null;
       })
