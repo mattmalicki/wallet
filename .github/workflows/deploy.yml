@@ -29,16 +29,16 @@ jobs:
           node-version: lts/*
 
       - name: Install step
-        run: "cd server && npm install"
+        run: "npm install"
 
       - name: Build step
-        run: "npm run start-server"
+        run: "npm start"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "mattdevelopment-wallet"
-          entrypoint: "/"
+          entrypoint: "/server/"
           root: ""
           
           
