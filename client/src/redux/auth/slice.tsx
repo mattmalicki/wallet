@@ -36,13 +36,13 @@ const handlePendingAction = (state: AuthState, action: PayloadAction) => {
   state.authError = null;
 };
 
-const handleRejectedAction = (state: AuthState, action: any) => {
+const handleRejectedAction = (state: AuthState, action?: any) => {
   state.user = { firstName: "", lastName: "", email: "", balance: 0 };
   state.authError = null;
   state.token = "";
   state.isLoggedIn = false;
   state.isRefreshing = false;
-  state.authError = action.payload.response.data.errors[0];
+  state.authError = action?.payload?.response?.data?.errors[0] ?? null;
 };
 
 const authSlice = createSlice({
@@ -65,8 +65,8 @@ const authSlice = createSlice({
         state.isRefreshing = false;
         state.authError = null;
       })
-      .addCase(logout.fulfilled, (state, action) => {
-        handleRejectedAction(state, action);
+      .addCase(logout.fulfilled, (state) => {
+        handleRejectedAction(state);
       })
       .addCase(refresh.fulfilled, (state, action) => {
         state.user = action.payload.user;

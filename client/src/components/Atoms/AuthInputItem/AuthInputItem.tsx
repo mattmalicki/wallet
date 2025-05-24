@@ -19,7 +19,7 @@ const AuthInputItem: React.FC<AuthInputProps> = (props) => {
   const type = props.name === "email" ? "email" : "text";
 
   useEffect(() => {
-    if (props.name === "password") setHidden(true);
+    if (props.name.toLowerCase().includes("password")) setHidden(true);
   }, [props.name]);
 
   function getIconName() {
@@ -47,8 +47,9 @@ const AuthInputItem: React.FC<AuthInputProps> = (props) => {
         placeholder={
           props.placeholder ?? props.name[0].toUpperCase() + props.name.slice(1)
         }
+        required
       />
-      {props.name === "password" && (
+      {props.name.toLowerCase().includes("password") && (
         <button type="button" className={styles.eye} onClick={toggleIcon}>
           <IconSvg name={hidden ? "eye-blocked" : "eye"} />
         </button>

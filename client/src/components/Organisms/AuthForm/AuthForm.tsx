@@ -4,6 +4,7 @@ import { AuthInputItem } from "../../Atoms/AuthInputItem/AuthInputItem";
 import { Button } from "../../Atoms/Button/Button";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { login, register } from "../../../redux/auth/operations";
+import { Notify } from "notiflix";
 
 interface AuthFormProp {
   isRegister: boolean;
@@ -22,7 +23,11 @@ const AuthForm: FC<AuthFormProp> = (props) => {
       const firstName = form.firstName.value;
       const lastName = form.lastName.value;
       const confirmPassword = form.confirmPassword.value;
+      if (!email || !password || !firstName || !lastName || !confirmPassword) {
+        Notify.info("Please provide all informations");
+      }
       if (confirmPassword !== password) {
+        Notify.failure("Passwords dont match");
         return;
       }
       dispatch(register({ email, password, firstName, lastName }));
