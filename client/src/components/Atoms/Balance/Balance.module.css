@@ -1,5 +1,6 @@
 .balanceContainer {
   background-color: white;
+  border: 1px solid;
   border-radius: 30px;
   padding: 8px 32px 11px;
   text-align: left;
@@ -13,4 +14,11 @@
 
 .balance {
   font-size: 30px;
+}
+
+.more {
+  border-color: green;
+}
+.less {
+  border-color: red;
 }

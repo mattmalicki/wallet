@@ -52,6 +52,18 @@ const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   }
 });
 
+const refreshUser = createAsyncThunk(
+  "auth/refreshUser",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get(`${USER_ENDPOINT}`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 const refresh = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
   try {
     const state = thunkAPI.getState();
@@ -77,7 +89,26 @@ const deleteUser = createAsyncThunk("auth/delete", async (_, thunkAPI) => {
   }
 });
 
-export { register, login, logout, refresh, deleteUser };
+const updateBalance = createAsyncThunk(
+  "auth/updateBalance",
+  async (differance: number, thunkAPI) => {
+    try {
+      return differance;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export {
+  register,
+  login,
+  logout,
+  refresh,
+  deleteUser,
+  refreshUser,
+  updateBalance,
+};
 
 type RegisterCredentials = {
   email: string;

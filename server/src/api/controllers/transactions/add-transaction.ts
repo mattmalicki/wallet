@@ -24,6 +24,7 @@ const createTransaction: RequestHandler = async (req, res, next) => {
     newTransaction.save();
     user.addTransaction(newTransaction.id);
     user.updateBalance(`${newTransaction.type}${newTransaction.amount}`);
+    user.save();
     res
       .status(200)
       .json({ message: "Transaction created", transaction: newTransaction });

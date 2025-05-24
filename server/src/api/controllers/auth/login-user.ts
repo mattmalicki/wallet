@@ -31,6 +31,7 @@ const signinUser: RequestHandler = async (req, res, next) => {
     );
 
     await user.getBalance();
+    user.save();
 
     res.status(200).json({
       message: "Login successfull",

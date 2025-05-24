@@ -21,6 +21,8 @@ import {
   TransactionType,
 } from "../../../redux/transactions/operations";
 import { useTransactions } from "../../../hooks/useTransactions";
+import { Notify } from "notiflix";
+import { updateBalance } from "../../../redux/auth/operations";
 
 interface TFProp {
   isEdit?: boolean;
@@ -68,10 +70,26 @@ const TransactionFrom: FC<TFProp> = (props) => {
 
   function handleSubmit(event: FormEvent<FormI>) {
     event.preventDefault();
+    const closeMe = props.handleCloseModal as Function;
+
     const form = event.currentTarget;
     const categoriesIds = form.category
       .getAttribute("data-categories-ids")!
       .split(":");
+    if (
+      !transactionType ||
+      categoriesIds.length === 0 ||
+      form.amount.value.length === 0 ||
+      form.date.value.length === 0
+    ) {
+      Notify.failure(
+        `Unable to ${
+          props.isEdit ? "edit" : "create"
+        } transactions, because not all information have been provided.`
+      );
+      closeMe();
+      return;
+    }
     const transaction: TransactionType = {
       type: transactionType === "income" ? "+" : "-",
       categoryId: categoriesIds[0],
@@ -80,18 +98,40 @@ const TransactionFrom: FC<TFProp> = (props) => {
       createdAt: new Date(form.date.value),
       comment: form.comment!.value,
     };
-    !props.isEdit && dispatch(addTransaction(transaction));
-    props.isEdit &&
+    if (!props.isEdit) {
+      dispatch(addTransaction(transaction));
+      dispatch(
+        updateBalance(Number(`${transaction.type}${transaction.amount}`))
+      );
+    } else {
+      const oldT = transactions.find((item) => item._id === props.id)!;
       dispatch(
         editTransaction({
-          id: transactions.find((item) => item._id === props.id)!._id,
+          id: oldT._id,
           newTransaction: transaction,
         })
       );
-    const closeMe = props.handleCloseModal as Function;
+      oldT.type === "+"
+        ? dispatch(updateBalance(Number(`-${oldT.amount}`)))
+        : dispatch(updateBalance(Number(`+${oldT.amount}`)));
+      dispatch(
+        updateBalance(Number(`${transaction.type}${transaction.amount}`))
+      );
+    }
+    // !props.isEdit && dispatch(addTransaction(transaction));
+    // props.isEdit &&
+    //   dispatch(
+    //     editTransaction({
+    //       id: transactions.find((item) => item._id === props.id)!._id,
+    //       newTransaction: transaction,
+    //     })
+    //   );
     closeMe();
   }
 
+  function countDiff(a: number, b: number) {
+    return a > b ? a - b : b - a;
+  }
   function setValues() {
     if (!props.id) {
       return;

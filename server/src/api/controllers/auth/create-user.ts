@@ -30,6 +30,7 @@ const createUser: RequestHandler = async (req, res, next) => {
         email: createdUser.email,
         firstName: createdUser.firstName,
         lastName: createdUser.lastName,
+        balance: createdUser.balance,
       },
     });
   } catch (error) {

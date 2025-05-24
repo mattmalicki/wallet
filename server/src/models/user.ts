@@ -88,7 +88,6 @@ userSchema.methods.isVerified = function () {
 
 userSchema.methods.updateBalance = function (value: string) {
   this.balance = this.balance + Number(value);
-  this.save();
 };
 
 userSchema.methods.getBalance = async function () {
@@ -99,7 +98,6 @@ userSchema.methods.getBalance = async function () {
       0
     );
     user.balance = balance;
-    user.save();
     return balance;
   } catch (error) {
     return error;
@@ -110,14 +108,12 @@ userSchema.methods.addTransaction = function (
   transactionId: string | Types.ObjectId
 ) {
   this.transactions.push({ _id: transactionId });
-  this.save();
 };
 
 userSchema.methods.removeTransaction = function (
   transactionId: string | Types.ObjectId
 ) {
   this.transactions.pull({ _id: transactionId });
-  this.save();
 };
 
 const User = model<IUser, UserModel>("user", userSchema);

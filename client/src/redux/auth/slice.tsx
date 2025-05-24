@@ -1,5 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { register, login, logout, refresh, deleteUser } from "./operations";
+import {
+  register,
+  login,
+  logout,
+  refresh,
+  deleteUser,
+  refreshUser,
+  updateBalance,
+} from "./operations";
 import { isPendingAction, isRejectAction } from "../helper";
 
 interface AuthState {
@@ -69,6 +77,17 @@ const authSlice = createSlice({
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         handleRejectedAction(state, action);
+      })
+      .addCase(refreshUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.isLoggedIn = true;
+        state.isRefreshing = false;
+        state.authError = null;
+      })
+      .addCase(updateBalance.fulfilled, (state, action) => {
+        state.user.balance = state.user.balance + action.payload;
+        state.isRefreshing = false;
+        state.authError = null;
       })
       .addMatcher(isPendingAction.bind(this, "auth"), handlePendingAction)
       .addMatcher(isRejectAction.bind(this, "auth"), handleRejectedAction);

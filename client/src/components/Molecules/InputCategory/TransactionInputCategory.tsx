@@ -63,7 +63,6 @@ const TransactionInputCategory: FC<TICProp> = (props) => {
           (item) => item._id === props.childId
         )?.title;
         setCategoryValue(childTitle ?? "");
-        console.log(parent);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

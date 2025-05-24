@@ -25,6 +25,7 @@ const removeTransaction: RequestHandler = async (req, res, next) => {
     }
     await deleteTransaction(userId, req.params.id);
     user.removeTransaction(req.params.id);
+    user.save();
     res.status(200).json({ message: "Transaction deleted", id: req.params.id });
   } catch (error) {
     next(error);

@@ -13,7 +13,8 @@ import {
 } from "../../redux/transactions/operations";
 import { Confirmation } from "../../components/Molecules/Confirmation/Confirmation";
 import { useAuth } from "../../hooks/useAuth";
-import { getNumberFormat } from "../../util/numberFormat";
+import { useTransactions } from "../../hooks/useTransactions";
+import { updateBalance } from "../../redux/auth/operations";
 
 type ActionT = "add" | "edit" | "delete";
 type ModalType = {
@@ -24,6 +25,7 @@ type ModalType = {
 const Home: FC = () => {
   const [id, setId] = useState<string>("");
   const { user } = useAuth();
+  const { transactions } = useTransactions();
 
   const dispatch = useAppDispatch();
   const [modalState, setModalState] = useState<ModalType>({
@@ -48,7 +50,16 @@ const Home: FC = () => {
   }
 
   function handleDelete() {
+    const transaction = transactions.find(
+      (transaction) => transaction._id === id
+    )!;
     dispatch(deleteTransaction(id));
+    if (transaction.type === "+") {
+      dispatch(updateBalance(Number(`-${transaction.amount}`)));
+    } else {
+      dispatch(updateBalance(Number(`+${transaction.amount}`)));
+    }
+    console.log(transaction);
     handleCloseModal();
   }
 
@@ -63,7 +74,7 @@ const Home: FC = () => {
   }, []);
   return (
     <Page>
-      <Balance balance={getNumberFormat(user.balance)} />
+      <Balance balance={user.balance} />
       <TransactionList
         editHandler={handleEditButton}
         deleteHandler={handleDeleteButton}

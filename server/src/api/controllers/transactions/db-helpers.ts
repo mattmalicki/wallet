@@ -56,20 +56,15 @@ async function updateTransaction(reqTransaction: {
     _id: new Types.ObjectId(reqTransaction.id),
     userId: new Types.ObjectId(reqTransaction.userId),
   });
-  let amountDifferance: number = 0;
+  let oldAmount: string = "0";
+  let newAmount: string = "0";
   if (!transaction) {
     throw new BadRequestError({ message: "Unauthorized." });
   }
+  console.log(reqTransaction.type);
   if (reqTransaction.type || reqTransaction.amount) {
-    amountDifferance = countDiff(
-      Number(`${transaction.type}${transaction.amount}`),
-      Number(`${reqTransaction.type}${reqTransaction.amount}`)
-    );
-    console.log(
-      `${transaction.type}${transaction.amount}` +
-        `${reqTransaction.type}${reqTransaction.amount}`
-    );
-    console.log(`${reqTransaction.type}${amountDifferance}`);
+    oldAmount = `${transaction.type === "+" ? "-" : "+"}${transaction.amount}`;
+    newAmount = `${reqTransaction.type}${reqTransaction.amount}`;
   }
   if (reqTransaction.type) {
     if (reqTransaction.type.toLowerCase() === "-")
@@ -98,11 +93,7 @@ async function updateTransaction(reqTransaction: {
     transaction.createdAt = reqTransaction.createdAt;
   }
   transaction.save();
-  return { amountDifferance, transaction };
-}
-
-function countDiff(a: number, b: number) {
-  return a > b ? a - b : b - a;
+  return { amounts: { oldAmount, newAmount }, transaction };
 }
 
 async function deleteTransaction(userId: string, id: string) {
