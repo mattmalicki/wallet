@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.categoriesRouter = void 0;
+const express_1 = require("express");
+const auth_1 = require("../middlewares/auth");
+const get_categories_1 = require("../controllers/categories/get-categories");
+const get_income_categories_1 = require("../controllers/categories/get-income-categories");
+const get_expenses_categories_1 = require("../controllers/categories/get-expenses-categories");
+const categoriesRouter = (0, express_1.Router)();
+exports.categoriesRouter = categoriesRouter;
+categoriesRouter.get("/", auth_1.authMiddleware, get_categories_1.getCategories);
+categoriesRouter.get("/income", auth_1.authMiddleware, get_income_categories_1.getIncomeCategories);
+categoriesRouter.get("/expenses", auth_1.authMiddleware, get_expenses_categories_1.getExpensesCategories);
