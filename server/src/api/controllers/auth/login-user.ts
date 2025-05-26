@@ -3,6 +3,7 @@ import { BadRequestError } from "../../../config/classes";
 import { loginUser } from "./db-helpers";
 import { signAccessToken, signRefreshToken } from "../../helpers/token-helper";
 import { Token } from "../../../models/token";
+import { refreshTokenCookieName } from "../../../config/secrets";
 
 const signinUser: RequestHandler = async (req, res, next) => {
   try {
@@ -32,6 +33,13 @@ const signinUser: RequestHandler = async (req, res, next) => {
 
     await user.getBalance();
     user.save();
+
+    res.cookie(refreshTokenCookieName, refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/auth/refresh",
+    });
 
     res.status(200).json({
       message: "Login successfull",

@@ -4,6 +4,7 @@ import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import { port } from "./config/secrets";
 import { errorMiddleware } from "./api/middlewares/error-handler";
@@ -17,6 +18,7 @@ const app = express();
 app.enable("trust proxy");
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(helmet());
 app.disable("x-powered-by");

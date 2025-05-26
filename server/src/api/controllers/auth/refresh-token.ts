@@ -3,13 +3,14 @@ import { BadRequestError } from "../../../config/classes";
 import { checkRefreshToken, signAccessToken } from "../../helpers/token-helper";
 import { Token } from "../../../models/token";
 import { User } from "../../../models/user";
+import { refreshTokenCookieName } from "../../../config/secrets";
 
 const refreshToken: RequestHandler = async (req, res, next) => {
   try {
-    const reqToken = req.body.refreshToken;
-    if (!reqToken) throw new BadRequestError({ message: "Missing token" });
+    const refreshToken = req.cookies[refreshTokenCookieName];
+    if (!refreshToken) throw new BadRequestError({ message: "Missing token" });
 
-    const payload = checkRefreshToken(reqToken);
+    const payload = checkRefreshToken(refreshToken);
     if (payload.message)
       throw new BadRequestError({ message: "Token is invalid" });
 
@@ -18,7 +19,7 @@ const refreshToken: RequestHandler = async (req, res, next) => {
     const userToken = await Token.findOne({
       userId: userId,
     });
-    if (!userToken || userToken.refreshToken !== reqToken)
+    if (!userToken || userToken.refreshToken !== refreshToken)
       throw new BadRequestError({ message: "Token is invalid" });
 
     if (userToken.expiresIn <= Date.now() || !userToken.status)
