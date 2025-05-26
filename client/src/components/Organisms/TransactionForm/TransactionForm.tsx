@@ -118,20 +118,9 @@ const TransactionFrom: FC<TFProp> = (props) => {
         updateBalance(Number(`${transaction.type}${transaction.amount}`))
       );
     }
-    // !props.isEdit && dispatch(addTransaction(transaction));
-    // props.isEdit &&
-    //   dispatch(
-    //     editTransaction({
-    //       id: transactions.find((item) => item._id === props.id)!._id,
-    //       newTransaction: transaction,
-    //     })
-    //   );
     closeMe();
   }
 
-  function countDiff(a: number, b: number) {
-    return a > b ? a - b : b - a;
-  }
   function setValues() {
     if (!props.id) {
       return;
