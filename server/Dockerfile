@@ -1,11 +1,6 @@
-FROM node:lts
-ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
-
-EXPOSE 8000
-
-COPY ./dist /dist
-COPY ./package.json /package.json
-COPY ./package-lock.json /package-lock.json
-RUN NODE_ENV="$NODE_ENV" npm install
-CMD ["node", "dist/server.js"]
+FROM node:20-alpine
+RUN apk add --no-cache python3 g++ make
+WORKDIR /dist
+COPY . .
+RUN yarn install
+CMD ["node", "/app/server.js"]
