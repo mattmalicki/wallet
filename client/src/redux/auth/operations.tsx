@@ -56,6 +56,13 @@ const refreshUser = createAsyncThunk(
   "auth/refreshUser",
   async (_, thunkAPI) => {
     try {
+      const state = thunkAPI.getState();
+      const persistedToken = (state as RootState).auth.token;
+
+      if (!persistedToken || persistedToken === null) {
+        return thunkAPI.rejectWithValue(null);
+      }
+      setAuthAccessHeader(persistedToken);
       const response = await axios.get(`${USER_ENDPOINT}`);
       return response.data;
     } catch (error) {
@@ -66,14 +73,8 @@ const refreshUser = createAsyncThunk(
 
 const refresh = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
   try {
-    const state = thunkAPI.getState();
-    const persistedToken = (state as RootState).auth.token;
-
-    if (!persistedToken || persistedToken === null) {
-      return thunkAPI.rejectWithValue(null);
-    }
-    setAuthAccessHeader(persistedToken);
     const response = await axios.post(`${USER_ENDPOINT}refresh`);
+    setAuthAccessHeader(response.data.accessToken);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
