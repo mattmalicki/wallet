@@ -11,6 +11,8 @@ import { useAuth } from "./hooks/useAuth";
 import { useCategories } from "./hooks/useCategories";
 import { useTransactions } from "./hooks/useTransactions";
 import { INotifyOptions, Notify } from "notiflix";
+import { useAppDispatch } from "./hooks/useAppDispatch";
+import { refreshUser } from "./redux/auth/operations";
 
 const AuthPage = lazy(() =>
   import("./pages/Auth/Auth").then((module) => ({
@@ -44,6 +46,7 @@ const App: FC = () => {
   const { authError } = useAuth();
   const { categoriesError } = useCategories();
   const { transactionsError } = useTransactions();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const notifyOpt: INotifyOptions = {
@@ -57,6 +60,10 @@ const App: FC = () => {
     categoriesError && Notify.failure(categoriesError.message, notifyOpt);
     transactionsError && Notify.failure(transactionsError.message, notifyOpt);
   }, [authError, categoriesError, transactionsError]);
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
   return (
     <div className="App">
       <Helmet>Wallet</Helmet>
