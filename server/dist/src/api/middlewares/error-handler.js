@@ -12,7 +12,7 @@ const errorMiddleware = (error, _req, res, next) => {
                 stack: error.stack,
             }, null, 2));
         }
-        res.status(statusCode).send({ errors });
+        res.status(statusCode).send({ code: statusCode, errors });
     }
     console.log(error);
     console.error(JSON.stringify(error, null, 2));

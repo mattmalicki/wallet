@@ -9,7 +9,7 @@ const classes_1 = require("../../config/classes");
 const authMiddleware = (req, res, next) => {
     passport_1.default.authenticate("jwt", { session: false }, (error, user) => {
         if (error || !user) {
-            throw new classes_1.BadRequestError({ message: "Token is invalid" });
+            throw new classes_1.BadRequestError({ code: 498, message: "Token is invalid" });
         }
         req.user = user;
         next();

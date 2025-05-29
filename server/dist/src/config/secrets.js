@@ -1,11 +1,14 @@
 "use strict";
-var _a;
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dbUri = exports.jwtSecretKey = exports.port = exports.jwtRefreshSecretKey = void 0;
+exports.clientDomain = exports.refreshTokenCookieName = exports.accessTokenCookieName = exports.dbUri = exports.jwtSecretKey = exports.port = exports.jwtRefreshSecretKey = void 0;
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
-const { PORT, DB_URI, JWT_SERCET_KEY, JWT_REFRESH_SECRET_KEY } = process.env;
+const { PORT, DB_URI, JWT_SERCET_KEY, JWT_REFRESH_SECRET_KEY, CLIENT_DOMAIN, MY_SIMPLE_WALLET_ACCESS_TOKEN, MY_SIMPLE_WALLET_REFRESH_TOKEN, } = process.env;
 exports.jwtRefreshSecretKey = JWT_REFRESH_SECRET_KEY;
 exports.port = (_a = PORT) !== null && _a !== void 0 ? _a : 3000;
 exports.jwtSecretKey = JWT_SERCET_KEY;
 exports.dbUri = DB_URI;
+exports.accessTokenCookieName = MY_SIMPLE_WALLET_ACCESS_TOKEN;
+exports.refreshTokenCookieName = MY_SIMPLE_WALLET_REFRESH_TOKEN;
+exports.clientDomain = (_b = CLIENT_DOMAIN) !== null && _b !== void 0 ? _b : "http://localhost:3000";

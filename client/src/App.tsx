@@ -1,5 +1,5 @@
 import { FC, lazy, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import "./App.css";
@@ -8,9 +8,9 @@ import { SharedLayout } from "./components/Templates/SharedLayout/SharedLayout";
 import { RestrictedRoute } from "./components/Templates/RestrictedRoute/RestrictedRoute";
 import { PrivateRoute } from "./components/Templates/PrivateRoute/PrivateRoute";
 import { useAuth } from "./hooks/useAuth";
-import { useCategories } from "./hooks/useCategories";
-import { useTransactions } from "./hooks/useTransactions";
 import { INotifyOptions, Notify } from "notiflix";
+import { useAppDispatch } from "./hooks/useAppDispatch";
+import { refresh, refreshUser } from "./redux/auth/operations";
 
 const AuthPage = lazy(() =>
   import("./pages/Auth/Auth").then((module) => ({
@@ -42,8 +42,8 @@ const DetailedStatisticsPage = lazy(() =>
 
 const App: FC = () => {
   const { authError } = useAuth();
-  const { categoriesError } = useCategories();
-  const { transactionsError } = useTransactions();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const notifyOpt: INotifyOptions = {
@@ -53,10 +53,18 @@ const App: FC = () => {
       clickToClose: true,
       pauseOnHover: true,
     };
+    if (authError?.isAccessExpired) {
+      dispatch(refresh());
+      navigate(0);
+    }
     authError && Notify.failure(authError.message, notifyOpt);
-    categoriesError && Notify.failure(categoriesError.message, notifyOpt);
-    transactionsError && Notify.failure(transactionsError.message, notifyOpt);
-  }, [authError, categoriesError, transactionsError]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authError]);
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+
   return (
     <div className="App">
       <Helmet>Wallet</Helmet>

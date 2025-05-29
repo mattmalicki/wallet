@@ -6,7 +6,7 @@ import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-import { port } from "./config/secrets";
+import { clientDomain, port } from "./config/secrets";
 import { errorMiddleware } from "./api/middlewares/error-handler";
 
 import { authRouter } from "./api/routes/auth";
@@ -16,7 +16,12 @@ import { categoriesRouter } from "./api/routes/categories";
 const app = express();
 
 app.enable("trust proxy");
-app.use(cors());
+app.use(
+  cors({
+    origin: clientDomain,
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(morgan("dev"));

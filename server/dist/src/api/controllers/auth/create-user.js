@@ -5,6 +5,7 @@ const classes_1 = require("../../../config/classes");
 const db_helpers_1 = require("./db-helpers");
 const token_1 = require("../../../models/token");
 const token_helper_1 = require("../../helpers/token-helper");
+const secrets_1 = require("../../../config/secrets");
 const createUser = async (req, res, next) => {
     try {
         const createdUser = await (0, db_helpers_1.registerUser)(req.body);
@@ -21,10 +22,15 @@ const createUser = async (req, res, next) => {
             expiresIn: Date.now() + 100 * 60 * 60 * 24 * 30,
         });
         token.save();
+        res.cookie(secrets_1.refreshTokenCookieName, refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            path: "/auth/refresh",
+        });
         res.json({
             message: "User created.",
             accessToken,
-            refreshToken,
             user: {
                 email: createdUser.email,
                 firstName: createdUser.firstName,

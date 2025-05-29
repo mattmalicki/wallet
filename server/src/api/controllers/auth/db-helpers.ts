@@ -5,6 +5,7 @@ async function registerUser(user: IUser) {
   const { email, password, firstName, lastName } = user;
   if (await User.findOne({ email })) {
     throw new BadRequestError({
+      code: 400,
       message: "Unable to create user, try different email.",
     });
   }
@@ -17,10 +18,13 @@ async function registerUser(user: IUser) {
 async function loginUser(email: string, password: string) {
   const user = await User.findOne({ email }).select(["+password", "+verified"]);
   if (!user || !user.validatePassword(password)) {
-    throw new BadRequestError({ message: "Invalid email or password" });
+    throw new BadRequestError({
+      code: 401,
+      message: "Invalid email or password",
+    });
   }
   if (!user.verified) {
-    throw new BadRequestError({ message: "User not verified." });
+    throw new BadRequestError({ code: 401, message: "User not verified." });
   }
   return user;
 }
@@ -28,7 +32,11 @@ async function loginUser(email: string, password: string) {
 async function getUser(id: string) {
   const user = await User.findById(id);
   if (!user) {
-    throw new BadRequestError({ message: "Unauthorized." });
+    throw new BadRequestError({
+      code: 401,
+      message: "Unable to find user.",
+      context: { from: "getUser_DB" },
+    });
   }
   return user;
 }
@@ -42,7 +50,11 @@ async function updateUser(
 ) {
   const user = await User.findById(id);
   if (!user) {
-    throw new BadRequestError({ message: "Unauthorized" });
+    throw new BadRequestError({
+      code: 401,
+      message: "Unable to find user.",
+      context: { from: "updateUser_DB" },
+    });
   }
   if (email) {
     user.email = email;

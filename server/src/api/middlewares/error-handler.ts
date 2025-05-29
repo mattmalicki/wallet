@@ -17,7 +17,7 @@ const errorMiddleware: ErrorRequestHandler = (error, _req, res, next) => {
         )
       );
     }
-    res.status(statusCode).send({ errors });
+    res.status(statusCode).send({ code: statusCode, errors });
   }
   console.log(error);
   console.error(JSON.stringify(error, null, 2));

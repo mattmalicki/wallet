@@ -8,6 +8,7 @@ const USER_ENDPOINT = process.env.REACT_APP_USER_ENDPOINT; // auth/
 
 axios.defaults.baseURL =
   REACT_APP_API_URL ?? `http://localhost:${SERVER_PORT}/`;
+axios.defaults.withCredentials = true;
 
 const setAuthAccessHeader = (token: string) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -56,6 +57,13 @@ const refreshUser = createAsyncThunk(
   "auth/refreshUser",
   async (_, thunkAPI) => {
     try {
+      const state = thunkAPI.getState();
+      const persistedToken = (state as RootState).auth.token;
+
+      if (!persistedToken || persistedToken === null) {
+        return thunkAPI.rejectWithValue(null);
+      }
+      setAuthAccessHeader(persistedToken);
       const response = await axios.get(`${USER_ENDPOINT}`);
       return response.data;
     } catch (error) {
@@ -66,14 +74,8 @@ const refreshUser = createAsyncThunk(
 
 const refresh = createAsyncThunk("auth/refresh", async (_, thunkAPI) => {
   try {
-    const state = thunkAPI.getState();
-    const persistedToken = (state as RootState).auth.token;
-
-    if (!persistedToken || persistedToken === null) {
-      return thunkAPI.rejectWithValue(null);
-    }
-    setAuthAccessHeader(persistedToken);
     const response = await axios.post(`${USER_ENDPOINT}refresh`);
+    setAuthAccessHeader(response.data.accessToken);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);

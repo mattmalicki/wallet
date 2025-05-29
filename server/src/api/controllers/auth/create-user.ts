@@ -4,6 +4,7 @@ import { BadRequestError } from "../../../config/classes";
 import { registerUser } from "./db-helpers";
 import { Token } from "../../../models/token";
 import { signAccessToken, signRefreshToken } from "../../helpers/token-helper";
+import { refreshTokenCookieName } from "../../../config/secrets";
 
 const createUser: RequestHandler = async (req, res, next) => {
   try {
@@ -22,10 +23,16 @@ const createUser: RequestHandler = async (req, res, next) => {
     });
     token.save();
 
+    res.cookie(refreshTokenCookieName, refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/auth/refresh",
+    });
+
     res.json({
       message: "User created.",
       accessToken,
-      refreshToken,
       user: {
         email: createdUser.email,
         firstName: createdUser.firstName,

@@ -3,7 +3,7 @@ import { jwtSecretKey, jwtRefreshSecretKey } from "../../config/secrets";
 
 function signAccessToken(userId: string) {
   const accessToken = jwt.sign({ id: userId }, jwtSecretKey, {
-    expiresIn: "1h",
+    expiresIn: "10s",
   });
   return accessToken;
 }

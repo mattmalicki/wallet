@@ -8,11 +8,13 @@ import { refreshTokenCookieName } from "../../../config/secrets";
 const refreshToken: RequestHandler = async (req, res, next) => {
   try {
     const refreshToken = req.cookies[refreshTokenCookieName];
-    if (!refreshToken) throw new BadRequestError({ message: "Missing token" });
+    console.log(refreshToken);
+    if (!refreshToken)
+      throw new BadRequestError({ code: 401, message: "Missing token" });
 
     const payload = checkRefreshToken(refreshToken);
     if (payload.message)
-      throw new BadRequestError({ message: "Token is invalid" });
+      throw new BadRequestError({ code: 401, message: "Token is invalid" });
 
     const userId = (payload as { id: string }).id;
     const user = await User.findById(userId);
@@ -20,11 +22,12 @@ const refreshToken: RequestHandler = async (req, res, next) => {
       userId: userId,
     });
     if (!userToken || userToken.refreshToken !== refreshToken)
-      throw new BadRequestError({ message: "Token is invalid" });
+      throw new BadRequestError({ code: 401, message: "Token is invalid" });
 
     if (userToken.expiresIn <= Date.now() || !userToken.status)
-      throw new BadRequestError({ message: "Token is expired" });
-    if (!user) throw new BadRequestError({ message: "User is not valid" });
+      throw new BadRequestError({ code: 401, message: "Token is expired" });
+    if (!user)
+      throw new BadRequestError({ code: 401, message: "User is not valid" });
 
     const accessToken = signAccessToken(userId);
 
@@ -39,6 +42,7 @@ const refreshToken: RequestHandler = async (req, res, next) => {
       },
     });
   } catch (error) {
+    res.clearCookie(refreshTokenCookieName);
     next(error);
   }
 };

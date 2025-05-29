@@ -20,7 +20,7 @@ interface AuthState {
   token: string;
   isLoggedIn: boolean;
   isRefreshing: boolean;
-  authError: any;
+  error: any;
 }
 
 const initialState: AuthState = {
@@ -28,21 +28,25 @@ const initialState: AuthState = {
   token: "",
   isLoggedIn: false,
   isRefreshing: false,
-  authError: null,
+  error: null,
 };
 
 const handlePendingAction = (state: AuthState, action: PayloadAction) => {
   state.isRefreshing = true;
-  state.authError = null;
+  state.error = null;
 };
 
 const handleRejectedAction = (state: AuthState, action?: any) => {
+  if (action?.payload?.response?.status === 498) {
+    state.error = { isAccessExpired: true };
+    return;
+  }
   state.user = { firstName: "", lastName: "", email: "", balance: 0 };
-  state.authError = null;
+  state.error = null;
   state.token = "";
   state.isLoggedIn = false;
   state.isRefreshing = false;
-  state.authError = action?.payload?.response?.data?.errors[0] ?? null;
+  state.error = action?.payload?.response?.data?.errors[0] ?? null;
 };
 
 const authSlice = createSlice({
@@ -56,14 +60,14 @@ const authSlice = createSlice({
         state.token = action.payload.accessToken;
         state.isLoggedIn = true;
         state.isRefreshing = false;
-        state.authError = null;
+        state.error = null;
       })
       .addCase(register.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.token = action.payload.accessToken;
         state.isLoggedIn = true;
         state.isRefreshing = false;
-        state.authError = null;
+        state.error = null;
       })
       .addCase(logout.fulfilled, (state) => {
         handleRejectedAction(state);
@@ -73,7 +77,7 @@ const authSlice = createSlice({
         state.token = action.payload.accessToken;
         state.isLoggedIn = true;
         state.isRefreshing = false;
-        state.authError = null;
+        state.error = null;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         handleRejectedAction(state, action);
@@ -82,15 +86,15 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.isLoggedIn = true;
         state.isRefreshing = false;
-        state.authError = null;
+        state.error = null;
       })
       .addCase(updateBalance.fulfilled, (state, action) => {
         state.user.balance = state.user.balance + action.payload;
         state.isRefreshing = false;
-        state.authError = null;
+        state.error = null;
       })
       .addMatcher(isPendingAction.bind(this, "auth"), handlePendingAction)
-      .addMatcher(isRejectAction.bind(this, "auth"), handleRejectedAction);
+      .addMatcher(isRejectAction.bind(this, ""), handleRejectedAction);
   },
 });
 

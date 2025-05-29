@@ -6,6 +6,7 @@ const {
   DB_URI,
   JWT_SERCET_KEY,
   JWT_REFRESH_SECRET_KEY,
+  CLIENT_DOMAIN,
   MY_SIMPLE_WALLET_ACCESS_TOKEN,
   MY_SIMPLE_WALLET_REFRESH_TOKEN,
 } = process.env;
@@ -16,3 +17,5 @@ export const jwtSecretKey = JWT_SERCET_KEY as string;
 export const dbUri = DB_URI as string;
 export const accessTokenCookieName = MY_SIMPLE_WALLET_ACCESS_TOKEN as string;
 export const refreshTokenCookieName = MY_SIMPLE_WALLET_REFRESH_TOKEN as string;
+export const clientDomain =
+  (CLIENT_DOMAIN as string) ?? "http://localhost:3000";

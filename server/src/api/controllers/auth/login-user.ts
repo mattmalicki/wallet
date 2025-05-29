@@ -17,7 +17,7 @@ const signinUser: RequestHandler = async (req, res, next) => {
     const user = await loginUser(email, password);
     const accessToken = signAccessToken(user.id);
     const refreshToken = signRefreshToken(user.id);
-    Token.findOneAndUpdate(
+    await Token.findOneAndUpdate(
       {
         userId: user.id,
       },

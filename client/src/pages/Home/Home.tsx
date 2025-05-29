@@ -15,6 +15,7 @@ import { Confirmation } from "../../components/Molecules/Confirmation/Confirmati
 import { useAuth } from "../../hooks/useAuth";
 import { useTransactions } from "../../hooks/useTransactions";
 import { updateBalance } from "../../redux/auth/operations";
+import { useCategories } from "../../hooks/useCategories";
 
 type ActionT = "add" | "edit" | "delete";
 type ModalType = {
@@ -26,6 +27,7 @@ const Home: FC = () => {
   const [id, setId] = useState<string>("");
   const { user } = useAuth();
   const { transactions } = useTransactions();
+  const { categories } = useCategories();
 
   const dispatch = useAppDispatch();
   const [modalState, setModalState] = useState<ModalType>({
@@ -70,9 +72,10 @@ const Home: FC = () => {
   useEffect(() => {
     dispatch(getTransactions());
     dispatch(getCategories());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return (
+  }, [dispatch]);
+  return categories.length <= 0 ? (
+    <span>Error with categories</span>
+  ) : (
     <Page>
       <Balance balance={user.balance} />
       <TransactionList

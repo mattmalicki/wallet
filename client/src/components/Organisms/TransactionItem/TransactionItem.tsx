@@ -15,7 +15,9 @@ const TransactionItem: FC<TransactionItemProp> = (props) => {
   const { categories } = useCategories();
 
   function returnDdMmYy(date: Date): string {
-    return date.getDate() + "." + date.getMonth() + "." + date.getFullYear();
+    return (
+      date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear()
+    );
   }
 
   function returnCategoriesTitles(

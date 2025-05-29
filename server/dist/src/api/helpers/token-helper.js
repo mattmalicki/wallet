@@ -8,7 +8,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const secrets_1 = require("../../config/secrets");
 function signAccessToken(userId) {
     const accessToken = jsonwebtoken_1.default.sign({ id: userId }, secrets_1.jwtSecretKey, {
-        expiresIn: "1h",
+        expiresIn: "10s",
     });
     return accessToken;
 }
