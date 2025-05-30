@@ -31,8 +31,9 @@ const AuthForm: FC<AuthFormProp> = (props) => {
         return;
       }
       dispatch(register({ email, password, firstName, lastName }));
+    } else {
+      dispatch(login({ email, password }));
     }
-    dispatch(login({ email, password }));
   };
 
   return (
