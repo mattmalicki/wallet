@@ -47,6 +47,12 @@ userSchema.methods.setPassword = function (password) {
 userSchema.methods.validatePassword = function (password) {
     return bcryptjs_1.default.compareSync(password, this.password);
 };
+userSchema.methods.setVerifyToken = function (token) {
+    this.token = token;
+};
+userSchema.methods.clearVerifyToken = function () {
+    this.verifyToken = "";
+};
 userSchema.methods.isVerified = function () {
     return this.verified;
 };

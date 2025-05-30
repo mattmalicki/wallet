@@ -50,7 +50,12 @@ const AuthInputItem: React.FC<AuthInputProps> = (props) => {
         required
       />
       {props.name.toLowerCase().includes("password") && (
-        <button type="button" className={styles.eye} onClick={toggleIcon}>
+        <button
+          type="button"
+          className={styles.eye}
+          onClick={toggleIcon}
+          tabIndex={-1}
+        >
           <IconSvg name={hidden ? "eye-blocked" : "eye"} />
         </button>
       )}

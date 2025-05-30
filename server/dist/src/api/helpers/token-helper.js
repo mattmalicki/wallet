@@ -20,6 +20,12 @@ function signRefreshToken(userId) {
     return refreshToken;
 }
 exports.signRefreshToken = signRefreshToken;
+function signVerifyToken(email) {
+    const verifyToken = jsonwebtoken_1.default.sign({ email }, secrets_1.jwtTokenSecretKey, {
+        expiresIn: "15min",
+    });
+    return verifyToken;
+}
 function checkRefreshToken(token) {
     try {
         return jsonwebtoken_1.default.verify(token, secrets_1.jwtRefreshSecretKey);
