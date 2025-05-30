@@ -10,6 +10,10 @@ async function registerUser(user: IUser) {
   }
   const createdUser = new User({ email, firstName, lastName });
   createdUser.setPassword(password);
+
+  // Only for now the verified user will be automaticly true.
+  createdUser.verified = true;
+
   await createdUser.save();
   return createdUser;
 }

@@ -8,14 +8,15 @@ interface IUser extends Document {
   lastName: string;
   balance: number;
   verified: boolean;
+  verifyToken: string;
   transactions: {
     [x: string]: any;
     id: Types.ObjectId;
   }[];
   setPassword(password: string): void;
   validatePassword(password: string): boolean;
-  setToken(token: string): void;
-  clearToken(): void;
+  setVerifyToken(token: string): void;
+  clearVerifyToken(): void;
   isVerified(): boolean;
   addTransaction(transactionId: string): void;
   removeTransaction(transactionId: string): void;
@@ -80,6 +81,14 @@ userSchema.methods.setPassword = function (password: string) {
 
 userSchema.methods.validatePassword = function (password: string) {
   return bcrypt.compareSync(password, this.password);
+};
+
+userSchema.methods.setVerifyToken = function (token: string) {
+  this.token = token;
+};
+
+userSchema.methods.clearVerifyToken = function () {
+  this.verifyToken = "";
 };
 
 userSchema.methods.isVerified = function () {
