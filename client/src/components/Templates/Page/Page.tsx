@@ -7,18 +7,19 @@ import { useTransactions } from "../../../hooks/useTransactions";
 import { Loader } from "../../Atoms/Loader/Loader";
 
 interface PageProp {
+  class?: string;
   children: ReactNode;
 }
 
-const Page: FC<PageProp> = ({ children }) => {
+const Page: FC<PageProp> = (props) => {
   const { isLoggedIn, isRefreshing } = useAuth();
   const { categoriesRefresh } = useCategories();
   const { transactionsRefresh } = useTransactions();
   return (
-    <section className={styles.pageContainer}>
+    <section className={[styles.pageContainer, props.class].join(" ")}>
       {isLoggedIn && <PageButtons />}
       {!transactionsRefresh && !categoriesRefresh && !isRefreshing ? (
-        children
+        props.children
       ) : (
         <Loader />
       )}

@@ -1,11 +1,43 @@
+.authFormContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
 .authForm {
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   gap: 40px;
+  background-color: white;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
 }
 
 .buttons {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .authFormContainer {
+    height: 100%;
+  }
+  .authForm {
+    padding: 40px 65px;
+    border-radius: 20px;
+    max-width: 533px;
+    max-height: 468px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .authFormContainer {
+    padding: 125px 100px;
+    background: rgba(255, 255, 255, 0.4);
+  }
 }

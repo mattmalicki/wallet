@@ -5,6 +5,7 @@ import { Button } from "../../Atoms/Button/Button";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { login, register } from "../../../redux/auth/operations";
 import { Notify } from "notiflix";
+import { Logo } from "../../Atoms/Logo/Logo";
 
 interface AuthFormProp {
   isRegister: boolean;
@@ -37,33 +38,40 @@ const AuthForm: FC<AuthFormProp> = (props) => {
   };
 
   return (
-    <form className={styles.authForm} onSubmit={handleAction}>
-      <AuthInputItem name="email" />
-      <AuthInputItem name="password" />
+    <div className={styles.authFormContainer}>
+      <form className={styles.authForm} onSubmit={handleAction}>
+        <Logo />
 
-      {props.isRegister && (
-        <AuthInputItem name="confirmPassword" placeholder="Confirm password" />
-      )}
-      {props.isRegister && (
-        <AuthInputItem name="firstName" placeholder="First name" />
-      )}
-      {props.isRegister && (
-        <AuthInputItem name="lastName" placeholder="Last name" />
-      )}
-      <div className={styles.buttons}>
-        <Button
-          colored={true}
-          title={props.isRegister ? "register" : "log in"}
-          isSubmit
-        />
-        <Button
-          colored={false}
-          title={!props.isRegister ? "register" : "log in"}
-          isLinked
-          link={!props.isRegister ? "register" : "/"}
-        />
-      </div>
-    </form>
+        <AuthInputItem name="email" />
+        <AuthInputItem name="password" />
+
+        {props.isRegister && (
+          <AuthInputItem
+            name="confirmPassword"
+            placeholder="Confirm password"
+          />
+        )}
+        {props.isRegister && (
+          <AuthInputItem name="firstName" placeholder="First name" />
+        )}
+        {props.isRegister && (
+          <AuthInputItem name="lastName" placeholder="Last name" />
+        )}
+        <div className={styles.buttons}>
+          <Button
+            colored={true}
+            title={props.isRegister ? "register" : "log in"}
+            isSubmit
+          />
+          <Button
+            colored={false}
+            title={!props.isRegister ? "register" : "log in"}
+            isLinked
+            link={!props.isRegister ? "register" : "/"}
+          />
+        </div>
+      </form>
+    </div>
   );
 };
 

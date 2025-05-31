@@ -17,7 +17,8 @@ export type NameOpts =
   | "eye-blocked"
   | "arrow-down"
   | "edit"
-  | "add-transaction";
+  | "add-transaction"
+  | "image-auth";
 
 interface IconProp {
   name: NameOpts;
