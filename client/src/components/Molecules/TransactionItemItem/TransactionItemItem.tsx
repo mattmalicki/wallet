@@ -5,6 +5,7 @@ import { IconSvg } from "../../Atoms/Icon/Icon";
 interface ValuesProp {
   header: string;
   value: string | number;
+  incomeOrExpense?: "income" | "expense";
   borderColor: string;
 }
 
@@ -26,9 +27,20 @@ const TransactionItemItem: FC<OnlyValues | OnlyButtons> = (props) => {
       style={{ borderColor: props.borderColor }}
     >
       {props.header && (
-        <span>{props.header[0].toUpperCase() + props.header.slice(1)}</span>
+        <span className={styles.header}>
+          {props.header[0].toUpperCase() + props.header.slice(1)}
+        </span>
       )}
-      {props.value && <span>{props.value}</span>}
+      {props.value && (
+        <span
+          className={[
+            styles.value,
+            props.incomeOrExpense ? styles[props.incomeOrExpense] : "",
+          ].join("")}
+        >
+          {props.value || "-----"}
+        </span>
+      )}
       {props.deleteButtonHandler && (
         <button
           onClick={props.deleteButtonHandler}

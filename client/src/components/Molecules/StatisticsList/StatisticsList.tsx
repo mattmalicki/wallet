@@ -137,11 +137,11 @@ const StatisticsList: FC<SLI> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactions, categoryTitle]);
 
-  return (
+  return transactions.length > 0 ? (
     <>
       <Doughnut
         options={{
-          cutout: 100,
+          cutout: "50%",
           plugins: {
             legend: {
               display: false,
@@ -150,6 +150,7 @@ const StatisticsList: FC<SLI> = (props) => {
         }}
         data={dData}
       />
+
       {props.children}
       <StatisticsListHeader />
       {dData.labels.map((label, index) => {
@@ -170,6 +171,11 @@ const StatisticsList: FC<SLI> = (props) => {
           </button>
         );
       })}
+    </>
+  ) : (
+    <>
+      <span>No data found for this month</span>
+      {props.children}
     </>
   );
 };

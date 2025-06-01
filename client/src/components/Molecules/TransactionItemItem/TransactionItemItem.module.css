@@ -38,3 +38,30 @@
   transform: scale(1.2);
   transition: transform 0.5s;
 }
+
+.header {
+  text-align: left;
+}
+
+.value {
+  text-align: right;
+  max-width: 50%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.expense {
+  color: var(--expenseColor);
+}
+.income {
+  color: var(--buttonBackground);
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+}

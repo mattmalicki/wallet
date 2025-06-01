@@ -80,6 +80,7 @@ const TransactionItem: FC<TransactionItemProp> = (props) => {
         header={"Sum"}
         value={getNumberFormat(object.amount!)}
         borderColor={borderColor}
+        incomeOrExpense={object.type === "+" ? "income" : "expense"}
       />
     );
     listArray.push(
