@@ -2,7 +2,46 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  font-size: 20px;
 
   gap: 32px;
+}
+
+.balance {
+  display: none;
+}
+
+.title {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .buttonsAndBalance {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pageButtons {
+    flex-direction: column;
+  }
+  .balance {
+    display: inline-block;
+  }
+  .button {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 20px;
+  }
+  .title {
+    display: inline-block;
+  }
+  .current {
+    font-weight: 700;
+  }
+  .notCurrent {
+    font-weight: 400;
+  }
 }

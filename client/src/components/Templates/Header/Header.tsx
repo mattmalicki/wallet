@@ -23,25 +23,27 @@ const Header: FC = () => {
   }
 
   return (
-    <header className={styles.header}>
-      <Logo />
-      <div className={styles.user}>
-        <span>
-          {user.firstName} {user.lastName}
-        </span>
-        <button className={styles.icon} onClick={handleClickModal}>
-          <IconSvg name="logout" />
-        </button>
+    <header className={styles.background}>
+      <div className={styles.header}>
+        <Logo />
+        <div className={styles.user}>
+          <span>
+            {user.firstName} {user.lastName}
+          </span>
+          <button className={styles.icon} onClick={handleClickModal}>
+            <IconSvg name="logout" />
+          </button>
+        </div>
+        {openModal && (
+          <Modal>
+            <Confirmation
+              statement="Do you really want to log out?"
+              handleConfirm={handleLogoutAction}
+              handleDiscard={handleClickModal}
+            />
+          </Modal>
+        )}
       </div>
-      {openModal && (
-        <Modal>
-          <Confirmation
-            statement="Do you really want to log out?"
-            handleConfirm={handleLogoutAction}
-            handleDiscard={handleClickModal}
-          />
-        </Modal>
-      )}
     </header>
   );
 };

@@ -16,6 +16,8 @@ import { useAuth } from "../../hooks/useAuth";
 import { useTransactions } from "../../hooks/useTransactions";
 import { updateBalance } from "../../redux/auth/operations";
 
+import styles from "./HomePage.module.css";
+
 type ActionT = "add" | "edit" | "delete";
 type ModalType = {
   openModal: boolean;
@@ -73,8 +75,10 @@ const Home: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Page>
-      <Balance balance={user.balance} />
+    <Page class={styles.homePage}>
+      <div className={styles.balance}>
+        <Balance />
+      </div>
       <TransactionList
         editHandler={handleEditButton}
         deleteHandler={handleDeleteButton}

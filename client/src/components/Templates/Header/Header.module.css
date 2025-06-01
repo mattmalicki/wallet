@@ -6,8 +6,11 @@
 
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
-
+.background {
+  background-color: white;
+}
 .user {
   display: flex;
   flex-wrap: nowrap;
@@ -21,4 +24,10 @@
   width: 18px;
   height: 18px;
   color: inherit;
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    padding: 20px;
+  }
 }

@@ -1,6 +1,6 @@
 .balanceContainer {
   background-color: white;
-  border: 1px solid;
+  border: 2px solid;
   border-radius: 30px;
   padding: 8px 32px 11px;
   text-align: left;
@@ -21,4 +21,19 @@
 }
 .less {
   border-color: red;
+}
+
+@media screen and (min-width: 768px) {
+  .tekst {
+    font-size: 18px;
+  }
+
+  .balance {
+    font-size: 38px;
+  }
+
+  .balanceContainer {
+    width: 100%;
+    padding: 20px 60px;
+  }
 }
