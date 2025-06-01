@@ -2,6 +2,7 @@ import { FC, MouseEventHandler } from "react";
 import { TransactionItem } from "../TransactionItem/TransactionItem";
 import { useTransactions } from "../../../hooks/useTransactions";
 import styles from "./TransactionList.module.css";
+import { TransactionListHeader } from "../../Molecules/TransactionListHeader/TransactionListHeader";
 
 interface TransactionListProp {
   editHandler: MouseEventHandler;
@@ -12,7 +13,8 @@ const TransactionList: FC<TransactionListProp> = (props) => {
   const { transactions } = useTransactions();
 
   return (
-    <ul className={styles.transactionList}>
+    <div className={styles.transactionList}>
+      <TransactionListHeader />
       {transactions.map((transaction) => (
         <TransactionItem
           key={transaction._id}
@@ -21,7 +23,7 @@ const TransactionList: FC<TransactionListProp> = (props) => {
           deleteHandler={props.deleteHandler}
         />
       ))}
-    </ul>
+    </div>
   );
 };
 

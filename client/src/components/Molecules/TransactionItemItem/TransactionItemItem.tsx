@@ -36,31 +36,35 @@ const TransactionItemItem: FC<OnlyValues | OnlyButtons> = (props) => {
           className={[
             styles.value,
             props.incomeOrExpense ? styles[props.incomeOrExpense] : "",
-          ].join("")}
+          ].join(" ")}
         >
           {props.value || "-----"}
         </span>
       )}
       {props.deleteButtonHandler && (
-        <button
-          onClick={props.deleteButtonHandler}
-          className={styles.deleteButton}
-          id={props.id}
-        >
-          Delete
-        </button>
-      )}
-      {props.editButtonHandler && (
-        <button
-          onClick={props.editButtonHandler}
-          className={styles.editButton}
-          id={props.id}
-        >
-          <div className={styles.editButtonIcon}>
-            <IconSvg name="edit" fill="none" />
-          </div>
-          <span>Edit</span>
-        </button>
+        <div className={styles.buttons}>
+          {props.deleteButtonHandler && (
+            <button
+              onClick={props.deleteButtonHandler}
+              className={styles.deleteButton}
+              id={props.id}
+            >
+              Delete
+            </button>
+          )}
+          {props.editButtonHandler && (
+            <button
+              onClick={props.editButtonHandler}
+              className={styles.editButton}
+              id={props.id}
+            >
+              <div className={styles.editButtonIcon}>
+                <IconSvg name="edit" fill="none" />
+              </div>
+              <span className={styles.editText}>Edit</span>
+            </button>
+          )}
+        </div>
       )}
     </li>
   );

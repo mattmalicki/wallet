@@ -9,6 +9,7 @@
 }
 
 .deleteButton {
+  cursor: pointer;
   font-size: 14px;
   border-radius: 18px;
   padding: 4px 12px;
@@ -23,6 +24,7 @@
 }
 
 .editButton {
+  cursor: pointer;
   display: flex;
   font-size: 14px;
 }
@@ -46,22 +48,56 @@
 .value {
   text-align: right;
   max-width: 50%;
-  overflow: hidden;
   white-space: nowrap;
+  overflow: hidden;
 }
-
-.expense {
-  color: var(--expenseColor);
-}
-.income {
-  color: var(--buttonBackground);
+.buttons {
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
 }
 
 @media screen and (min-width: 768px) {
+  .value {
+    font-size: 13px;
+    padding: 0;
+    text-align: left;
+    max-width: 100%;
+  }
   .header {
     display: none;
   }
+  .transactionListItem {
+    display: flex;
+    gap: 5px;
+    width: calc(100% / 6);
+    padding: 0;
+
+    border-left: none;
+    background-color: transparent;
+  }
+
+  .editText {
+    display: none;
+  }
+  .editButton {
+    display: block;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: row-reverse;
+  }
 }
 
-@media screen and (min-width: 1024px) {
+.expense {
+  width: 100%;
+  text-align: right;
+  color: var(--expenseColor);
+}
+.income {
+  width: 100%;
+  text-align: right;
+  color: var(--buttonBackground);
 }

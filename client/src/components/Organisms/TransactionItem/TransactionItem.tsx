@@ -15,7 +15,9 @@ const TransactionItem: FC<TransactionItemProp> = (props) => {
   const { categories } = useCategories();
 
   function returnDdMmYy(date: Date): string {
-    return date.getDate() + "." + date.getMonth() + "." + date.getFullYear();
+    return (
+      date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear()
+    );
   }
 
   function returnCategoriesTitles(
@@ -57,14 +59,7 @@ const TransactionItem: FC<TransactionItemProp> = (props) => {
     listArray.push(
       <TransactionItemItem
         header={"Category"}
-        value={parent}
-        borderColor={borderColor}
-      />
-    );
-    listArray.push(
-      <TransactionItemItem
-        header={"Child category"}
-        value={child}
+        value={parent + " / " + child}
         borderColor={borderColor}
       />
     );
