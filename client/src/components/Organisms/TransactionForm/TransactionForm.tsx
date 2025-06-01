@@ -157,8 +157,10 @@ const TransactionFrom: FC<TFProp> = (props) => {
         parentId={categoryId ?? undefined}
         childId={childCategoryId ?? undefined}
       />
-      <TransactionInputAmount value={amount.toString()} />
-      <TransactionInputDate value={transactionDate} />
+      <div className={styles.amountDate}>
+        <TransactionInputAmount value={amount.toString()} />
+        <TransactionInputDate value={transactionDate} />
+      </div>
       <TransactionInputComment value={transactionComment} />
       <div className={styles.buttons}>
         <Button title={!props.isEdit ? "add" : "edit"} colored isSubmit />

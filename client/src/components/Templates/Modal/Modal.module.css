@@ -3,6 +3,8 @@
   height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
 
   position: fixed;
   top: 0;
@@ -16,8 +18,19 @@
   align-items: center;
 
   width: 100%;
+  max-width: 540px;
+
   height: 100%;
-  margin: 20px 9px;
+  max-height: 508px;
+
+  padding: 20px 9px;
 
   background-color: var(--main-backgroud);
+}
+
+@media screen and (min-width: 768px) {
+  .modal {
+    border-radius: 20px;
+    padding: 40px 0;
+  }
 }

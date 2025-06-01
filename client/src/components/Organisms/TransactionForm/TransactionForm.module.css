@@ -5,8 +5,22 @@
   gap: 40px;
 }
 
+.amountDate {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 40px;
+}
+
 .buttons {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .amountDate {
+    flex-direction: row;
+    gap: 20px;
+  }
 }
