@@ -18,10 +18,8 @@
   align-items: center;
 
   width: 100%;
-  max-width: 540px;
 
   height: 100%;
-  max-height: 508px;
 
   padding: 20px 9px;
 
@@ -32,5 +30,7 @@
   .modal {
     border-radius: 20px;
     padding: 40px 0;
+    max-width: 540px;
+    max-height: 508px;
   }
 }
