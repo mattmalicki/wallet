@@ -66,6 +66,7 @@ const App: FC = () => {
   }, [dispatch]);
   return (
     <div className="App">
+      <div className="background"></div>
       <Helmet>Wallet</Helmet>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
