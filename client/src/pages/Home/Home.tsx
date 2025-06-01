@@ -12,7 +12,6 @@ import {
   getTransactions,
 } from "../../redux/transactions/operations";
 import { Confirmation } from "../../components/Molecules/Confirmation/Confirmation";
-import { useAuth } from "../../hooks/useAuth";
 import { useTransactions } from "../../hooks/useTransactions";
 import { updateBalance } from "../../redux/auth/operations";
 
@@ -26,7 +25,6 @@ type ModalType = {
 
 const Home: FC = () => {
   const [id, setId] = useState<string>("");
-  const { user } = useAuth();
   const { transactions } = useTransactions();
 
   const dispatch = useAppDispatch();
