@@ -1,7 +1,11 @@
 .App {
   text-align: center;
   width: 100vw;
-  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: scroll;
+  background-image: url("./images/bg-pink.svg"), url("./images/bg-purple.svg");
+  background-repeat: no-repeat, no-repeat;
+  background-position: top right, bottom left;
 }
 
 input::-webkit-outer-spin-button,
